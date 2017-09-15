@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Home Page";
+}
+
+@section featured {
+    <div class="featured">
+        
+    </div>
+    }
+<style>
+    .logo {
+   position: relative;
+   top: 40px;
+   right: -1050px;
+}
+
+</style>
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <span class="k-icon k-i-home" style="display:inline"></span>
+
+        <ul id="menu">
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                
+            
+          @{
+              if (User.Identity.IsAuthenticated)
+              {
+                <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+              <li><strong style="color:purple">@User.Identity.Name</strong> |
+            @{
+                  if (Roles.GetRolesForUser().Length > 0)
+                  { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                  }
+              }
+            
+            </li>
+              }
+
+              else
+              {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                  <li>@Html.ActionLink("Register", "Register", "Account")</li>
+
+              }
+}
+                 
+        </ul>
+        <script>
+            $("#menu").kendoMenu({
+                animation: { open: { effects: "fadeIn" } }
+            });
+            $(document).ready(function () {
+
+
+                $("#imageButton").kendoButton({
+                    imageUrl: "../Content/icone/home.png"
+                });
+            });
+            $(document).ready(function () {
+
+
+                $("#imageButton2").kendoButton({
+                    imageUrl: "../Content/icone/user.png"
+                });
+            });
+        </script>
+        <style>
+            .k-button .k-image {
+                height: 20px;
+                display:inline;
+        
+              
+            }
+            
+        </style>
+
+    </div>
+
+
+</header>
+
+<!--******************************************************-->
+
+<div id="content">
+    <img src="../Images/images/logo.png"  width =300 height=150   class="logo" />
+    <a class="back" href="http://tympanus.net/codrops/2010/04/29/awesome-bubble-navigation-with-jquery"></a>
+    <div class="title"></div>
+    <!--*************************************************************************************-->
+    <div class="navigation" id="nav">
+        <div class="item user">
+            <img src="../Images/images/bg_user.png" alt="" width="199" height="199" class="circle" />
+            <a href="#" class="icon"></a>
+            <h2>Immoblisations</h2>
+            <ul>
+                <li>@Html.ActionLink("Mes Articles", "Index", "Articles")</li>
+                <li>@Html.ActionLink("Fiches d'Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Amortissement", "Index", "Ammortissement")</li>
+            </ul>
+        </div>
+        <!--*************************************************************************************-->
+
+        <div class="item home">
+            <img src="../Images/images/bg_home.png" alt="" width="199" height="199" class="circle" />
+            <a href="#" class="icon"></a>
+            <h2>Comptabilité</h2>
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+                
+
+            </ul>
+        </div>
+       
+
+        <!--*************************************************************************************-->
+
+        <div class="item shop">
+            <img src="../Images/images/bg_shop.png" alt="" width="199" height="199" class="circle" />
+            <a href="#" class="icon"></a>
+            <h2>Gestion</h2>
+            <ul>
+                <li>@Html.ActionLink("Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+
+
+            </ul>
+        </div> 
+        <!--*************************************************************************************-->
+
+<div class="item camera">
+    <img src="../Images/images/bg_camera.png" alt="" width="199" height="199" class="circle" />
+    <a href="#" class="icon"></a>
+    <h2>Inventaire</h2>
+    <ul>
+        <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+        <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+        <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+    </ul>
+</div>
+        <!--*************************************************************************************-->
+
+        <div class="item fav">
+            <img src="../Images/images/bg_fav.png" alt="" width="199" height="199" class="circle" />
+            <a href="#" class="icon"></a>
+            <h2>Utilisateurs</h2>
+            <ul>
+           <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+           <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </div>
+        <!--*************************************************************************************-->
+
+    </div>
+</div>
+<!-- JavaScript -->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="../Scripts/jquery.easing.1.3.js"></script>
+<script type="text/javascript">
+        $(function () {
+            $('#nav > div').hover(
+            function () {
+                var $this = $(this);
+                $this.find('img').stop().animate({
+                    'width': '220px',
+                    'height': '220px',
+                    'top': '-25px',
+                    'left': '-25px',
+                    'opacity': '1.0'
+                }, 500, 'easeOutBack', function () {
+                    $(this).parent().find('ul').fadeIn(700);
+                });
+
+                $this.find('a:first,h2').addClass('active');
+            },
+            function () {
+                var $this = $(this);
+                $this.find('ul').fadeOut(500);
+                $this.find('img').stop().animate({
+                    'width': '52px',
+                    'height': '52px',
+                    'top': '0px',
+                    'left': '0px',
+                    'opacity': '0.1'
+                }, 5000, 'easeOutBack');
+
+                $this.find('a:first,h2').removeClass('active');
+            }
+        );
+        });
+</script>
+<style>
+    body{
+        background-color:#CCFF99;
+    }
+</style>
+
+
+

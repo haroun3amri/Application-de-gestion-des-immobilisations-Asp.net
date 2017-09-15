@@ -1,0 +1,125 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+
+<div class="product-view k-widget">
+    <div class="edit-buttons">
+        <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+        <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+        @model Immo_Demo.Models.CompteFamLite
+    </div>
+    <table style="width:100% ; height:70%">
+        <tr>
+            <td>@Html.EditorFor(m => m.CODE)</td>
+
+            <td>@Html.EditorFor(m => m.LIBELLE)</td>
+
+        </tr>
+        <tr>
+            <td>@Html.EditorFor(m => m.CONTREPARTIE)</td>
+            <td>@Html.EditorFor(m => m.TAUX)</td>
+
+        </tr>
+        <tr>
+            <td>@Html.EditorFor(m => m.CONTREPARTIESECONDAIRE)</td>
+            <td>@Html.EditorFor(m => m.LIBELLEESECONDAIRE)</td>
+
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="edit-buttons">
+                    <a class="k-button k-button-icontext k-update-button" href="\\#"><span class="k-icon k-update"></span></a>
+                    <a class="k-button k-button-icontext k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span></a>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+<style>
+    .demo-section2 {
+        width: 805px;
+    }
+
+    .product-view {
+        float: left;
+        position: relative;
+        width: 401px;
+        height: 150px;
+        margin: -1px -1px 0 0;
+    }
+
+        .product-view tr {
+            margin: 10px 0;
+            padding: 0;
+            min-width: 0;
+            columns: 2;
+        }
+
+        .product-view td {
+            float: left;
+            margin: 0;
+            padding: 3px;
+            height: 26px;
+            width: 160px;
+            line-height: 26px;
+            overflow: hidden;
+            break-before: avoid;
+        }
+
+        .product-view table {
+            clear: left;
+            padding: 3px 5px 3px 0;
+            text-align: center;
+            opacity: 1;
+            width: 100px;
+        }
+
+    .k-listview {
+        border: 0;
+        padding: 0;
+        min-width: 605px;
+        min-height: 298px;
+    }
+
+        .k-listview:after, .product-view dl:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+    .edit-buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 26px;
+        height: 146px;
+        padding: 2px 2px 0 3px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+        .edit-buttons .k-button {
+            width: 26px;
+            margin-bottom: 1px;
+        }
+
+    .k-pager-wrap {
+        border-top: 0;
+    }
+
+    span.k-invalid-msg {
+        position: absolute;
+        margin-left: 6px;
+    }
+</style>
+
+
+@{
+    ViewBag.Title = "EditTmpl2";
+}
+
+<h2>EditTmpl2</h2>
+

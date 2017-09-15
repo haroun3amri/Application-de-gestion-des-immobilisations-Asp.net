@@ -1,0 +1,45 @@
+﻿@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+
+<div class="product-view k-widget">
+    <div class="edit-buttons">
+        <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+        <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+        @model Immo_Demo.Models.EmplacementLite
+    </div>
+    <table style="width:100% ">
+        <tr>
+            <td> CODE:<font color="FFFF99"> @Html.EditorFor(m => m.CODE) </font></td>
+
+            <td>Lieu:<font color="FFFF99">  @Html.EditorFor(m => m.LIEU) </font></td>
+
+        </tr>
+        <tr>
+            <td>ETAGE: <font color="FFFF99"> @Html.EditorFor(m => m.ETAGE)</font></td>
+            <td>COULOIR: <font color="FFFF99">  @Html.EditorFor(m => m.COULOIR) </font></td>
+
+        </tr>
+        <tr>
+            <td>BUREAU:<font color="FFFF99">  @Html.EditorFor(m => m.BUREAU) </font></td>
+            <td>
+                LOCAL: <font color="FFFF99">  @Html.EditorFor(m => m.LOCAL) </font>
+            </td>
+
+
+        </tr>
+    
+
+        <tr>
+            <td colspan="2">
+                <div class="edit-buttons">
+                    <a class="k-button k-button-icontext k-update-button" href="\\#"><span class="k-icon k-update"></span></a>
+                    <a class="k-button k-button-icontext k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span></a>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+

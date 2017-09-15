@@ -1,0 +1,295 @@
+﻿@using IMMO.BLL;
+@using IMMO.DAL;
+@using Immo_Demo.Models
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "Index";
+}
+
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+<!--************************************************************************-->
+<img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='75' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Gestionnaire des TVA's</h1>
+
+<!--///////////////////////////////////////////////////////////////////-->
+<div style="display:inline-block">
+    <div style="float:right ;position:relative; width:650px ;height:25% ;padding-top:2px;display:inline-block">
+
+
+        
+        <h3 style="color:orangered;font-family: 'MV Boli', arial, serif;"> Les TVA's</h3> 
+                @(Html.Kendo().Grid<IMMO_TVA>()
+
+    .Name("Kgrid")
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.CODE).Width(100).Locked(true).Lockable(false);
+
+                     columns.Bound(o => o.VALEUR).Title("Valeur en DNT").Width(100).Locked(true);
+
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier");
+                                             command.Destroy().Text("Supprimer");
+                                         }).Width(200);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.CODE))
+                                                        .Read(read => read.Action("GetAll", "TVA"))
+                                                  .Create(create => create.Action("Add", "TVA"))
+                                                          .Update(update => update.Action("Update", "TVA"))
+                                                          .Destroy(delete => delete.Action("Delete", "TVA"))
+
+
+
+
+
+
+                                .PageSize(9)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter TVA"))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+    .Filterable()
+
+    .Selectable()
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+        )
+
+    </div>
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////-->
+    <div class="demo-section">
+
+        <h3 style="color:orangered;font-family: 'MV Boli', arial, serif;">Recuperation TVA's</h3> 
+        @(Html.Kendo().Grid<IMMO_TVARECUPERATION>()
+
+    .Name("Kgrid1")
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.ANNEE).Width(100).Locked(true).Lockable(false);
+
+                     columns.Bound(o => o.TAUX).Title("Taux en %").Width(100).Locked(true);
+
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier");
+                                             command.Destroy().Text("Supprimer");
+                                         }).Width(200);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.ANNEE))
+                                                        .Read(read => read.Action("GetAll2", "TVA"))
+                                                  .Create(create => create.Action("Add2", "TVA"))
+                                                          .Update(update => update.Action("Update2", "TVA"))
+                                                          .Destroy(delete => delete.Action("Delete2", "TVA"))
+
+
+
+
+
+
+                                .PageSize(9)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Recuperation TVA "))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+    .Filterable()
+
+    .Selectable()
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+        )
+    </div>
+
+    </div>
+    <!--///////////////////////////-->
+    <style>
+        .demo-section {
+            width: 650px;
+            float: left;
+            padding-top: 2px;
+            height: 250px;
+            display: inline-block;
+        }
+
+        .test {
+            width: 1350px;
+            float: left;
+            padding-top: 10px;
+            height: 300px;
+        }
+        </style>

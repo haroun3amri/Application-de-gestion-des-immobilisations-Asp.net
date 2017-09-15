@@ -1,0 +1,31 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+
+<div class="product-view k-widget">
+    <div class="edit-buttons">
+        <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+        <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+        @model Immo_Demo.Models.LocalLite
+    </div>
+    <table style="width:100% ">
+
+        <tr>
+            <td>@Html.EditorFor(m => m.CODE)</td>
+
+            <td>@Html.EditorFor(m => m.LIBELLE)</td>
+
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="edit-buttons">
+                    <a class="k-button k-button-icontext k-update-button" href="\\#"><span class="k-icon k-update"></span></a>
+                    <a class="k-button k-button-icontext k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span></a>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
+</div>

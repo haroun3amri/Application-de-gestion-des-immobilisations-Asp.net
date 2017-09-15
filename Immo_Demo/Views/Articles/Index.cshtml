@@ -1,0 +1,774 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@model IEnumerable<Immo_Demo.Models.ArticleLite>
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet">
+
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Amortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+<hr />
+
+<!--******** Fin Header**********************************************-->
+
+<!--******************************************************-->
+<img src='../Content/icone/0.png' alt='ar' title='Texte à afficher1' width='70' height='50' align='left' style="padding-top:0px">
+
+<h2 style="color:purple;font-family: 'MV Boli', arial, serif;">Mes Articles</h2>
+
+
+<div style="float:left ; position:relative ; width:200px">
+    @(Html.Kendo().DropDownList()
+                   .Name("KFamille")
+                           .DataTextField("Name")
+                           .DataValueField("ID")
+                   .OptionLabel("Choisir Famille Mere")
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetFamilleMere", "Articles");
+
+                       });
+                   }).Events(e => e.Change("OnFamilyChange"))
+    )
+</div>
+<!--****************************************************************-->
+<div style="float:left ; position:relative ; width:200px">
+    @(Html.Kendo().DropDownList()
+                   .Name("KSousFamille")
+                       .DataTextField("Name")
+                       .DataValueField("ID")
+                   .OptionLabel("Choisir sous Famille")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetSousFamille", "Articles");
+                           read.Data("AdditionalData");
+                       });
+
+
+                   }).Events(e => e.Change("OnSubFamilyChange"))
+    )
+</div>
+
+
+<!--************************************************************************************-->
+<div style="float:left ; position:relative ; padding-top:9px; padding-left:12px">
+    <span id="imageButton4" class="k-button" onclick="onClick1()">Gerer les Familles</span>
+
+    </div>
+<div style="float:left ; position:relative ;  padding-top:9px; padding-left:12px">
+    <span id="imageButton3" class="k-button" onclick="onClick2()"> Gerer les Affectations</span>
+
+    </div>
+<div style="float:left ; position:relative ;  padding-top:0px; padding-left:12px">
+
+    <span id="imageButton2" class="k-button" onclick="onClick3()"> Gerer les Exercies</span>
+
+</div>
+<div style="float:left ; position:relative ;  padding-top:0px; padding-left:12px">
+
+    <span id="imageButton5" class="k-button" onclick="onClick5()"> Gerer les Services</span>
+
+</div>
+<script>$("#imageButton2").kendoButton({
+    imageUrl: "../Content/icone/s.png"
+});
+    $("#imageButton3").kendoButton({
+        imageUrl: "../Content/icone/cession.jpg"
+    });
+    $("#imageButton4").kendoButton({
+        imageUrl: "../Content/icone/fam.png"
+    });
+    $("#imageButton5").kendoButton({
+        imageUrl: "../Content/icone/hr.png"
+    });
+    </script>
+    <!--***********************************************************************************-->
+
+
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="product">
+            <img src="../Content/icone/#:FAMILLE#.jpg" alt="#:DESIGNATION#" />
+            <h5><strong>  #:DESIGNATION#</strong> </h5>
+            <p>#:kendo.toString(VALEURCOMPTABLE+" DNT")#</p>
+            <span id="undo" class="k-button" onclick="OnSelect()">Details</span>
+
+        </div>
+
+    </script>
+<br />
+
+    <div class="demo-section">
+        @(Html.Kendo().ListView<IMMO_ARTICLE>()
+        
+        .Name("listView")
+
+
+
+        .TagName("div")
+        .ClientTemplateId("template")
+        .DataSource(dataSource =>
+                    {
+                        dataSource.Model(m => m.Id("CODE"));
+                        dataSource.Read(read => read.Action("GetArticle3", "Articles").Data("ArticleAdditionalData"));
+                        dataSource.PageSize(15);
+
+                    })
+
+        .Pageable()
+
+
+                .Selectable(selectable => selectable.Mode(ListViewSelectionMode.Multiple))
+
+        )
+
+    </div>
+    <!--**********************************************************************************-->
+    <br />
+    <div style="float:left ;position:relative; width:25% ;height:50%">
+        <br />
+
+        <hr />
+        <label for="KChart1">Comparateur des Valeurs Comptables </label>
+        @(Html.Kendo().Chart<ArticleLite>()
+                  .Name("KChart1")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :490px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Articles").Data("ArticleAdditionalData");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.VALEURCOMPTABLE).Name("Valeur Compatble").Color("yellow");
+                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.DESIGNATION))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+        )
+    </div>
+
+
+
+    <!--*****************************************************************************************-->
+    <div style="float:left ;position:relative; width:25% ;height:50%">
+        <br />
+
+        <hr />
+        <label for="KChart1">Comparateur des Durees de Vie </label>
+        @(Html.Kendo().Chart<ArticleLite>()
+                  .Name("KChart2")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :490px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Articles").Data("ArticleAdditionalData");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.DUREE).Name("Duree de Vie estimee");
+                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEEBL))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10).Line(l => l.Visible(false))
+                                          .Labels(label => label.Format("{0:C}").Template("#: value*1000 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:N0} ans")
+                                          )
+
+        )
+    </div>
+    <!--********************************************************************************************-->
+    @(Html.Kendo().Window()
+        .Name("window")
+        //.AppendTo("form#f")
+        
+        
+        
+       .HtmlAttributes(new { Style = "height :430px; width:1100px" })
+               .Title("Details")
+                .Visible(false)
+                .Modal(true)
+
+                .Draggable(true)
+
+        .Resizable()
+        .Width(630)
+        .Height(315)
+        
+      
+        
+        .Draggable()
+                .Content(@<text>
+<div class="test">
+    <form name="f">
+        <table width='1000px' align='center' cellpadding='3px' cellspacing='0px' rules='all' style='border:solid 1px black; border-collapse:collapse; background-color:lightgrey; text-align:left;'>
+
+
+            <caption align=middle color=red> <b>Details Article </b></caption>
+
+            <tr text-align=middle>
+
+                <td width=35% height='70%'>Fiche Signalitique d Article  </td> 
+
+                <td> <img src="../Content/icone/r7.png" alt='#= FAMILLE #' title='Texte à afficher' width='150' height='100' align='right'></td> 
+
+            </tr>
+
+            <tr >
+
+
+                <td width=50%>
+
+                    <table>
+
+
+                        <tr>
+
+
+                            <td>
+
+                                <ul>
+
+
+                                    <li><label>CODE  :</label></li>
+
+                                    <li><label>Famille  :</label></li>
+
+                                    <li><label>Designation  :</label></li>
+
+                                    <li><label>Affectation  :</label></li>
+
+                                    <li><label>Date d affectation  :</label></li>
+
+                                    <li><label>Date d acquisition  :</label></li>
+
+                                    <li><label>Annee de BL  :</label></li>
+
+                                    <li><label>Num BL  :</label></li>
+
+                                    <li><label>Num lig de BL  :</label></li>
+
+                                    <li><label>Num Facture :</label></li>
+
+                                    <li><label>Date debut exploitation    :</label></li>
+
+                                    <li><label>reference  :</label></li>
+
+                                    <li><label>LOCALE   :</label></li>
+
+                                    <li><label>AMORTI  :</label></li>
+
+                                </ul>
+
+                            </td>
+
+                            <td>
+
+                                <ul>
+
+
+                                    <li><input type="text" name="CODE"></li>
+
+                                    <li><input type="text" name="FAMILLE"></li>
+
+                                    <li><input type="text" name="DESIGNATION"></li>
+
+                                    <li><input type="text" name="AFFECTATION"></li>
+
+                                    <li><input type="datetime" name="DATEAFFECTATION"></li>
+
+                                    <li><input type="datetime" name="DATEAQUISITION"></li>
+
+                                    <li><input type="number" name="ANNEEBL"></li>
+
+                                    <li><input type="text" name="NUMBL"></li>
+
+                                    <li><input type="text" name="NUMLIGBL"></li>
+
+                                    <li><input type="text" name="NUMFACTURE"></li>
+
+                                    <li><input type="text" name="DATEEXPLOITATION"></li>
+
+                                    <li><input type="text" name="REFERENCE"></li>
+
+                                    <li><input type="text" name="LOCALE"></li>
+
+                                    <li><input type="text" name="Amorti"></li>
+
+
+                                </ul>
+
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                </td>
+
+                <td width=50%>
+
+                    <table>
+
+
+                        <tr>
+
+
+                            <td>
+
+                                <ul>
+
+
+                                    <li><label>Dure d exploiatation  :</label></li>
+
+                                    <li><label>Taux d Ammortissement    :</label></li>
+
+                                    <li><label>Dotation Anterieur  :</label></li>
+
+                                    <li><label>Valeur Comptable  : </label></li>
+
+                                    <li><label>Date Cession  : </label></li>
+
+                                    <li><label>Raison Cession  :</label></li>
+
+                                    <li><label>Valeur Cession   :</label></li>
+
+                                    <li><label>Etat Cession   :</label></li>
+
+                                    <li><label>Emplacement  : </label></li>
+
+                                    <li><label>Etat  : </label></li>
+
+                                    <li><label>Centre d Achat   :</label></li>
+
+                                    <li><label>Compte   : </label></li>
+
+                                    <li><label>service   :</label></li>
+
+                                    <li><label>Annee    :</label></li>
+
+                                </ul>
+
+                            </td>
+
+                            <td>
+
+                                <ul>
+
+
+                                    <li><input type="text" name="DUREE"></li>
+
+                                    <li><input type="text" name="TAUXAMORTISSEMENT"></li>
+
+                                    <li><input type="text" name="DotationAnterieur"></li>
+
+                                    <li><input type="text" name="VALEURCOMPTABLE"></li>
+
+                                    <li><input type="text" name="DATESESSION"></li>
+
+                                    <li><input type="text" name="RAISONSESSION"></li>
+
+                                    <li><input type="text" name="VALEURSESSION"></li>
+
+                                    <li><input type="text" name="ETATSESSION"></li>
+
+                                    <li><input type="text" name="Emplacement"></li>
+
+                                    <li><input type="text" name="ETAT"></li>
+
+                                    <li><input type="text" name="CENTREACHAT"></li>
+
+                                    <li><input type="text" name="COMPTE"></li>
+
+                                    <li><input type="text" name="SERVICE"></li>
+
+                                    <li><input type="text" name="ANNEE"></li>
+
+                                </ul>
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+
+                </td>
+
+            </tr>
+
+        </table>
+    </form>
+    </div>
+
+</text>)
+
+
+
+
+            //*******************************Debut Grid**********************************
+
+
+
+                      //  .Events(events => events
+        //  .Open("OnSelectChange")
+
+                     // .Activate("OnSelectChange")
+        //  .Close("OnSelectChange")
+
+                    //  .Refresh("OnSelectChange")
+
+            //    .Resize("onResize")
+        //    .DragStart("onDragStart")
+        //    .DragEnd("onDragEnd")
+        //    .Deactivate("onDeactivate")
+)
+
+
+
+
+   
+    <script type="text/javascript">
+        $(document).ready(function () { $("#window").data("kendoWindow").close(); })
+        function OnSelect() {
+            $("#window").data("kendoWindow").center().open();
+            var listView = $("#listView").data("kendoListView");
+            var index = listView.select().index();
+            dataItem = listView.dataSource.view()[index];
+            f.CODE.value = dataItem.CODE;
+            f.FAMILLE.value = dataItem.FAMILLE;
+            f.CENTREACHAT.value = dataItem.CENTREACHAT;
+            f.AFFECTATION.value = dataItem.AFFECTATION;
+            f.DATEAFFECTATION.value = dataItem.DATEAFFECTATION;
+            f.DATEAQUISITION.value = dataItem.DATEAQUISITION;
+            f.ANNEEBL.value = dataItem.ANNEEBL;
+            f.NUMBL.value = dataItem.NUMBL;
+            f.NUMLIGBL.value = dataItem.NUMLIGBL;
+            f.NUMFACTURE.value = dataItem.NUMFACTURE;
+            f.DATEEXPLOITATION.value = dataItem.DATEEXPLOITATION;
+            f.DUREE.value = dataItem.DUREE;
+            f.TAUXAMORTISSEMENT.value = dataItem.TAUXAMORTISSEMENT;
+            f.DotationAnterieur.value = dataItem.DotationAnterieur;
+            f.VALEURCOMPTABLE.value = dataItem.VALEURCOMPTABLE;
+            f.VALEURSESSION.value = dataItem.VALEURSESSION;
+            f.RAISONSESSION.value = dataItem.RAISONSESSION;
+            f.DATESESSION.value = dataItem.DATESESSION;
+            f.Amorti.value = dataItem.Amorti;
+            f.ETAT.value = dataItem.ETAT;
+            f.DESIGNATION.value = dataItem.DESIGNATION;
+            f.ETATSESSION.value = dataItem.ETATSESSION;
+            f.COMPTE.value = dataItem.COMPTE;
+            f.REFERENCE.value = dataItem.REFERENCE;
+            f.LOCALE.value = dataItem.LOCALE;
+            f.Emplacement.value = dataItem.Emplacement;
+            f.SERVICE.value = dataItem.SERVICE;
+            f.ANNEE.value = dataItem.ANNEE;
+
+            // return dataItem;
+
+        }
+
+
+
+        function onClick1() {
+            window.location.href = "@Url.Action("Famille", "Articles")"
+
+        }
+        function onClick2() {
+            window.location.href = "@Url.Action("Affectation", "Articles")"
+
+
+        }
+        function onClick3() {
+            window.location.href = "@Url.Action("Exercices", "Articles")"
+
+
+        }
+        function onClick5() {
+            window.location.href = "@Url.Action("Services", "Articles")"
+
+
+        }
+
+
+
+
+
+
+
+        function OnFamilyChange() {
+            $("#KSousFamille").data("kendoDropDownList").dataSource.read(),
+            $("#listView").data("kendoListView").dataSource.read();
+            $("#KChart1").data("kendoChart").dataSource.read();
+            $("#KChart2").data("kendoChart").dataSource.read();
+
+
+
+        }
+
+        function OnSubFamilyChange() {
+            $("#listView").data("kendoListView").dataSource.read();
+            $("#KChart1").data("kendoChart").dataSource.read();
+            $("#KChart2").data("kendoChart").dataSource.read();
+
+        }
+
+
+
+
+        function AdditionalData() {
+            return {
+                CODE: $("#KFamille").data("kendoDropDownList").value()
+            }
+        }
+
+        function ArticleAdditionalData() {
+            return {
+                CODEM: $("#KFamille").data("kendoDropDownList").value(),
+                CODEF: $("#KSousFamille").data("kendoDropDownList").value()
+            }
+        }
+
+    </script>
+    <style>
+        .demo-section {
+            padding: -50px;
+            width: 650px;
+            height: 350px;
+            float: right;
+            position: relative;
+        }
+
+        #listView {
+            padding: 10px;
+            margin-bottom: -1px;
+            min-width: 555px;
+            min-height: 510px;
+            background-color: #CEFFB6;
+        }
+
+        .product {
+            float: left;
+            position: relative;
+            width: 111px;
+            height: 170px;
+            margin: 7px;
+            padding: 0;
+        }
+
+            .product img {
+                width: 110px;
+                height: 110px;
+            }
+
+            .product h3 {
+                margin: 0;
+                padding: 3px 5px 0 0;
+                max-width: 96px;
+                overflow: hidden;
+                line-height: 1.1em;
+                font-size: .9em;
+                font-weight: normal;
+                text-transform: uppercase;
+                color: #999;
+            }
+
+            .product p {
+                visibility: hidden;
+            }
+
+            .product:hover p {
+                visibility: visible;
+                position: absolute;
+                width: 110px;
+                height: 110px;
+                top: 0;
+                margin: 0;
+                padding: 0;
+                line-height: 110px;
+                vertical-align: middle;
+                text-align: center;
+                color: #fff;
+                background-color: rgba(0,0,0,0.75);
+                transition: background .2s linear, color .2s linear;
+                -moz-transition: background .2s linear, color .2s linear;
+                -webkit-transition: background .2s linear, color .2s linear;
+                -o-transition: background .2s linear, color .2s linear;
+            }
+
+            .k-listview:after, .product dl:after {
+                content: ".";
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+    </style>

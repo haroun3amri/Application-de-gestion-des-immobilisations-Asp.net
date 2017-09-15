@@ -1,0 +1,166 @@
+﻿
+@{
+    ViewBag.Title = "EditTmplLivre";
+}
+
+@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@using System.Web.Mvc;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="product-view k-widget">
+    <div class="edit-buttons">
+
+        <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span>Modifier</a>
+        <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span>Supprimer</a>
+        @model IMMO.DAL.IMMO_INV_LIVRE
+    </div>
+
+
+    <table data-uid="#= ARTICLE #" style="width:100% ; height:70%">
+
+        <tr>
+            <td width=60%>
+                <table data-uid="#= ARTICLE #" width=100%>
+                    <tr>
+                        <td>Annee: </td>
+                        <td data-uid="#= ARTICLE#">@Html.EditorFor(m => m.ANNEE)</td>
+                    </tr>
+                    <tr>
+                        <td>Article Concerne:</td>
+                        <td data-uid="#= ARTICLE #">@Html.EditorFor(m => m.ARTICLE)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Affect theorique: </td>
+                        <td>@Html.EditorFor(m => m.AFFECTATIONTH)</td>
+                    </tr>
+                    <tr>
+                        <td>Affect Physique:</td>
+                        <td>@Html.EditorFor(m => m.AFFECTATIONPHY)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Existe: </td>
+                        <td>@Html.EditorFor(m => m.EXISTE)</td>
+                    </tr>
+                    <tr>
+                        <td>Emplacement: </td>
+                        <td>@Html.EditorFor(m => m.EMPLACEMENT)</td>
+                    </tr>
+                    <tr>
+                        <td>observation :</td>
+                        <td>@Html.EditorFor(m => m.OBSERVATION)</td>
+
+                    </tr>
+                    <tr>
+                        <td>date aquisition :</td>
+                        <td>@Html.EditorFor(m => m.DATEACQUISITION)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Valeur comptable :</td>
+                        <td>@Html.EditorFor(m => m.VALEURCOMPTABLE)</td>
+
+                    </tr>
+                    <tr>
+                        <td>Date d exploitation :</td>
+                        <td>@Html.EditorFor(m => m.DATEEXPLOITATION)</td>
+                    </tr>
+                    
+                    <tr>
+                        <td> taux amort :</td>
+                        <td>@Html.EditorFor(m => m.TAUXAMORTISSEMENT)</td>
+                    </tr>
+                    <tr>
+                        <td>Jouranal inventaire  :</td>
+                        <td>@Html.EditorFor(m => m.JOURNALINVENTAIRE)</td>
+                    </tr>
+                </table>
+                <!--********************************************-->
+            </td>
+            <td width=40%>
+                <table width=100%>
+                    <tr>
+                        <td>Service :</td>
+                        <td>@Html.EditorFor(m => m.SERVICE)</td>
+                    </tr>
+                    <tr>
+                        <td>Local :</td>
+                        <td>@Html.EditorFor(m => m.LOCALE)</td>
+                    </tr>
+                    <tr>
+                        <td>Famille cpt :</td>
+                        <td>@Html.EditorFor(m => m.FAMILLECPT)</td>
+                    </tr>
+                    <tr>
+                        <td>Designation Article :</td>
+                        <td>@Html.EditorFor(m => m.DESIGNATIONARTICLE)</td>
+                    </tr>
+                    <tr>
+                        <td>libelle Affecation :</td>
+                        <td>@Html.EditorFor(m => m.LIBELLEAFFECTATION)</td>
+                    </tr>
+                    <tr>
+                        <td>VALEURSESSION :</td>
+                        <td>@Html.EditorFor(m => m.DOTATIONANTERIEURE)</td>
+                    </tr>
+                    <tr>
+                        <td>Dotation d'exercice :</td>
+                        <td>@Html.EditorFor(m => m.DOTATIONEXERCICE)</td>
+                    </tr>
+                    <tr>
+                        <td>Duree :</td>
+
+                        <td>@Html.EditorFor(m => m.DUREE)</td>
+                    </tr>
+                    <tr>
+                        <td>Amorti :</td>
+                        <td>@Html.EditorFor(m => m.AMORTI)</td>
+                    </tr>
+                    <tr>
+                        <td>Resp d'Achat :</td>
+                        <td>@Html.EditorFor(m => m.RESPONSABLEACHAT)</td>
+                    </tr>
+                    <tr>
+                        <td>Compte :</td>
+                        <td>@Html.EditorFor(m => m.DATEAMORTISSEMENT)</td>
+
+                    </tr>
+                   
+
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="edit-buttons">
+                    <a class="k-button k-button-icontext k-update-button" href="\\#"><span class="k-icon k-update"></span>Confirmer</a>
+                    <a class="k-button k-button-icontext k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>Annuler</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+
+</div>
+
+

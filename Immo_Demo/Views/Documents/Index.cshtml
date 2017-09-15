@@ -1,0 +1,969 @@
+﻿@using Immo_Demo.Models;
+@using IMMO.DAL;
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet">
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+<img src='../Content/icone/doc.png' alt='ar' title='Texte à afficher1' width='100' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Mes Documents</h1>
+
+<!--******************************************************-->
+
+<div id="doc">
+    @(Html.Kendo().TabStrip()
+          .Name("classeur")
+          .Items(tabstrip =>
+          {
+              tabstrip.Add().Text("Liste des Fournisseurs")
+                  .Selected(true)
+                  .Content(@<text>
+    @(Html.Kendo().Grid<IMMO_FOURNISSEUR>()
+            
+    .Name("Fournisseur")
+
+   
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.CODE).Width(75).Locked(true).Lockable(false);
+                     columns.Bound(o => o.NOM).Width(100).Locked(true);
+                     columns.Bound(o => o.RESPONSABLE).Width(150).Locked(true);
+                     columns.Bound(o => o.MATFISCAL).Width(150).Locked(true);
+
+                     columns.Bound(o => o.ADRESSE).Width(100).Locked(true);
+
+                     columns.Bound(o => o.TEL).Width(100).Locked(true);
+
+                     columns.Bound(o => o.FAX).Width(100).Locked(true);
+
+                     columns.Bound(o => o.CONTACT).Width(100).Locked(true);
+
+                    
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Destroy().Text("Supprimer");
+                                             command.Custom("Fiche").Click("showDetails").HtmlAttributes(new { Style = " width:106px" })
+;
+                                         }).Width(100);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.CODE))
+                                        .Read(read => read.Action("GetAllfour", "Documents"))
+                                                .Create(create => create.Action("Addfour", "Documents"))
+                                                        .Update(update => update.Action("Updatefour", "Documents"))
+                                                        .Destroy(delete => delete.Action("Deletefour", "Documents"))
+
+
+
+
+
+
+                                .PageSize(3)
+    )
+
+
+   
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Fournisseur"))
+
+    
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+    .Filterable()
+
+            .Selectable(selectable => selectable
+                    .Mode(GridSelectionMode.Single)
+                    .Type(GridSelectionType.Row))
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+                 // .Events(events => events.Change("onChange"))
+
+    )
+
+
+   
+
+
+</text>);
+
+
+              tabstrip.Add().Text("Liste des Factures")
+
+                  .Content(@<text>
+
+
+
+    
+
+
+
+    @(Html.Kendo().Grid<IMMO_FACTURE>()
+
+    .Name("Facture")
+    .AutoBind(true)
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.NUM).Width(120);
+                     columns.Bound(o => o.REFERENCE).Width(150);
+                     columns.Bound(p => p.FOURNISSEUR);
+                     columns.Bound(o => o.OBSERVATION).Width(150);
+
+                     columns.Bound(o => o.MONTANTHT).Width(150);
+
+                    columns.Bound(o => o.MONTANTTTC).Width(150);
+
+
+                     columns.Bound(o => o.ETAT).Width(150);
+                     columns.Bound(o => o.TVARECPERATION).Width(200);
+
+                     
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Destroy().Text("Supprimer");
+                                             command.Custom("Fiche").Click("showDetails2").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Custom("Details").Click("showDetailsR2").HtmlAttributes(new { Style = " width:106px" });
+
+                                         }).Width(300);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.NUM))
+                                        .Read(read => read.Action("GetAllfac", "Documents"))
+                                                .Create(create => create.Action("Addfac", "Documents"))
+                                                        .Update(update => update.Action("Updatefac", "Documents"))
+                                                        .Destroy(delete => delete.Action("Deletefac", "Documents"))
+
+
+
+
+
+
+                                .PageSize(3)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Facture"))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+    .Filterable()
+    .Selectable()
+    .ClientDetailTemplateId("templateDetailFacture")
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })             .Events(events => events.DataBound("dataBound"))
+
+
+    )
+    <script id="templateDetailFacture" type="text/kendo-tmpl">
+        @(Html.Kendo().Grid<IMMO_DETAILFACTURE>()
+            .Name("grid_#=NUM#")
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.NUMFACTURE).Width(100);
+                columns.Bound(o => o.ANNEEBL).Width(75);
+                columns.Bound(o => o.NUMBL).Width(60);
+                columns.Bound(o => o.NUMLIGNEBL).Width(100);
+                columns.Bound(o => o.MONTANTHT).Width(110);
+                columns.Bound(o => o.TVA).Width(70);
+                columns.Bound(o => o.MONTANTTTC).Width(100);
+                columns.Bound(o => o.QTE).Width(70);
+                columns.Bound(o => o.VALEURCOMPTABLE).Width(100);
+                columns.Bound(o => o.PRIXUNITAIREHT).Width(100);
+                columns.Command(command =>
+               {
+                   command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                    command.Destroy().Text("Supprimer");
+                }).Width(300);
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(10)
+                                                        .Model(model => model.Id(record => record.NUMFACTURE))
+
+                                .Read(read => read.Action("ChercherfacDet", "Documents", new { NUMFACTURE = "#=NUM#" }))
+                                         .Create(create => create.Action("AddfacDet", "Documents"))
+                                                                              .Update(update => update.Action("UpdatefacDet", "Documents"))
+                                                                       .Destroy(delete => delete.Action("DeletefacDet", "Documents"))
+            )
+            .Pageable()
+            .Sortable()
+            .ToolBar(toolbar => toolbar.Create().Text("Ajouter Details"))
+            .Selectable()
+            .Editable(editable => editable.Mode(GridEditMode.PopUp))
+            .ToClientTemplate()
+        )
+    </script>
+    <script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+                </text>);
+
+              tabstrip.Add().Text("Les Bons de Livraison")
+                  .Content(@<text>
+    @(Html.Kendo().Grid<IMMO_BL>()
+
+    .Name("bl")
+    .AutoBind(true)
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.ANNEE).Width(100);
+                     columns.Bound(o => o.NUM).Width(100);
+                     columns.Bound(o => o.REFCOMMANDE).Width(100);
+                     columns.Bound(o => o.DATECOMMANDE).Width(100).Format("{0:dd-MM-yyyy}").HtmlAttributes(new { style = "text-align:center;" }).HeaderHtmlAttributes(new { style = "text-align:center; " }); 
+
+                     columns.Bound(o => o.CENTREACHAT).Width(100);
+
+                     columns.Bound(o => o.FOURNISSEUR).Width(100);
+
+                      columns.Bound(o => o.ETAT).Width(100);
+
+                     columns.Bound(o => o.REFERENCE).Width(100);
+                     columns.Bound(o => o.DATELIVRAISON).Width(100).Format("{0:dd-MM-yyyy}").HtmlAttributes(new { style = "text-align:center;" }).HeaderHtmlAttributes(new { style = "text-align:center; " });
+                     columns.Bound(o => o.OBSERVATION).Width(50);
+                     columns.Bound(o => o.EXERCICE).Width(50);
+
+
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Destroy().Text("Supprimer");
+                                             command.Custom("Fiche").Click("showDetails3").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Custom("Details").Click("showDetailsR").HtmlAttributes(new { Style = " width:106px" });
+
+                                         }).Width(600);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.NUM))
+                                        .Read(read => read.Action("GetAllbl", "Documents"))
+                                                .Create(create => create.Action("Addbl", "Documents"))
+                                                        .Update(update => update.Action("Updatebl", "Documents"))
+                                                        .Destroy(delete => delete.Action("Deletebl", "Documents"))
+
+
+
+
+
+
+                                .PageSize(3)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter BL"))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+
+    .Selectable()
+                .ClientDetailTemplateId("templateDetailBl")
+
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+    )
+    <script id="templateDetailBl" type="text/kendo-tmpl">
+        @(Html.Kendo().Grid<IMMO_DETAILBL>()
+            .Name("grid_#=NUM#")
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.NUMBL).Width(100);
+                columns.Bound(o => o.ANNEEBL).Width(75);
+                columns.Bound(o => o.NUM).Width(60);
+                columns.Bound(o => o.FAMILLE).Width(100);
+                columns.Bound(o => o.QTE).Width(110);
+                columns.Bound(o => o.QTEFACTURE).Width(70);
+                columns.Bound(o => o.PRIXUNITAIRE).Width(100);
+                columns.Bound(o => o.OBSERVATION).Width(70);
+                columns.Bound(o => o.AFFECTATION).Width(100);
+                columns.Bound(o => o.SERVICE).Width(100);
+                columns.Bound(o => o.LOCALE).Width(100);
+
+                columns.Command(command =>
+                {
+                    command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                    command.Destroy().Text("Supprimer");
+                }).Width(300);
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(10)
+                                                        .Model(model => model.Id(record => record.NUMBL))
+
+                                        .Read(read => read.Action("ChercherblDet", "Documents", new { NUMBL = "#=NUM#" }))
+                                         .Create(create => create.Action("Addfac", "Documents"))
+                                                                        .Update(update => update.Action("UpdateblDet", "Documents"))
+                                                                        .Destroy(delete => delete.Action("DeleteblDet", "Documents"))
+            )
+            .Pageable()
+            .Sortable()
+                        .Editable(editable => editable.Mode(GridEditMode.PopUp))
+
+                    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Details"))
+                    .Selectable()
+            .ToClientTemplate()
+        )
+    </script>
+    <script>
+        function dataBound() {
+            this.expandRow(this.tbody.find("tr.k-master-row").first());
+        }
+    </script>
+
+
+                
+
+
+                </text>);
+          })
+)
+</div>
+@(Html.Kendo().Window()
+            .Name("Details")
+
+
+          .Title("Details")
+        .Visible(false)
+        .Modal(true)
+        .Draggable(true)
+        .Width(450) 
+        .Height(570)     
+                .Content(@<text>  
+                </text>)
+)
+
+@(Html.Kendo().Window()
+            .Name("Details2")
+
+
+          .Title("Details Facture")
+          .Resizable()
+          
+          
+        .Visible(false)
+        .Modal(true)
+        .Draggable(true)
+        .Width(850)
+        .Height(600)
+                .Content(@<text>
+
+
+
+                </text>)
+
+)
+@(Html.Kendo().Window()
+            .Name("Details3")
+
+
+          .Title("Details BL")
+        .Visible(false)
+        .Resizable()
+        .Modal(true)
+        .Draggable(true)
+        .Width(850)
+        .Height(600)
+                .Content(@<text>
+
+
+
+                </text>)
+)
+
+@(Html.Kendo().Window()
+            .Name("DetailsGest")
+
+
+
+
+       .HtmlAttributes(new { Style = "height :430px; width:1250px" })
+               .Title("Gestionnaire Details bons de livraison")
+                .Visible(false)
+                .Modal(true)
+
+                .Draggable(true)
+
+        .Resizable()
+        .Width(630)
+        .Height(315)
+
+
+
+        .Draggable()
+                .Content(@<text>
+
+
+            @(Html.Kendo().Grid<IMMO_DETAILBL>()
+                  .Name("KgridDetBl")
+                  .AutoBind(false)
+                                         .HtmlAttributes(new { Style = "width :1300px;height:500px" })
+
+                   .Columns(columns =>
+                   {
+                       columns.Bound(o => o.ANNEEBL).Width(75);
+                       columns.Bound(o => o.NUMBL).Width(100);
+                       columns.Bound(o => o.NUM).Width(100);
+                       columns.Bound(o => o.FAMILLE).Width(100);
+
+                       columns.Bound(o => o.QTE).Width(100);
+
+                       columns.Bound(o => o.QTEFACTURE).Width(100);
+                       columns.Bound(o => o.PRIXUNITAIRE).Width(100);
+
+                       columns.Bound(o => o.OBSERVATION).Width(100);
+                       columns.Bound(o => o.AFFECTATION).Width(100);
+                       columns.Bound(o => o.SERVICE).Width(100);
+                       columns.Bound(o => o.LOCALE).Width(100);
+
+
+                       columns.Command(command =>
+                   {
+                       command.Edit().Text("Modifier");
+                       command.Destroy().Text("Supprimer");
+                   }).Width(200);
+                   })
+
+                  .Scrollable(sc => sc.Height(100))
+                  .Reorderable(reorderable => reorderable.Columns(true))
+                  .Resizable(resizable => resizable.Columns(true))
+                  .Pageable()
+                  .Filterable()
+
+
+                  .DataSource(ds => ds
+                  .Ajax()
+                          .Model(model => model.Id(record => record.NUM))
+                  .PageSize(4)
+                                       .Read(read => read.Action("ChercherblDet2", "Documents"))
+                                                 .Create(create => create.Action("AddblDet", "Documents"))
+                                                                        .Update(update => update.Action("UpdateblDet", "Documents"))
+                                                                        .Destroy(delete => delete.Action("DeleteblDet", "Documents"))
+
+    )
+            .ToolBar(toolbar => toolbar.Create().Text("Ajouter Detail BL"))
+
+
+
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+            .Sortable()
+
+            .Selectable()
+
+
+
+
+            )
+
+
+
+
+
+
+                </text>)
+)
+
+
+@(Html.Kendo().Window()
+            .Name("DetailsGest2")
+
+
+
+
+       .HtmlAttributes(new { Style = "height :430px; width:1250px" })
+               .Title("Gestionnaire Details Factures")
+                .Visible(false)
+                .Modal(true)
+
+                .Draggable(true)
+
+        .Resizable()
+        .Width(660)
+        .Height(315)
+
+
+
+        .Draggable()
+                .Content(@<text>
+
+
+            @(Html.Kendo().Grid<IMMO_DETAILFACTURE>()
+                  .Name("KgridDetfac")
+                  .AutoBind(false)
+                                         .HtmlAttributes(new { Style = "width :1300px;height:500px" })
+
+                   .Columns(columns =>
+                   {
+                      columns.Bound(o => o.NUMFACTURE).Width(120);
+                columns.Bound(o => o.ANNEEBL).Width(120);
+                columns.Bound(o => o.NUMBL).Width(120);
+                columns.Bound(o => o.NUMLIGNEBL).Width(120);
+                columns.Bound(o => o.MONTANTHT).Width(110);
+                columns.Bound(o => o.TVA).Width(70);
+                columns.Bound(o => o.MONTANTTTC).Width(100);
+                columns.Bound(o => o.QTE).Width(100);
+                columns.Bound(o => o.VALEURCOMPTABLE).Width(100);
+                columns.Bound(o => o.PRIXUNITAIREHT).Width(100);
+
+
+                       columns.Command(command =>
+                   {
+                       command.Edit().Text("Modifier");
+                       command.Destroy().Text("Supprimer");
+                   }).Width(200);
+                   })
+
+                  .Scrollable(sc => sc.Height(100))
+                  .Reorderable(reorderable => reorderable.Columns(true))
+                  .Resizable(resizable => resizable.Columns(true))
+                  .Pageable()
+                  .Filterable()
+
+
+                  .DataSource(ds => ds
+                  .Ajax()
+                          .Model(model => model.Id(record => record.NUMFACTURE))
+                  .PageSize(4)
+                                                 .Read(read => read.Action("ChercherfacDet2", "Documents"))
+                                                 .Create(create => create.Action("AddfacDet", "Documents"))
+                                                                                      .Update(update => update.Action("UpdatefacDet", "Documents"))
+                                                                               .Destroy(delete => delete.Action("DeletefacDet", "Documents"))
+
+    )
+            .ToolBar(toolbar => toolbar.Create().Text("Ajouter Detail Facture"))
+
+
+
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+            .Sortable()
+
+            .Selectable()
+
+
+
+
+            )
+
+
+
+
+
+
+                </text>)
+)
+
+
+<style>
+    #doc {
+        width: 1500px;
+        height: 450px;
+        margin: 5px auto;
+        padding: 30px 15px 0 15px;
+        background: transparent no-repeat 0 0;
+    }
+</style>
+
+<script type="text/x-kendo-template" id="template">
+    <div id="details-container">
+        <table  width=440px height=510px style="background-color:lightgrey;">
+            <caption style="background-color:lightblue;height:40px"> <font color="olive"><strong> Fournisseur </strong></font> <h3><strong> #= CODE #</strong></h3></caption>
+            <tr>
+                <td><img src='../Content/icone/Nom.png' alt='ar' title='Texte à afficher1' width='40' height='40' align='left'><font color="olive">  Nom :</font></td>
+                <td><strong>#= NOM #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/avatar.png' alt='ar' title='Texte à afficher2' width='40' height='40' align='left'> <font color="olive">Responsable :</font></td>
+                <td><strong>#= RESPONSABLE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/mat.png' alt='ar' title='Texte à afficher3' width='35' height='35' align='left'><font color="olive"> Mat Fiscal :</font></td>
+                <td><strong>#= MATFISCAL #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/home.png' alt='ar' title='Texte à afficher4' width='35' height='35' align='left'><font color="olive"> Adresse :</font></td>
+                <td><strong>#= ADRESSE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/tel.png' alt='ar' title='Texte à afficher5' width='35' height='35' align='left'><font color="olive"> Telephone :</font></td>
+                <td><strong>#= TEL #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/fax.png' alt='ar' title='Texte à afficher6' width='35' height='35' align='left'><font color="olive"> Fax :</font></td>
+                <td><strong>#= FAX #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/contact.png' alt='ar' title='Texte à afficher7' width='35' height='45' align='left'> <font color="olive">Contact :</font></td>
+                <td><strong>#= CONTACT #</strong></td>
+            </tr>
+        </table>
+    </div>
+</script>
+<script type="text/x-kendo-template" id="template2">
+    <div id="details-container2">
+
+        <table width=840px height=510px style="background-color:whitesmoke;">
+            <caption style="background-color:lightgrey;height:50px"> <font color="olive"> Facture num : </font> <strong style="font-family: 'MV Boli', arial, serif;"> #= NUM #</strong>
+                <div style="float:left ; position:relative ;  padding-top:0px; padding-left:12px">
+
+
+                </div>
+                <img src='../Images/images/logo.png' alt='ar' title='Texte à afficher1' width='150' height='50' align='left'>
+            </caption>
+            <tr>
+                <td width="50%"><img src='../Content/icone/r1.png' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">  Reference :</font></td>
+                <td><strong>#= REFERENCE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r2.png' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">Fournsisseur:</font></td>
+                <td><strong>#= FOURNISSEUR #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r3.png' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive"> Observation :</font></td>
+                <td><strong>#= OBSERVATION #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive"> MONTANTTTC :</font></td>
+                <td><strong>#= MONTANTTTC #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive"> MONTANTHT :</font></td>
+                <td><strong>#= MONTANTHT #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive"> CHARGERATTACHEIMMO :</font></td>
+                <td><strong>#= CHARGERATTACHEIMMO #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">CHARGENONRATTACHEIMMO :</font></td>
+                <td><strong>#= CHARGENONRATTACHEIMMO #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r5.png' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">ETAT :</font></td>
+                <td><strong>#= ETAT #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r4.ico' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">TVARECPERATION :</font></td>
+                <td><strong>#= TVARECPERATION #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r6.png' alt='ar' title='Texte à afficher1' width='25' height='25' align='left'><font color="olive">DATEFACTURE :</font></td>
+                <td><strong>#= DATEFACTURE #</strong></td>
+            </tr>
+        </table>
+    </div>
+</script>
+<script type="text/x-kendo-template" id="template3">
+    <div id="details-container3">
+        <table width=840px height=510px style="background-color:whitesmoke;">
+            <caption style="background-color:lightgrey;height:50px">
+                <font color="olive"> Bon Livraison : </font> <strong style="font-family: 'MV Boli', arial, serif;"> #= NUM #</strong>
+                <div style="float:left ; position:relative ;  padding-top:0px; padding-left:12px">
+
+
+                </div>
+                <img src='../Images/images/logo.png' alt='ar' title='Texte à afficher1' width='150' height='50' align='left'>
+            </caption>
+            <tr>
+                <td width="50%"><img src='../Content/icone/r6.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive"> Annee :</font></td>
+                <td><strong>#= ANNEE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r1.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive">ref commande:</font></td>
+                <td><strong>#= REFCOMMANDE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r6.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive"> Date Commande :</font></td>
+                <td><strong>#= DATECOMMANDE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r2.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive"> Centre Achat :</font></td>
+                <td><strong>#= CENTREACHAT #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r2.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive"> Fournisseur :</font></td>
+                <td><strong>#= FOURNISSEUR #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r6.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive"> DATELIVRAISON :</font></td>
+                <td><strong>#= DATELIVRAISON #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r3.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive">OBSERVATION :</font></td>
+                <td><strong>#= OBSERVATION #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r5.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive">ETAT :</font></td>
+                <td><strong>#= ETAT #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r1.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive">REFERENCE :</font></td>
+                <td><strong>#= REFERENCE #</strong></td>
+            </tr>
+            <tr>
+                <td><img src='../Content/icone/r7.png' alt='ar' title='Texte à afficher1' width='30' height='30' align='left'><font color="olive">EXERCICE :</font></td>
+                <td><strong>#= EXERCICE #</strong></td>
+            </tr>
+        </table>
+    </div>
+</script>
+<script type="text/javascript">
+    var detailsTemplate = kendo.template($("#template").html());
+
+    function showDetails(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd = $("#Details").data("kendoWindow");
+
+        wnd.content(detailsTemplate(dataItem));
+        wnd.center().open();
+    }
+</script>
+<script type="text/javascript">
+     var detailsTemplate2 = kendo.template($("#template2").html());
+
+    function showDetails2(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd2 = $("#Details2").data("kendoWindow");
+
+        wnd2.content(detailsTemplate2(dataItem));
+        wnd2.center().open();
+    }
+    //******************************************
+    function showDetailsR()
+    {
+        var wndg = $("#DetailsGest").data("kendoWindow");
+        wndg.center().open();
+        $("#KgridDetBl").data("kendoGrid").dataSource.read();
+
+
+    }
+    //************************************
+    //******************************************
+    function showDetailsR2() {
+        var wndg2 = $("#DetailsGest2").data("kendoWindow");
+        wndg2.center().open();
+        $("#KgridDetfac").data("kendoGrid").dataSource.read();
+
+
+    }
+    //************************************
+    </script>
+<script type="text/javascript">
+    var detailsTemplate3 = kendo.template($("#template3").html());
+
+    function showDetails3(e) {
+        e.preventDefault();
+
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var wnd3 = $("#Details3").data("kendoWindow");
+
+        wnd3.content(detailsTemplate3(dataItem));
+        wnd3.center().open();
+
+    }
+</script>
+
+
+
+
+
+
+
+
+
+<!--*******************************Debut des Scripts*******************************************-->
+<script>
+    $(document).ready(function () { $("#DetailsGest").data("kendoWindow").close(); })
+    $(document).ready(function () { $("#DetailsGest2").data("kendoWindow").close(); })
+
+
+    function onChange()
+    {
+        $("#window").data("kendoWindow").open();
+
+    }
+</script>

@@ -1,0 +1,833 @@
+﻿@using IMMO.BLL;
+@using IMMO.DAL;
+@using Immo_Demo.Models
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet" />
+<!--////////////////////////////////////////////////////////////////-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+<!--////////////////////////////////////////-->
+<img src='../Content/icone/stat.png' alt='ar' title='Texte à afficher1' width='75' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Statisitques</h1>
+<br />
+<!--///////////////////////////////////////////////////////////////////-->
+@(Html.Kendo().TabStrip()
+          .Name("classeur")
+          .Items(tabstrip =>
+          {
+              tabstrip.Add().Text("Statistique Article")
+                  .Selected(true)
+                  .ContentHtmlAttributes(new { Style = "height:690px" })
+                  .Content(@<text>
+<br />
+<div style="float:left ; position:relative ; width:200px">
+    <label>Familles</label>
+    @(Html.Kendo().DropDownList()
+                   .Name("KFamille")
+                           .DataTextField("Name")
+                           .DataValueField("ID")
+                   .OptionLabel("Choisir Famille Mere")
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetFamilleMere", "Articles");
+
+                       });
+                   }).Events(e => e.Change("OnFamilyChange"))
+    )
+</div>
+<!--****************************************************************-->
+<div style="float:left ; position:relative ; width:200px">
+    <label>Sous Familles</label>
+    @(Html.Kendo().DropDownList()
+                   .Name("KSousFamille")
+                       .DataTextField("Name")
+                       .DataValueField("ID")
+                   .OptionLabel("Choisir sous Famille")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetSousFamille", "Articles");
+                           read.Data("AdditionalData");
+                       });
+
+
+                   }).Events(e => e.Change("OnSubFamilyChange"))
+    )
+</div>
+<!--*************************************************************************-->
+<div style="float:left ; position:relative ; width:200px">
+    <label>Code</label>
+    @(Html.Kendo().ComboBox()
+          .Name("Articles")
+          
+        .HtmlAttributes(new { Style = "width:250px" })
+          .AutoBind(true)
+          .Placeholder("----- Enrter CODE -----")
+          //.DataTextField("ID")
+          .DataValueField("ID")
+          .Filter("contains")
+          .Template("#: ID# |#: NAME#")
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetArticlesN2", "Articles");
+                  read.Data("AdditionalData2");
+              });
+          })
+               .Events(e => e.Change("onChange"))
+    )
+</div>
+<!--*****************************DEbur des kendo Chart**********************-->
+<div style="float:left ;position:relative; width:70% ;height:60%">
+    @(Html.Kendo().Chart<ArticleLite>()
+                        .Name("KChart1")
+            .HtmlAttributes(new { Style = "height :300px; width:1300px ;padding-top:1px;padding-left:2px" })
+                    .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                              .PlotArea(p => p.Background("lightgreen"))
+        .Title("Comparateur des Articles")
+        .Legend(legend => legend
+        .Position(ChartLegendPosition.Top)
+        )
+                .DataSource(ds => ds.Read(read => read.Action("GetArticles2S", "Articles").Data("ArticleAdditionalData")))
+        .Series(series =>
+        {
+            series.Column(model => model.VALEURCOMPTABLE).Name("Valeur Comptable").Color("#33CCFF");
+            
+            series.Column(model => model.VALEURSESSION).Name("Valeur Session").Color("#FF3300");
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.DESIGNATION)
+            .Labels(labels => labels.Rotation(-90))
+            .MajorGridLines(lines => lines.Visible(false))
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Labels(labels => labels.Format("{0:N0}"))
+            .MajorUnit(10000)
+            .Line(line => line.Visible(false))
+        )
+               
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:N0} DNT")
+        )
+    )
+
+    @(Html.Kendo().Chart<ArticleLite>()
+                        .Name("KChart2")
+              .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                      .PlotArea(p => p.Background("lightgreen"))
+
+            .HtmlAttributes(new { Style = "height :300px; width:1300px ;padding-top:1px;padding-left:2px" })
+
+        .Legend(legend => legend
+        .Position(ChartLegendPosition.Top)
+        )
+                .DataSource(ds => ds.Read(read => read.Action("GetArticles2S", "Articles").Data("ArticleAdditionalData")))
+        .Series(series =>
+        {
+            series.Column(model => model.TAUXAMORTISSEMENT).Name("Taux Ammortissement").Color("yellow");
+
+            series.Column(model => model.DUREE).Name("Duree exploiatation").Color("purple");
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.DESIGNATION)
+            .Labels(labels => labels.Rotation(-90))
+            .MajorGridLines(lines => lines.Visible(false))
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Labels(labels => labels.Format("{0:N0}"))
+            .MajorUnit(100)
+            .Line(line => line.Visible(false))
+        )
+
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:N0}")
+        )
+    )
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+
+
+
+
+
+
+                </text>);
+
+
+              tabstrip.Add().Text("Statistique Cession")
+                  .ContentHtmlAttributes(new { Style = "height:590px" })
+
+                  .Content(@<text>
+
+<div style="float:left ; position:relative ; width:300px">
+    <label>Annee</label>
+    @(Html.Kendo().ComboBox()
+                           .Name("ChercherParAnnee")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("ANNEE")
+                       .DataValueField("ANNEE")
+                   .Placeholder("Chercher Cession par Annee")
+                          .Template("<font color=blue><strong>#: ANNEE# </strong></font> |<strong> #: NUM# </strong>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetCession3", "Cession");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChangeC"))
+    )
+</div>
+<div style="float:left ; position:relative ; width:300px">
+    <label>Numero</label>
+    @(Html.Kendo().ComboBox()
+                  .Name("ChercherParNum")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("NUM")
+                       .DataValueField("NUM")
+                   .Placeholder("Chercher Cession par Num")
+                          .Template("<font color=blue><strong>#: NUM# </strong></font> |<strong> #: ANNEE# </strong>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetCession3", "Cession");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChangeC"))
+    )
+</div>
+
+
+
+<div style="float:left ; position:relative ; width:300px">
+    <label>Code_Article</label>
+    @(Html.Kendo().ComboBox()
+        .Name("ChercherParArticle")
+                        .HtmlAttributes(new { Style = "width:250px" })
+
+                          .AutoBind(false)
+                                            .Suggest(true)
+
+          .Placeholder("Enrter Code")
+                   .DataTextField("ARTICLE")
+                  .DataValueField("ARTICLE")
+                  .Template("#= ARTICLE#")
+
+        .Filter(FilterType.Contains)
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetArticlesA", "Cession");
+              });
+          })
+                .Events(e => e.Change("OnChangeC"))
+    )
+</div>
+<div style="display:inline-block">
+
+    <div style="float:right ;position:relative; width:650px ;height:25% ;padding-top:7px;display:inline-block">
+        @(Html.Kendo().Chart<IMMO_ARTICLE_SESSION>()
+                  .Name("KChartC")
+                           .Title("Comparateur des Articles par cession ")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :300px; width:600px" })
+
+                                  .PlotArea(p => p.Background("#9999FF"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("ChercherCessionArticleChart", "Cession").Data("AdditionalData4");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.VALEUR).Name("Valeur Cession").Color("Yellow");
+
+                                          })
+                                                   .Series(series =>
+                                                  {
+                                                      series.Bar(s => s.DOTATION).Name("Dotation").Color("green");
+
+                                                  })
+                                                                                                      .Series(series =>
+                                                          {
+                                                              series.Bar(s => s.AMORTISSEMENTPRATIQUE).Name("Amrt Pratique").Color("blue");
+
+                                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.ARTICLE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+        )
+    </div>
+    <div class="demo-section2">
+        @(Html.Kendo().Chart<IMMO_CESSION>()
+                  .Name("KChartC2")
+                                         .Title("Comparateur des cessions Totales")
+
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :300px; width:600px" })
+
+                                          .PlotArea(p => p.Background("#9999FF"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("ChercherCessionChart", "Cession").Data("AdditionalData1");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Column(s => s.VALTOTAL).Name("Valeur Cession Total");
+
+                                          })
+
+
+
+                                          .CategoryAxis(ca => ca.Categories(m => m.NUM))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+        )
+    </div>
+</div>
+
+    @(Html.Kendo().Chart<IMMO_CESSION>()
+                  .Name("KChartC3")
+                          .Title("Courbe de l evolution des cessions aucours du temps")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :200px; width:1250px" })
+
+                                          .PlotArea(p => p.Background("#9999FF"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetAllC", "Cession");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Line(s => s.VALTOTAL).Name("Valeur Cession Total").Color("red");
+
+                                          })
+
+
+
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+    )
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</text>);
+
+              tabstrip.Add().Text("Statistique Ammortissements")
+                  .ContentHtmlAttributes(new { Style = "height:590px" })
+                  .Content(@<text>
+
+                    <!--*****************************************************************-->
+                    <div style="float:left ; position:relative ; width:400px">
+
+                        @(Html.Kendo().ComboBox()
+                   .Name("KArticles")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("ID")
+                       .DataValueField("ID")
+                   .Placeholder("Choisir Article")
+                          .Template("<font color=blue><strong>#: ID# </strong></font> |<strong> #: NAME# </strong>|<font color=red><strong> #: Amorti# </strong> </font>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetArticlesN", "Articles");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChangeA"))
+                        )
+                        <br />
+                        <div style="float:left ;position:relative;padding-top:0px;display:inline-block">
+                            <label>Comparateur des Taux d Ammortissement</label>
+                            @(Html.Kendo().Chart<ArticleLite>()
+                  .Name("KChart3A")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :520px;width:450px" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles6", "Articles").Data("AdditionalDataA");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.TAUXAMORTISSEMENT).Name("TauxAmmortissement");
+                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.DESIGNATION))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(100).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # %").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} %")
+                                          )
+
+                            )
+                        </div>
+
+
+                        <!--******************************************************-->
+                    </div>
+
+                    <div style="display:inline-block ;float:right">
+                        <div style="float:right ;position:relative; width:850px ;height:25% ;padding-top:7px;display:inline-block">
+
+
+                            <hr />
+                            <label for="KChart1">Courbe a bar de l Ammortissement</label>
+                            @(Html.Kendo().Chart<AmmortissementLite>()
+                  .Name("KChart1A")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :250px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Ammortissement").Data("AdditionalDataA");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.MONTANTCALCUL).Name("Valeur cpt ").Color("yellow");
+                                              series.Bar(s => s.VALEUR).Name("Annuite").Color("red");
+                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT} DNT").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+                            )
+
+                        </div>
+
+
+
+                        <!--/////////////////////////////////////////////////////////////////////////-->
+                        <div class="demo-section">
+
+                            <label for="KChart1">Courbe Linaire de l Ammortissement  </label>
+                            @(Html.Kendo().Chart<AmmortissementLite>()
+                  .Name("KChart2A")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :250px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Ammortissement").Data("AdditionalDataA");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Line(s => s.MONTANTCALCUL).Name("Valeur cpt").Color("yellow");
+                                              series.Line(s => s.VALEUR).Name("Annuite").Color("red");
+
+                                          })
+
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+
+                                          )
+
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+                            )
+                        </div>
+
+                    </div>
+
+
+
+                </text>);
+
+
+
+
+          })
+)
+
+
+<!--**************************************************************-->
+<script>
+    function OnFamilyChange() {
+        $("#KSousFamille").data("kendoDropDownList").dataSource.read()
+        $("#Articles").data("kendoComboBox").dataSource.read();
+        $("#KChart1").data("kendoChart").dataSource.read();
+        $("#KChart2").data("kendoChart").dataSource.read();
+        // $("#KChart1").data("kendoChart").dataSource.read();
+        //  $("#KChart2").data("kendoChart").dataSource.read();
+
+
+
+    }
+
+    function OnSubFamilyChange() {
+        $("#Articles").data("kendoComboBox").dataSource.read();
+        $("#KChart1").data("kendoChart").dataSource.read();
+        $("#KChart2").data("kendoChart").dataSource.read();
+        //     $("#KChart1").data("kendoChart").dataSource.read();
+        //     $("#KChart2").data("kendoChart").dataSource.read();
+
+    }
+
+
+    function onChange() {
+        $("#KChart1").data("kendoChart").dataSource.read();
+        $("#KChart2").data("kendoChart").dataSource.read();
+    }
+
+    function AdditionalData() {
+        return {
+            CODE: $("#KFamille").data("kendoDropDownList").value()
+        }
+    }
+
+    function AdditionalData2() {
+        return {
+            CODEM: $("#KFamille").data("kendoDropDownList").value(),
+            CODEF: $("#KSousFamille").data("kendoDropDownList").value()
+        }
+    }
+
+    function ArticleAdditionalData() {
+        return {
+            CODEM: $("#KFamille").data("kendoDropDownList").value(),
+            CODEF: $("#KSousFamille").data("kendoDropDownList").value(),
+            CODE: $("#Articles").data("kendoComboBox").value()
+        }
+
+    }
+    function Additionaldata3() {
+        return {
+            ANNEE: $("#CessionAnnee").data("kendoComboBox").value(),
+
+        }
+    }
+
+    function onChangeCes2() {
+        $("#KChart3").data("kendoChart").dataSource.read();
+
+    }
+    function onChangeCes1() {
+        $("#KChart3").data("kendoChart").dataSource.read();
+        $("#CessionNum").data("kendoComboBox").dataSource.read();
+
+    }
+
+    function CessionAdditionalData() {
+        return {
+            ANNEE: $("#CessionAnnee").data("kendoComboBox").value(),
+            NUM: $("#CessionNum").data("kendoComboBox").value(),
+
+        }
+
+    }
+    function OnChangeA() {
+        $("#KChart1A").data("kendoChart").dataSource.read();
+        $("#KChart2A").data("kendoChart").dataSource.read();
+        $("#KChart3A").data("kendoChart").dataSource.read();
+
+    }
+
+    function AdditionalDataA() {
+        return {
+            CODE: $("#KArticles").data("kendoComboBox").value()
+        }
+    }
+</script>
+<script>
+    function AdditionalData1() {
+        return {
+
+            ANNEE: $("#ChercherParAnnee").data("kendoComboBox").value(),
+            NUM: $("#ChercherParNum").data("kendoComboBox").value()
+
+        }
+    }
+
+
+
+     function AdditionalData4() {
+         return {
+             ANNEE: $("#ChercherParAnnee").data("kendoComboBox").value(),
+             NUM: $("#ChercherParNum").data("kendoComboBox").value(),
+             ARTICLE: $("#ChercherParArticle").data("kendoComboBox").value()
+
+         }
+     }
+
+    function OnChangeC() {
+
+        $("#KChartC").data("kendoChart").dataSource.read();
+        $("#KChartC2").data("kendoChart").dataSource.read();
+
+    }
+</script>
+<style>
+    .demo-section2 {
+        width: 650px;
+        float: left;
+        padding-top: 10px;
+        height: 250px;
+        display: inline-block;
+    }
+</style>

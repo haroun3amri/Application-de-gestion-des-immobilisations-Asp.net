@@ -1,0 +1,13 @@
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\IMMO.DAL.dll.config
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\IMMO.DAL.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\IMMO.DAL.pdb
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\EntityFramework.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\EntityFramework.SqlServer.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\Excel.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\EntityFramework.xml
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\EntityFramework.SqlServer.xml
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\bin\x86\Debug\Excel.pdb
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\obj\x86\Debug\IMMO.DAL.csprojResolveAssemblyReference.cache
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\obj\x86\Debug\IMMO.DAL.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.DAL\obj\x86\Debug\IMMO.DAL.pdb

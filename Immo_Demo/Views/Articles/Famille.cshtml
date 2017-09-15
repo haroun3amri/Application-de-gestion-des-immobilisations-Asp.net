@@ -1,0 +1,260 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@model IEnumerable<IMMO.DAL.IMMO_COMPTE>
+@{
+    ViewBag.Title = "FAMILLE";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet">
+
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+<!--******** Fin Header**********************************************-->
+<br /><br />
+<img src='../Content/icone/fam.png' alt='ar' title='Texte à afficher1' width='75' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Gestionnaire des Familles</h1>
+<br /><br />
+@(Html.Kendo().Grid<IMMO_FAMILLEM>()
+
+        .Name("FamilleM")
+    .AutoBind(true)
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.CODE).Width(100);
+                     columns.Bound(o => o.LIBELLE).Width(100);
+
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                                             command.Destroy().Text("Supprimer");
+
+                                         }).Width(600);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.CODE))
+                                        .Read(read => read.Action("GetAllFm", "Articles"))
+                                                .Create(create => create.Action("AddFm", "Articles"))
+                                                        .Update(update => update.Action("UpdateFm", "Articles"))
+                                                        .Destroy(delete => delete.Action("DeleteFm", "Articles"))
+
+
+
+
+
+
+                                .PageSize(7)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Famille Mere"))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+
+    .Selectable()
+                .ClientDetailTemplateId("templateDetailFamille")
+
+                .Filterable()
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+                       .Events(events => events.DataBound("dataBound"))
+)
+<script id="templateDetailFamille" type="text/kendo-tmpl">
+    @(Html.Kendo().Grid<IMMO_FAMILLE>()
+            .Name("grid_#=CODE#")
+            
+            .Columns(columns =>
+            {
+                columns.Bound(o => o.CODE).Width(100);
+                columns.Bound(o => o.LIBELLE).Width(75);
+                columns.Bound(o => o.COMPTE).Width(60);
+
+                columns.Bound(o => o.FAMILLEM).Width(100);
+
+
+                columns.Command(command =>
+                {
+                    command.Edit().Text("Modifier").HtmlAttributes(new { Style = " width:106px" });
+                    command.Destroy().Text("Supprimer");
+                }).Width(300);
+            })
+            .DataSource(dataSource => dataSource
+                .Ajax()
+                .PageSize(10)
+                                                        .Model(model => model.Id(record => record.CODE))
+
+                                                .Read(read => read.Action("GetAllF", "Articles", new { FAMILLEM = "#=CODE#" }))
+                                                 .Create(create => create.Action("AddF", "Articles"))
+                                                                        .Update(update => update.Action("UpdateF", "Articles"))
+                                                                        .Destroy(delete => delete.Action("DeleteF", "Articles"))
+            )
+            .Pageable()
+            .Selectable()
+            .Filterable()
+            .Sortable()
+                    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Famille Fille"))
+            .ToClientTemplate()
+    )
+</script>
+<script>
+    function dataBound() {
+        this.expandRow(this.tbody.find("tr.k-master-row").first());
+    }
+</script>
+
+
+

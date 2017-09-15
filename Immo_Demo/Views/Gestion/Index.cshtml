@@ -1,0 +1,800 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@model IEnumerable<IMMO.DAL.IMMO_ARTICLE>
+@{
+    ViewBag.Title = "Index";
+}
+
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="~/Content/test.js" type="text/javascript"> </script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet" />
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+<img src='../Content/icone/fichier.png' alt='ar' title='Texte à afficher1' width='100' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Fiches Signalitiques des Articles</h1>
+
+<!--******************************************************-->
+<br />
+<div style="display:inline-block">
+    <div style="float:left ; position:relative ; width:400px;display:inline-block">
+
+        <span id="undo" class="k-button k-i-note" onclick="OnSelect()">Gestionnaire des  Articles</span>
+        <script>
+            $("#undo").kendoButton({
+                imageUrl: "../Content/icone/para.png"
+            });
+        </script>
+    </div>
+
+
+    <div style="float:left ; position:relative ; width:200px">
+
+        @(Html.Kendo().ComboBox()
+          .Name("ArticlesP")
+        .HtmlAttributes(new { Style = "width:250px;float:left" })
+          .AutoBind(true)
+          .Placeholder("----- Enrtrer CODE Aricle -----")
+          .DataTextField("ID")
+          .DataValueField("ID")
+          .Template("<strong style='color:purple'> #= ID # </strong> | #= NAME#")
+
+          .Filter("contains")
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetArticles", "Gestion");
+              });
+          })
+                .Events(e => e.Change("onChangeP"))
+        )
+    </div>
+    <div style="float:right  ; width:200px;display:inline-block;padding-left:400px">
+        <label>Afficher Code a barre</label>
+        @(Html.Kendo().ComboBox()
+          .Name("ArticlesBare")
+        .HtmlAttributes(new { Style = "width:250px;float:right" })
+          .AutoBind(false)
+          .Placeholder("Code a barre")
+          .DataTextField("ID")
+          .DataValueField("ID")
+          .Template("<strong style='color:olive'> #= ID # </strong>")
+
+          .Filter("contains")
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetCode", "Gestion").Data("AdditionnalDataBare");
+              });
+          })
+               .Events(e => e.Change("onChangeB"))
+        )
+    </div>
+</div>
+
+        <!--///////////////////////////////////////////Debut de Templates//////////////////////-->
+
+
+        <script type="text/x-kendo-tmpl" id="template">
+            <div class="product-view k-widget">
+
+                <div class="edit-buttons">
+
+                    <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span>Modifier</a>
+                    <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span>Supprimer</a>
+
+                </div>
+
+
+                <table data-uid="#= CODE #" style="width:100% ; height:70%">
+                    <caption> <h3 style="color:olive;font-family: 'MV Boli', arial, serif">Details de l Article </h3></caption>
+                    <tr>
+                        <td width=35% height='70%'>Fiche Signalitique d Article <h1>#= CODE #</h1> </td>
+
+                        <td> <img src='../Content/icone/0.png' alt='ar' title='Texte à afficher' width='100' height='75' align='right'></td>
+
+                    </tr>
+
+                    <tr>
+
+
+                        <td width=60%>
+
+                            <table data-uid="#= CODE #" width=100%>
+                                <tr>
+                                    <td width=25%>
+                                        <ul>
+
+
+                                            <li><label>CODE:</label></li>
+
+                                            <li><label>Famille:</label></li>
+
+                                            <li><label>Designation:</label></li>
+
+                                            <li><label>Affectation:</label></li>
+
+                                            <li><label>Date d affectation:</label></li>
+
+                                            <li><label>Date d acquisition:</label></li>
+                                            <li><label>Date debut exploitation:</label></li>
+                                            <li><label>Date Cession </label></li>
+
+                                            <li><label>Annee de BL:</label></li>
+
+                                            <li><label>Num BL :</label></li>
+
+                                            <li><label>Num lig de BL:</label></li>
+
+                                            <li><label>Num Facture :</label></li>
+
+
+
+                                            <li><label>reference:</label></li>
+
+                                            <li><label>Locale  </label></li>
+
+
+
+                                        </ul>
+
+                                    </td>
+
+                                    <td width=75%>
+
+                                        <ul>
+
+                                            <li>#: CODE #</li>
+
+                                            <li>#= FAMILLE #</li>
+
+                                            <li>#= DESIGNATION #</li>
+
+                                            <li>#= AFFECTATION #</li>
+
+                                            <li>#= DATEAFFECTATION #</li>
+
+                                            <li>#= DATEAQUISITION#</li>
+                                            <li>#= DATEEXPLOITATION #</li>
+                                            <li>#= DATESESSION #</li>
+
+                                            <li>#= ANNEEBL #</li>
+
+                                            <li>#= NUMBL #</li>
+
+                                            <li>#= NUMLIGBL #</li>
+
+                                            <li>#= NUMFACTURE #</li>
+
+
+
+                                            <li>#= REFERENCE #</li>
+
+                                            <li>#= LOCALE #</li>
+
+
+
+                                        </ul>
+
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                        </td>
+
+                        <td width=40%>
+
+                            <table data-uid="#= CODE #" width=100%>
+
+
+                                <tr>
+
+                                    <td width=40%>
+
+                                        <ul>
+
+
+                                            <li><label>Dure d exploiatation:</label></li>
+
+                                            <li><label>Taux d Ammortissement:</label></li>
+
+                                            <li><label>Dotation Anterieur:</label></li>
+
+                                            <li><label>Valeur Comptable: </label></li>
+
+                                            <li><label>Raison Cession:</label></li>
+
+                                            <li><label>Valeur Cession:</label></li>
+
+                                            <li><label>Etat Cession:</label></li>
+
+                                            <li><label>Amortissement: </label></li>
+
+                                            <li><label>Etat: </label></li>
+
+                                            <li><label>Centre d Achat:</label></li>
+
+                                            <li><label>Compte: </label></li>
+
+                                            <li><label>service:</label></li>
+
+                                            <li><label>Annee   </label></li>
+                                            <li><label>Emplacement   </label></li>
+
+                                        </ul>
+
+                                    </td>
+
+                                    <td width=60%>
+
+                                        <ul>
+
+
+
+                                            <li>#= DUREE #</li>
+
+                                            <li>#= TAUXAMORTISSEMENT #</li>
+
+                                            <li>#= DOTATIONANTERIEURE #</li>
+
+                                            <li>#= VALEURCOMPTABLE #</li>
+
+                                            <li>#= RAISONSESSION #</li>
+
+                                            <li>#= VALEURSESSION#</li>
+
+                                            <li>#= ETATSESSION #</li>
+
+                                            <li>#= AMORTI #</li>
+
+                                            <li>#= ETAT #</li>
+
+                                            <li>#= CENTREACHAT #</li>
+
+                                            <li>#= COMPTE #</li>
+
+                                            <li>#= SERVICE #</li>
+
+                                            <li>#= ANNEE #</li>
+                                            <li>#= Emplacement #</li>
+                                        </ul>
+
+                                    </td>
+
+                                </tr>
+
+                            </table>
+
+
+                        </td>
+
+                    </tr>
+
+                </table>
+            </div>
+        </script>
+        <!--*****************************************************************-->
+        <!--*********************************************debut window************************-->
+        @(Html.Kendo().Window()
+        .Name("window")
+
+
+       .HtmlAttributes(new { Style = "height :600px; width:1300px" })
+
+        .Resizable()
+            .Visible(false)
+            .Modal(true)
+            .Draggable(true)
+        .Width(630)
+        .Height(315)
+        .Title("Gestionnaire des Articles")
+
+
+        .Actions(actions => actions.Refresh().Close())
+        .Draggable()
+                .Content(@<text>
+            <div style="display:inline-block">
+                <div style="float:left ; position:relative ; width:20px">
+
+                    <label>Trouver_Article</label>
+                    @(Html.Kendo().ComboBox()
+          .Name("Articles")
+        .HtmlAttributes(new { Style = "width:250px;float:left" })
+          .AutoBind(false)
+          .Placeholder("----- Enrtrer CODE Aricle -----")
+          .DataTextField("ID")
+          .DataValueField("ID")
+          .Template("#= ID # | #= NAME#")
+
+          .Filter("contains")
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetArticles", "Gestion");
+              });
+          })
+                .Events(e => e.Change("onChange"))
+                    )
+                </div>
+                <img src="../Content/icone/param2.png" alt="gestionnaire" width="75" height="75" style="padding-left:300px" />
+
+            </div>
+            <br />
+            <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Ajouter Article</a>
+
+            <div class="demo-section">
+                @(Html.Kendo().ListView<IMMO_ARTICLE>()
+    .Name("listView")
+    .TagName("div")
+    .ClientTemplateId("template")
+    .DataSource(dataSource => dataSource
+        .Model(model => model.Id("CODE"))
+
+          .Create(create => create.Action("Add", "Gestion"))
+                                       .Read(read => read.Action("GetAllA", "Gestion").Data("AdditionalData"))
+                        .Update(update => update.Action("Update", "Gestion"))
+                        .Destroy(destroy => destroy.Action("Delete", "Gestion"))
+                .PageSize(1)
+    )
+    .Pageable()
+
+
+
+   .Editable(edit => edit.TemplateName("EditTmplArticles").Enabled(true))
+
+
+                )
+
+
+            </div>
+
+
+
+
+
+
+
+                </text>)
+        )
+        <!--*********************************************************************************-->
+        <!--//////////////////////////////////////////Debut Grid/////////////////////////////////-->
+        <br />
+        <div class="demo-section">
+            @(Html.Kendo().Grid<ArticleLite>()
+    .Name("Kgrid")
+    .HtmlAttributes(new { style = "height: 560px; " })
+    .Columns(c =>
+        {
+            //  c.Bound(p => p.CODE).Visible(true).Width(20);
+
+            c.Template(e => { }).Title("Mes Articles").ClientTemplate(
+
+
+
+
+
+            "<table   data-uid='#= CODE #' width='1000px'   border='1px'  align='center' cellpadding='3px' cellspacing='0px' rules='all'style='border:solid 1px black; border-collapse:collapse; background-color:lightgrey; text-align:left;'> " +
+            "<caption align=middle color=red> <b>Fiche Article </b></caption>" +
+
+            "<tr  data-uid='#= CODE #' text-align=middle>" +
+            "<td width=35% height='70%'><div style='float:left'>Fiche Signalitique d Article <h1>#= CODE #</h1></div>" +
+            "<div id='Bar' style='float:right'></div>" +
+            "</td> " +
+            "<td>" +
+            "<img src='" + Url.Content("../Content/icone/") + "0.png' alt='#= FAMILLE #' TITLE='Texte à afficher' width='200' height='175' align='right'></td> " +
+            "</tr>" +
+            "<tr data-uid='#= CODE #'>" +
+            "<td width=60%>" +
+            "<table>" +
+            "<tr data-uid='#= CODE #' >" +
+            "<td>" +
+                    "<ul>" +
+                        "<li><label>CODE:</label></li>" +
+                        "<li><label>Famille:</label></li>" +
+                        "<li><label>Designation:</label></li>" +
+                        "<li><label>Affectation:</label></li>" +
+                        "<li><label>Date d affectation:</label></li>" +
+                        "<li><label>Date d acquisition:</label></li>" +
+                        "<li><label>Date debut exploitation:</label></li>" +
+                        "<li><label>Date Cession <li>" +
+                        "<li><label>Annee de BL:</label></li>" +
+                        "<li><label>Num BL :</label></li>" +
+                        "<li><label>Num lig de BL:</label></li>" +
+                        "<li><label>Num Facture :</label></li>" +
+                        "<li><label>reference:</label></li>" +
+                        "<li><label>Local  </label></li>" +
+
+                    "</ul>" +
+                    "</td>" +
+                    "<td>" +
+                    "<ul>" +
+                        "<li>#= CODE #</li>" +
+                        "<li>#= FAMILLE #</li>" +
+                        "<li>#= DESIGNATION #</li>" +
+                        "<li>#= AFFECTATION #</li>" +
+                        "<li>#= DATEAFFECTATION #</li>" +
+                        "<li>#= DATEAQUISITION#</li>" +
+                        "<li>#= DATEEXPLOITATION #</li>" +
+                        "<li>#= DATESESSION #</li>" +
+                        " <li></li>" +
+                        "<li>#= ANNEEBL #</li>" +
+                        "<li>#= NUMBL #</li>" +
+                        "<li>#= NUMLIGBL #</li>" +
+                        "<li>#= NUMFACTURE #</li>" +
+                        "<li>#= REFERENCE #</li>" +
+                        "<li>#= LOCALE #</li>" +
+
+                    "</ul>" +
+
+                    "</td>" +
+                    "</tr >" +
+                    "</table>" +
+
+                    "</td>" +
+                    "<td width=40%>" +
+                    "<table>" +
+                    "<tr data-uid='#= CODE #'>" +
+                    "<td>" +
+                    "<ul>" +
+                        "<li><label>Dure d exploiatation:</label></li>" +
+                        "<li><label>Taux d Ammortissement:</label></li>" +
+                        "<li><label>Dotation Anterieur:</label></li>" +
+                        "<li><label>Valeur Comptable: </label></li>" +
+                        "<li><label>Raison Cession:</label></li>" +
+                        "<li><label>Valeur Cession:</label></li>" +
+                        "<li><label>Etat Cession:</label></li>" +
+                        "<li><label>Amortissement: </label></li>" +
+                        "<li><label>Etat: </label></li>" +
+                        "<li><label>Centre d Achat:</label></li>" +
+                        "<li><label>Compte: </label></li>" +
+                        "<li><label>service:</label></li>" +
+                        "<li><label>Annee   </label></li>" +
+                         "<li><label>Emplacement   </label></li>" +
+                    "</ul>" +
+                    "</td>" +
+                    "<td>" +
+                     "<ul>" +
+                        "<li>#= DUREE #</li>" +
+                        "<li>#= TAUXAMORTISSEMENT #</li>" +
+                        "<li>#= DOTATIONANTERIEURE #</li>" +
+                        "<li>#= VALEURCOMPTABLE #</li>" +
+                        "<li>#= RAISONSESSION #</li>" +
+                        "<li>#= VALEURSESSION#</li>" +
+                        "<li>#= ETATSESSION #</li>" +
+                        "<li>#= AMORTI #</li>" +
+                        "<li>#= ETAT #</li>" +
+                        "<li>#= CENTREACHAT #</li>" +
+                        "<li>#= COMPTE #</li>" +
+                        "<li>#= SERVICE #</li>" +
+                        "<li>#= ANNEE #</li>" +
+                        "<li>#= Emplacement #</li>" +
+                    "</ul>" +
+                    "</td>" +
+                    "</tr>" +
+                    "</Table>" +
+
+                    "</td>" +
+                    "</tr>" +
+                    "</table>" +
+                    "</div>");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+        )
+
+
+                           .DataSource(dataSource => dataSource
+                           .Ajax()
+                           .Batch(true)
+                           .Model(model =>
+            {
+                model.Id(p => p.CODE);
+
+
+            })
+                           .PageSize(1)
+                                   .Read(read => read.Action("GetAllA", "Gestion").Data("AdditionnalDataP"))
+
+
+                    ).Events(e => e.DataBound("OnGridChange")
+                   )
+
+
+
+
+//)
+
+    .Pageable()
+    .Filterable()
+
+                   // .Events(events => events.Change("onChange"))
+            .ToolBar(tools => tools.Pdf())
+            .Pdf(pdf => pdf
+                .FileName("Kendo UI Grid Export.pdf")
+                .Margin(left: 50, right: 50, top: 60, bottom: 60)
+
+                .ProxyURL(Url.Action("Pdf_Export_Save", "Gestion"))
+            )
+
+
+            )
+        </div>
+        <!--*******************************************************-->
+        <script type="text/javascript">
+            $(document).ready(function () { $("#window").data("kendoWindow").close(); })
+
+            $(function () {
+                var listView = $("#listView").data("kendoListView");
+
+                $(".k-add-button").click(function (e) {
+                    listView.add();
+                    e.preventDefault();
+                });
+            });
+            //*******************************************************
+            function OnSelect() {
+                $("#window").data("kendoWindow").open();
+            }
+            //*********************************************
+            function AdditionalData() {
+
+                return {
+                    CODE: $("#Articles").data("kendoComboBox").value()
+                }
+
+            }
+            //**************************************
+            function AdditionnalDataP()
+            {
+                return {
+                    CODE: $("#ArticlesP").data("kendoComboBox").value()
+                }
+            }
+            //******************************
+            function onChange() {
+
+
+                $("#listView").data("kendoListView").dataSource.read();
+
+
+            }
+            //************************************
+            function AdditionnalDataBare()
+            {
+                return {
+                    CODE: $("#ArticlesP").data("kendoComboBox").value()
+                }
+            }
+            //************************************
+            function onChangeP()
+            {
+              //  $("#Kgrid").data("kendoGrid").dataSource.read();
+                $("#ArticlesBare").data("kendoComboBox").dataSource.read();
+                try {
+
+                    var barcode = $('#Bar').data('kendoBarcode');
+                    barcode.setOptions({
+                        value: $('#ArticlesBare').val(),
+
+                    })
+                    validValue.hide();
+                } catch (e) {
+
+                }
+              //  $('#Bar').val($("#ArticlesBare").data("kendoComboBox")).read();
+
+                $("#Kgrid").data("kendoGrid").dataSource.read();
+
+            }
+            //**********************************
+            function onChangeB()
+            {
+                $("#Kgrid").data("kendoGrid").dataSource.read();
+               
+                
+
+            }
+            //********************************
+            function Ontest() {
+                return {
+                    CODE: $("#Kgrid").data("kendoGrid").val()
+                }
+
+            }
+            //******************************************
+            function OnGridChange() {
+                
+
+                $("#Bar").kendoBarcode({
+                    value:123654789369,
+                    type: "ean13",
+                    width: 380,
+                    height: 100,
+                    background: "transparent"
+                });
+                try {
+
+                    var barcode = $('#Bar').data('kendoBarcode');
+                    barcode.setOptions({
+                        value: $("#ArticlesBare").data("kendoComboBox").value(),
+                        
+                    })
+                    validValue.hide();
+                } catch (e) {
+                    
+                }
+
+            }
+
+        </script>

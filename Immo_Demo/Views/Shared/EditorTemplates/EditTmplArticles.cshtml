@@ -1,0 +1,269 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@using System.Web.Mvc;
+
+
+@{
+    ViewBag.Title = "EditTmpArticles";
+    List<SelectListItem> choix1 = new List<SelectListItem>()
+    {
+        new SelectListItem()
+        {
+            Text="Bonne Etat",
+            Value="b"
+        },
+         new SelectListItem()
+        {
+            Text="Mauvais Etat",
+            Value="m"
+        },
+        
+    };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="product-view k-widget">
+    <div class="edit-buttons">
+
+        <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span>Modifier</a>
+        <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span>Supprimer</a>
+        @model IMMO.DAL.IMMO_ARTICLE
+    </div>
+
+
+    <table data-uid="#= CODE #" style="width:100% ; height:70%">
+
+        <tr>
+            <td width=60%>
+                <table data-uid="#= CODE #" width=100%>
+                    <tr>
+                        <td>CODE : </td>
+                        <td data-uid="#= CODE #">@Html.EditorFor(m => m.CODE)</td>
+                    </tr>
+                    <tr>
+                        <td>Famille :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.FAMILLE)
+                   .Name("FAMILLE")
+                           .DataTextField("Name")
+                           .DataValueField("ID")
+                           .OptionLabel("Choisir Famille ")
+
+                           .AutoBind(true)
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetFamille", "Articles");
+
+                       });
+                   })
+                            )
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Designation : </td>
+                        <td>@Html.EditorFor(m => m.DESIGNATION)</td>
+                    </tr>
+                    <tr>
+                        <td>Affectation :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.AFFECTATION)
+                          .Name("AFFECTATION")
+                           .DataTextField("Name")
+                           .DataValueField("ID")
+                           .OptionLabel("Choisir Affectation ")
+
+                           .AutoBind(true)
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetAffect", "Historique");
+
+                       });
+                   })
+                            )
+                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Date d affectation :</td>
+                        <td>@Html.EditorFor(m => m.DATEAFFECTATION)</td>
+                    </tr>
+                    <tr>
+                        <td>Date d acquisition :</td>
+                        <td>@Html.EditorFor(m => m.DATEAQUISITION)</td>
+                    </tr>
+                    <tr>
+                        <td>Date debut exploitation :</td>
+                        <td>@Html.EditorFor(m => m.DATEEXPLOITATION)</td>
+                    </tr>
+                    <tr>
+                        <td>Date Cession :</td>
+                        <td>@Html.EditorFor(m => m.DATESESSION)</td>
+                    </tr>
+                    <tr>
+                        <td>ANNEEBL :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.ANNEEBL).Name("ANNEEBL").Value("2000").DataTextField("ID").DataValueField("ID")
+                                   .OptionLabel("Choisir Annee Bl ").AutoBind(false).DataSource(source =>{ source.Read(read =>{ read.Action("GetAnnBl", "Documents"); }); })  )
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>Num BL :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.NUMBL)
+                       .Name("NUMBL")
+                           .DataTextField("ID")
+                           .DataValueField("ID")
+                                   .OptionLabel("Choisir Num BL ")
+
+                           .AutoBind(false)
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetNumBl2", "Documents");
+
+                       });
+                   })
+                            )
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Num lig de BL :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.NUMLIGBL)
+                               .Name("NUMLIGBL")
+                              
+                           .DataTextField("ID")
+                           .DataValueField("ID")
+                           .AutoBind(false)
+        .OptionLabel("Choisir Num Lig Bl ")
+        .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetNumBlLig2", "Documents");
+
+                       });
+                   })
+                            )
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Num Facture :</td>
+                        <td>@(Html.Kendo().DropDownListFor(m => m.NUMFACTURE).Name("NUMFACTURE").DataTextField("ID").Text("000").DataValueField("ID").AutoBind(true).OptionLabel("Choisir Facture ").DataSource(source => { source.Read(read => { read.Action("GetFacture", "Documents"); }); }))</td>
+
+                    </tr>
+                    
+                    <tr>
+                        <td>reference :</td>
+                        <td>@Html.EditorFor(m => m.REFERENCE)</td>
+                    </tr>
+                    <tr>
+                        <td>LOCALE  :</td>
+                        <td> @(Html.Kendo().DropDownListFor(m => m.LOCALE).Name("LOCALE").DataTextField("Name").DataValueField("ID").AutoBind(true).OptionLabel("Choisir Local ").DataSource(source => { source.Read(read => { read.Action("GetLoca", "Local"); }); }))</td>
+                    </tr>
+                    
+                </table>
+                <!--********************************************-->
+                </td>
+            <td width=40%>
+                <table data-uid="#= CODE #" width=100%>
+                    <tr>
+                        <td>Dure d exploiatation :</td>
+                        <td>@Html.EditorFor(m => m.DUREE)</td>
+                    </tr>
+                    <tr>
+                        <td>Taux d Ammortissement :</td>
+                        <td>@Html.EditorFor(m => m.TAUXAMORTISSEMENT)</td>
+                    </tr>
+                    <tr>
+                        <td>Dotation Anterieur :</td>
+                        <td>@Html.EditorFor(m => m.DOTATIONANTERIEURE)</td>
+                    </tr>
+                    <tr>
+                        <td>Valeur Comptable :</td>
+                        <td>@Html.EditorFor(m => m.VALEURCOMPTABLE)</td>
+                    </tr>
+                    <tr>
+                        <td>Raison Cession :</td>
+                        <td>@Html.EditorFor(m => m.RAISONSESSION)</td>
+                    </tr>
+                    <tr>
+                        <td>Valeur Cession :</td>
+                        <td>@Html.EditorFor(m => m.VALEURSESSION)</td>
+                    </tr>
+                    <tr>
+                        <td>Etat session :</td>
+                        <td>@Html.EditorFor(m => m.ETATSESSION)</td>
+                    </tr>
+                    <tr>
+                        <td>Amortissement :</td>
+
+                        <td>@Html.EditorFor(m => m.AMORTI)</td>
+                    </tr>
+                    <tr>
+                        <td>Etat :</td>
+                        <td>@Html.EditorFor(m => m.ETAT)</td>
+                    </tr>
+                    <tr>
+                        <td>Centre d Achat :</td>
+                        <td>@Html.EditorFor(m => m.CENTREACHAT)</td>
+                    </tr>
+                    <tr>
+                        <td>Compte :</td>
+                        <td>
+                            @(Html.Kendo().DropDownListFor(m => m.COMPTE).Name("COMPTE").DataTextField("Name").DataValueField("ID").AutoBind(true).OptionLabel("Choisir Compte ").DataSource(source => { source.Read(read => { read.Action("GetCpt", "Comptes"); }); }))
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>service :</td>
+                        <td> @(Html.Kendo().DropDownListFor(m => m.SERVICE).Name("SERVICE").DataTextField("Name").DataValueField("ID").AutoBind(true).OptionLabel("Choisir Service ").DataSource(source => { source.Read(read => { read.Action("GetService", "Articles"); }); }))</td>
+                    </tr>
+                    <tr>
+                        <td>Annee  :</td>
+                        <td> @(Html.Kendo().DropDownListFor(m => m.ANNEE).Name("ANNEE").DataTextField("Name").DataValueField("ID").AutoBind(false).OptionLabel("Choisir Annee Exercice ").DataSource(source => { source.Read(read => { read.Action("GetExercice", "Articles"); }); }))</td>
+                    </tr>
+                    <tr>
+                        <td>Emplacement  :</td>
+                        <td> @(Html.Kendo().DropDownListFor(m => m.Emplacement).Name("Emplacement").DataTextField("Name").DataValueField("ID").AutoBind(false).OptionLabel("Choisir Emplacement ").DataSource(source => { source.Read(read => { read.Action("GetEmp", "Local"); }); }))</td>
+                    </tr>
+
+
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <div class="edit-buttons">
+                    <a class="k-button k-button-icontext k-update-button" href="\\#"><span class="k-icon k-update"></span>Confirmer</a>
+                    <a class="k-button k-button-icontext k-cancel-button" href="\\#"><span class="k-icon k-cancel"></span>Annuler</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+ 
+</div>
+    
+
+
+

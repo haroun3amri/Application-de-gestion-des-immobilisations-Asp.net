@@ -1,0 +1,399 @@
+﻿
+@using IMMO.BLL;
+@using IMMO.DAL;
+@using Immo_Demo.Models
+@using Kendo.Mvc.UI;
+
+@model IEnumerable<Immo_Demo.Models.RoleLite>
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metroblack.css" rel="stylesheet" />
+<!--***********************************************************************************-->
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <li>@Html.ActionLink(" Mes Articles", "Index", "Articles")</li>
+                    <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                    <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                    <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+                </ul>
+
+            </li>
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Comptabilité
+                <ul>
+                    <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                    <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                    <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>                </ul>
+            </li>
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Gestion
+                <ul>
+                    <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                    <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                    <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                    <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+                </ul>
+            </li>
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Inventaire
+                <ul>
+                    <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                    <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                </ul>
+            </li>
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Utilisateurs
+                <ul>
+                    <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                    <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+                </ul>
+            </li>
+        </ul>
+
+
+        <script>
+            $("#menu").kendoMenu({
+                animation: { open: { effects: "fadeIn" } }
+            });
+        </script>
+
+    </div>
+    <div style="float:right">
+        <ul id="menu2">
+
+            <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <strong style="color:purple">@User.Identity.Name</strong> |
+                        @{
+                    if (Roles.GetRolesForUser().Length > 0)
+                    { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                    }
+                        }
+
+                    </li>
+                }
+
+                else
+                {
+                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                    <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+                }
+                <li>
+                    @Html.ActionLink("Logout", "Logout", "Account")
+                </li>
+
+            }
+
+        </ul>
+        <script>
+            $("#menu2").kendoMenu({
+                animation: { open: { effects: "fadeIn" } }
+            });
+            $(document).ready(function () {
+
+
+                $("#imageButton").kendoButton({
+                    imageUrl: "../Content/icone/home.png"
+                });
+            });
+
+
+
+        </script>
+        <style>
+            .k-button .k-image {
+                height: 25px;
+            }
+        </style>
+
+    </div>
+
+
+
+</header>
+
+<!--******************************************************-->
+<img src='../Content/icone/avatar.png' alt='ar' title='Texte à afficher1' width='75' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Gestionnaire des Groupes</h1>
+
+<!--******** Fin Header**********************************************-->
+
+<!--******************************************************-->
+<br />
+<hr />
+<!--***************************************Debut template*************************************-->
+<div class="test">
+    <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Ajouter Groupe</a>
+</div>
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="product-view k-widget">
+        <div class="edit-buttons">
+            <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+            <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+        </div>
+        <table>
+            <caption><img src="../Content/icone/role.png" alt="Role" width="150px" height="96px" /></caption>
+            <tr>
+                <td><font color="blue">Nom Groupe:</font></td>
+                <td><h1>#:RoleName#</h1></td>
+            </tr>
+        </table>
+
+
+    </div>
+
+</script>
+<!--*****************************************************************-->
+<div class="global">
+<div class="demo-section">
+    @(Html.Kendo().ListView<Immo_Demo.Models.RoleLite>()
+
+        .Name("listView")
+        .AutoBind(true)
+       .HtmlAttributes(new { Style = "height: 500px" })
+
+
+
+        .TagName("div")
+        .ClientTemplateId("template")
+        .DataSource(dataSource =>
+                    {
+                        dataSource.Model(m => m.Id("RoleId"));
+                        dataSource.Read(read => read.Action("test", "Role"))//.Data("ArticleAdditionalData"));
+                        .Create(create => create.Action("Add", "Role"))
+                        .Update(update => update.Action("Update", "Role"))
+                        .Destroy(delete => delete.Action("Delete", "Role"));
+                        
+                       
+                        dataSource.PageSize(3);
+                        
+
+                    })
+
+        .Pageable()
+
+
+                        .Selectable(selectable => selectable
+                         .Mode(ListViewSelectionMode.Single)
+                         .Enabled(true))
+                .Editable(edit => edit.TemplateName("EditTmplRole"))
+                .Events(events => events.Change("onListChange"))
+
+
+
+    )
+
+</div>
+<!--**********************************************************************************-->
+<div class="grid">
+    @(Html.Kendo().Grid<Immo_Demo.Models.Login>()
+    .Name("Kgrid")
+    .AutoBind(false)
+    .HtmlAttributes(new { style = "width: 790px;height:550px;" })
+    .Columns(columns =>
+    {
+        columns.Template(e => { }).ClientTemplate(" ").Width(140).Title("Picture");
+        columns.Bound(e => e.Password).Width(400).Title("Details");
+    })
+    .ClientRowTemplate(
+                        "<tr data-uid='#: Password#'>" +
+            "<td class='photo'>" +
+               "<img src='../Content/icone/user.png' alt='Utisateur' width='100px' ' height='100px' />" +
+            "</td>" +
+            "<td class='details'>" +
+                                "<span class='description'>Nom utilsateur : #: Username# </span>" +
+            "</td>" +
+         "</tr>"
+    )
+    .ClientAltRowTemplate(
+                          "<tr data-uid='#: Password#'>" +
+                    "<td class='photo'>" +
+                       "<img src='../Content/icone/user.png' alt='Utisateur' width='100px' ' height='100px' />" +
+                    "</td>" +
+                    "<td class='details'>" +
+                                        "<span class='description'>Nom utilsateur : #: Username# </span>" +
+                    "</td>" +
+                                   
+                 "</tr>"
+    )
+    .DataSource(dataSource => dataSource
+        .Ajax()
+                        .Read(read => read.Action("ChercherUser", "Utilsateurs").Data("AdditionalData"))
+        .PageSize(3)
+    )
+    .Scrollable()
+    .Pageable()
+    .Filterable()
+    
+    )
+</div>
+</div>
+<!--*******************************Defintion Grid*************************************-->
+<script>
+    $(function () {
+        var listView = $("#listView").data("kendoListView");
+
+        $(".k-add-button").click(function (e) {
+            listView.add();
+            e.preventDefault();
+        });
+    });
+
+
+
+    function onListChange() {
+        $("#Kgrid").data("kendoGrid").dataSource.read();
+        
+
+
+    }
+
+
+    function AdditionalData() {
+        var listView = $("#listView").data("kendoListView");
+        var index = listView.select().index();
+        dataItem = listView.dataSource.view()[index].RoleId;
+        // return dataItem;
+            return { RoleId: dataItem }
+
+
+
+
+
+        
+
+    }
+</script>
+<!--************************************************************************************-->
+
+
+
+<style>
+    .demo-section {
+        width: 550px;
+        height:450px;
+        position:absolute
+    }
+    .grid{
+        float:right;
+        padding-top:5px;
+        position:relative;
+
+    }
+  
+
+    .table {
+        width: 840px;
+        height: 700px;
+        float: right;
+        padding-top: inherit;
+        position: relative;
+        padding-right: 5px;
+    }
+
+    .image {
+        width: 50px;
+        height: 50px;
+        padding-top: 0px;
+        position: relative;
+        float: right;
+    }
+
+    #global {
+        width: 100%;
+    }
+
+        #global #grid {
+            float: left;
+            width: 60%;
+        }
+
+        #global #demo-section {
+            margin-left: 60%;
+        }
+</style>
+<style>
+    .title {
+        display: block;
+        font-size: 1.6em;
+    }
+
+    .description {
+        display: block;
+        padding-top: 1.6em;
+    }
+
+    .employeeID {
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        font-size: 50px;
+        font-weight: bold;
+        color: #898989;
+    }
+
+    td.photo, .employeeID {
+        text-align: center;
+        width:100px;
+        height:100px;
+
+    }
+
+    .k-grid-header .k-header {
+        padding: 10px 20px;
+    }
+
+    .k-grid td {
+        background: -moz-linear-gradient(top, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0.15)));
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.15) 100%);
+        background: -o-linear-gradient(top, rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.15) 100%);
+        background: -ms-linear-gradient(top, rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.15) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%,rgba(0,0,0,0.15) 100%);
+        padding: 20px;
+    }
+
+    .k-grid .k-alt td {
+        background: -moz-linear-gradient(top, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.2)), color-stop(100%,rgba(0,0,0,0.1)));
+        background: -webkit-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.1) 100%);
+        background: -o-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.1) 100%);
+        background: -ms-linear-gradient(top, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.1) 100%);
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.1) 100%);
+    }
+</style>
+
+
+
+
+
+
+
+
+
+
+

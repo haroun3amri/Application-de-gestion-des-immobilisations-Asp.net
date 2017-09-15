@@ -1,0 +1,1123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IMMODEMOModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CODEBAR">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODECLAIR" Type="varchar" MaxLength="9" />
+    <Property Name="CODEBAR" Type="varchar" MaxLength="36" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+    <Property Name="AFFECTLOCAL" Type="varchar" MaxLength="8" />
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_AFFECTATION">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="60" />
+    <Property Name="RESPONSABLEACHAT" Type="char" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="IMMO_AMORTISSEMENTANNUELLE">
+    <Key>
+      <PropertyRef Name="ARTICLE" />
+      <PropertyRef Name="ANNEE" />
+    </Key>
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="DATEAMORTISSEMENT" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="VALEUR" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="MONTANTCALCUL" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AMORTISSEMENTP" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AMORTISSEMENTNONCPT" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_AMORTISSEMENTPARTIELLE">
+    <Key>
+      <PropertyRef Name="ARTICLE" />
+      <PropertyRef Name="DATEAMORTISSEMENT" />
+    </Key>
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="DATEAMORTISSEMENT" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="VALEUR" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="MONTANTCALCUL" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AMORTISSEMENTP" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="AMORTISSEMENTNONCPT" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_ARTICLE">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="FAMILLE" Type="varchar" MaxLength="5" />
+    <Property Name="CENTREACHAT" Type="varchar" MaxLength="4" />
+    <Property Name="AFFECTATION" Type="varchar" MaxLength="4" />
+    <Property Name="DATEAFFECTATION" Type="datetime2" Precision="0" />
+    <Property Name="DATEAQUISITION" Type="datetime2" Precision="0" />
+    <Property Name="ANNEEBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMLIGBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMFACTURE" Type="varchar" MaxLength="25" />
+    <Property Name="DATEEXPLOITATION" Type="datetime2" Precision="0" />
+    <Property Name="DUREE" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="TAUXAMORTISSEMENT" Type="numeric" Precision="5" Scale="2" />
+    <Property Name="DOTATIONANTERIEURE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="VALEURCOMPTABLE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DATESESSION" Type="datetime2" Precision="0" />
+    <Property Name="VALEURSESSION" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="RAISONSESSION" Type="varchar" MaxLength="120" />
+    <Property Name="AMORTI" Type="char" MaxLength="1" />
+    <Property Name="ETAT" Type="char" MaxLength="1" />
+    <Property Name="DESIGNATION" Type="varchar" MaxLength="120" />
+    <Property Name="ETATSESSION" Type="char" MaxLength="1" />
+    <Property Name="COMPTE" Type="varchar" MaxLength="10" />
+    <Property Name="REFERENCE" Type="varchar" MaxLength="120" />
+    <Property Name="CARACTERISTIQUE" Type="varchar" MaxLength="120" />
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="SERVICE" Type="varchar" MaxLength="4" />
+    <Property Name="LOCALE" Type="varchar" MaxLength="4" />
+    <Property Name="Emplacement" Type="varchar" MaxLength="9" />
+  </EntityType>
+  <EntityType Name="IMMO_ARTICLE_SESSION">
+    <Key>
+      <PropertyRef Name="ARTICLE" />
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="RAISON" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="VALEUR" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="DATESESSION" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="DOTATION" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="AMORTISSEMENTPRATIQUE" Type="numeric" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="IMMO_ARTICLESUPPRIME">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="FAMILLE" Type="varchar" MaxLength="5" />
+    <Property Name="CENTREACHAT" Type="varchar" MaxLength="4" />
+    <Property Name="AFFECTATION" Type="varchar" MaxLength="4" />
+    <Property Name="DATEAFFECTATION" Type="datetime2" Precision="0" />
+    <Property Name="DATEAQUISITION" Type="datetime2" Precision="0" />
+    <Property Name="ANNEEBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMLIGBL" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="NUMFACTURE" Type="varchar" MaxLength="25" />
+    <Property Name="DATEEXPLOITATION" Type="datetime2" Precision="0" />
+    <Property Name="DUREE" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="TAUXAMORTISSEMENT" Type="numeric" Precision="5" Scale="2" />
+    <Property Name="DOTATIONANTERIEURE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="VALEURCOMPTABLE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DATESESSION" Type="datetime2" Precision="0" />
+    <Property Name="VALEURSESSION" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="RAISONSESSION" Type="varchar" MaxLength="120" />
+    <Property Name="AMORTI" Type="char" MaxLength="1" />
+    <Property Name="ETAT" Type="char" MaxLength="1" />
+    <Property Name="DESIGNATION" Type="varchar" MaxLength="120" />
+    <Property Name="ETATSESSION" Type="char" MaxLength="1" />
+    <Property Name="COMPTE" Type="varchar" MaxLength="10" />
+    <Property Name="REFERENCE" Type="varchar" MaxLength="120" />
+    <Property Name="CARACTERISTIQUE" Type="varchar" MaxLength="120" />
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="SERVICE" Type="varchar" MaxLength="4" />
+    <Property Name="LOCALE" Type="varchar" MaxLength="4" />
+    <Property Name="EMPLACEMENT" Type="varchar" MaxLength="10" />
+    <Property Name="DATESUPP" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="OPERATEUR" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="IMMO_BL">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="REFCOMMANDE" Type="varchar" MaxLength="20" />
+    <Property Name="DATECOMMANDE" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="CENTREACHAT" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="FOURNISSEUR" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="DATELIVRAISON" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="REFERENCE" Type="varchar" MaxLength="12" />
+    <Property Name="EXERCICE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_CESSION">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="DATECESSION" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="RAISON" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="VALTOTAL" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="EXERCICE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_COMPTE">
+    <Key>
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="NUM" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="INTITULE" Type="varchar" MaxLength="60" />
+    <Property Name="TAUX" Type="numeric" Precision="4" Scale="2" />
+    <Property Name="DUREE" Type="numeric" Precision="12" Scale="0" />
+    <Property Name="FAMILLECPT" Type="varchar" MaxLength="10" />
+    <Property Name="LINEAIRE" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="IMMO_DETAILBL">
+    <Key>
+      <PropertyRef Name="ANNEEBL" />
+      <PropertyRef Name="NUMBL" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ANNEEBL" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUMBL" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="FAMILLE" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="QTE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="QTEFACTURE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="PRIXUNITAIRE" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="60" />
+    <Property Name="AFFECTATION" Type="varchar" MaxLength="4" />
+    <Property Name="SERVICE" Type="varchar" MaxLength="4" />
+    <Property Name="LOCALE" Type="varchar" MaxLength="4" />
+  </EntityType>
+  <EntityType Name="IMMO_DETAILFACTURE">
+    <Key>
+      <PropertyRef Name="NUMFACTURE" />
+      <PropertyRef Name="ANNEEBL" />
+      <PropertyRef Name="NUMBL" />
+      <PropertyRef Name="NUMLIGNEBL" />
+    </Key>
+    <Property Name="NUMFACTURE" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="ANNEEBL" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUMBL" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUMLIGNEBL" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="MONTANTHT" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="TVA" Type="numeric" Precision="5" Scale="2" />
+    <Property Name="MONTANTTTC" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="QTE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="VALEURCOMPTABLE" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="PRIXUNITAIREHT" Type="numeric" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="IMMO_EMPLACEMENT">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="LIEU" Type="varchar" MaxLength="60" />
+    <Property Name="ETAGE" Type="varchar" MaxLength="2" />
+    <Property Name="COULOIR" Type="varchar" MaxLength="10" />
+    <Property Name="BUREAU" Type="varchar" MaxLength="6" />
+    <Property Name="LOCAL" Type="varchar" MaxLength="4" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_EXERCICE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="DATEOUVERTURE" Type="datetime2" Precision="0" />
+    <Property Name="DATEFERMETURE" Type="datetime2" Precision="0" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_FACTURE">
+    <Key>
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="NUM" Type="varchar" MaxLength="25" Nullable="false" />
+    <Property Name="REFERENCE" Type="varchar" MaxLength="20" />
+    <Property Name="FOURNISSEUR" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+    <Property Name="MONTANTTTC" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="MONTANTHT" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="CHARGERATTACHEIMMO" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="CHARGENONRATTACHEIMMO" Type="numeric" Precision="18" Scale="3" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="TVARECPERATION" Type="numeric" Precision="6" Scale="3" />
+    <Property Name="DATEFACTURE" Type="datetime2" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_FAMILLE">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="40" />
+    <Property Name="COMPTE" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="FAMILLEM" Type="varchar" MaxLength="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_FAMILLECOMPTABLE">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="CONTREPARTIE" Type="varchar" MaxLength="10" />
+    <Property Name="TAUX" Type="numeric" Precision="5" Scale="2" />
+    <Property Name="CONTREPARTIESECONDAIRE" Type="varchar" MaxLength="10" />
+    <Property Name="LIBELLEESECONDAIRE" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="IMMO_FAMILLEM">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+  </EntityType>
+  <EntityType Name="IMMO_FOURNISSEUR">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="7" Nullable="false" />
+    <Property Name="NOM" Type="varchar" MaxLength="60" />
+    <Property Name="RESPONSABLE" Type="varchar" MaxLength="60" />
+    <Property Name="MATFISCAL" Type="varchar" MaxLength="15" />
+    <Property Name="ADRESSE" Type="varchar" MaxLength="120" />
+    <Property Name="TEL" Type="varchar" MaxLength="30" />
+    <Property Name="FAX" Type="varchar" MaxLength="30" />
+    <Property Name="CONTACT" Type="varchar" MaxLength="60" />
+  </EntityType>
+  <EntityType Name="IMMO_HIST_AFFECTATION">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="DATEAFFECTATION" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ANCIENNEAFFECTATION" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="NOUVELLEAFFECTATION" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+  </EntityType>
+  <EntityType Name="IMMO_HIST_AFFECTATION_ARTICLE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+      <PropertyRef Name="ARTICLE" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="ANCIENNEAFFECTATION" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="NOUVELLEAFFECTATION" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="DATEAFFECTATION" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+  </EntityType>
+  <EntityType Name="IMMO_INV_COMPTABILITE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="DATEAMORTISSEMENT" />
+      <PropertyRef Name="FAMILLECPT" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+    <Property Name="DATEAMORTISSEMENT" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="FAMILLECPT" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="CONTREPARTIE" Type="varchar" MaxLength="10" />
+    <Property Name="DEBIT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="CREDIT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="120" />
+  </EntityType>
+  <EntityType Name="IMMO_INV_LIVRE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="ARTICLE" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="AFFECTATIONTH" Type="varchar" MaxLength="4" />
+    <Property Name="AFFECTATIONPHY" Type="varchar" MaxLength="4" />
+    <Property Name="EXISTE" Type="char" MaxLength="1" />
+    <Property Name="EMPLACEMENT" Type="varchar" MaxLength="10" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+    <Property Name="DATEACQUISITION" Type="datetime2" Precision="0" />
+    <Property Name="VALEURCOMPTABLE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DATEEXPLOITATION" Type="datetime2" Precision="0" />
+    <Property Name="TAUXAMORTISSEMENT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="JOURNALINVENTAIRE" Type="varchar" MaxLength="20" />
+    <Property Name="SERVICE" Type="varchar" MaxLength="4" />
+    <Property Name="LOCALE" Type="varchar" MaxLength="4" />
+    <Property Name="FAMILLECPT" Type="varchar" MaxLength="10" />
+    <Property Name="DESIGNATIONARTICLE" Type="varchar" MaxLength="120" />
+    <Property Name="LIBELLEAFFECTATION" Type="varchar" MaxLength="40" />
+    <Property Name="DOTATIONANTERIEURE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DOTATIONEXERCICE" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="DUREE" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="AMORTI" Type="varchar" MaxLength="1" />
+    <Property Name="RESPONSABLEACHAT" Type="varchar" MaxLength="1" />
+    <Property Name="DATEAMORTISSEMENT" Type="datetime2" Precision="0" />
+  </EntityType>
+  <EntityType Name="IMMO_INVENTAIRE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="DESCRIPTION" Type="varchar" MaxLength="120" Nullable="false" />
+    <Property Name="DATECREATION" Type="datetime2" Precision="0" Nullable="false" />
+    <Property Name="ETAT" Type="char" MaxLength="1" Nullable="false" />
+    <Property Name="DATEVALIDATION" Type="datetime2" Precision="0" />
+    <Property Name="DATECLOTURE" Type="datetime2" Precision="0" />
+    <Property Name="AUTOMATIQUE" Type="varchar" MaxLength="1" />
+    <Property Name="MUTATION" Type="varchar" MaxLength="1" />
+  </EntityType>
+  <EntityType Name="IMMO_INVETAIRE_ARTICLE">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+      <PropertyRef Name="NUM" />
+      <PropertyRef Name="ARTICLE" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="NUM" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="ARTICLE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="AFFECTATION" Type="varchar" MaxLength="4" />
+    <Property Name="EXISTE" Type="varchar" MaxLength="1" />
+    <Property Name="OPERATEUR" Type="varchar" MaxLength="30" />
+    <Property Name="EMPLACEMENT" Type="varchar" MaxLength="10" />
+    <Property Name="OBSERVATION" Type="varchar" MaxLength="120" />
+    <Property Name="AFFECTATIONTH" Type="varchar" MaxLength="4" />
+  </EntityType>
+  <EntityType Name="IMMO_LOCAL">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="IMMO_SERVICE">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="40" />
+  </EntityType>
+  <EntityType Name="IMMO_TVA">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="VALEUR" Type="numeric" Precision="5" Scale="2" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IMMO_TVARECUPERATION">
+    <Key>
+      <PropertyRef Name="ANNEE" />
+    </Key>
+    <Property Name="ANNEE" Type="numeric" Precision="12" Scale="0" Nullable="false" />
+    <Property Name="TAUX" Type="numeric" Precision="6" Scale="3" Nullable="false" />
+  </EntityType>
+  <EntityType Name="INV_PH">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="FILL" Type="varchar" MaxLength="12" />
+    <Property Name="BUREAU" Type="varchar" MaxLength="4" />
+  </EntityType>
+  <EntityType Name="Login">
+    <Key>
+      <PropertyRef Name="Username" />
+    </Key>
+    <Property Name="Username" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="M_ARTMMB">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="9" Nullable="false" />
+    <Property Name="COD_INV" Type="varchar" MaxLength="5" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+    <Property Name="AFFECT" Type="varchar" MaxLength="4" />
+    <Property Name="SERVICE" Type="varchar" MaxLength="4" />
+    <Property Name="LOCALE" Type="varchar" MaxLength="4" />
+    <Property Name="D_ACHAT" Type="datetime2" Precision="0" />
+    <Property Name="P_ACHAT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="D_AMORT" Type="datetime2" Precision="0" />
+    <Property Name="M_AMORT" Type="varchar" MaxLength="1" />
+    <Property Name="T_AMORT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="CODABAR" Type="varchar" MaxLength="1" />
+    <Property Name="DAT_MUT" Type="datetime2" Precision="0" />
+    <Property Name="DAT_INV" Type="datetime2" Precision="0" />
+    <Property Name="DAT_FIN" Type="datetime2" Precision="0" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6013: The table/view 'IMMODEMO.dbo.M_ARTMMB22042011' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="M_ARTMMB22042011">
+          <Property Name="CODE" Type="varchar" MaxLength="20" />
+          <Property Name="COD_INV" Type="varchar" MaxLength="20" />
+          <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+          <Property Name="AFFECT" Type="varchar" MaxLength="4" />
+          <Property Name="SERVICE" Type="varchar" MaxLength="20" />
+          <Property Name="LOCAL" Type="varchar" MaxLength="4" />
+          <Property Name="D_ACHAT" Type="datetime2" Precision="0" />
+          <Property Name="P_ACHAT" Type="numeric" Precision="18" Scale="3" />
+          <Property Name="D_AMORT" Type="datetime2" Precision="0" />
+          <Property Name="M_AMORT" Type="varchar" MaxLength="1" />
+          <Property Name="T_AMORT" Type="numeric" Precision="18" Scale="3" />
+          <Property Name="CODABAR" Type="varchar" MaxLength="1" />
+          <Property Name="DAT_MUT" Type="datetime2" Precision="0" />
+          <Property Name="DAT_INV" Type="datetime2" Precision="0" />
+          <Property Name="DAT_FIN" Type="datetime2" Precision="0" />
+        </EntityType>-->
+  <EntityType Name="M_BUREAU">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="M_DSERV">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="40" />
+    <Property Name="MATR" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="RESP" Type="varchar" MaxLength="30" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="M_FAMMMB">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="2" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="T_AMORT" Type="numeric" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="M_LOCAL">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="4" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="30" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+  </EntityType>
+  <EntityType Name="M_SFAM">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar" MaxLength="5" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar" MaxLength="40" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="T_AMORT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="ETAT" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="TVA" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="COMPTE" Type="varchar" MaxLength="6" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'IMMODEMO.dbo.M_SFAM1' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="M_SFAM1">
+    <Key>
+      <PropertyRef Name="CODE" />
+    </Key>
+    <Property Name="CODE" Type="varchar(max)" Nullable="false" />
+    <Property Name="LIBELLE" Type="varchar(max)" />
+    <Property Name="NBART" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="T_AMORT" Type="numeric" Precision="18" Scale="3" />
+    <Property Name="ETAT" Type="numeric" Precision="10" Scale="0" />
+    <Property Name="TVA" Type="numeric" Precision="18" Scale="3" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_AMORTISSEMENTPARS_ARTICLE">
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="1" />
+    <End Role="IMMO_AMORTISSEMENTPARTIELLE" Type="Self.IMMO_AMORTISSEMENTPARTIELLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_ARTICLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_AMORTISSEMENTPARTIELLE">
+        <PropertyRef Name="ARTICLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AMORTISSMENTANNU_ARTICLE">
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="1" />
+    <End Role="IMMO_AMORTISSEMENTANNUELLE" Type="Self.IMMO_AMORTISSEMENTANNUELLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_ARTICLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_AMORTISSEMENTANNUELLE">
+        <PropertyRef Name="ARTICLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BL_AFFECTATION">
+    <End Role="IMMO_AFFECTATION" Type="Self.IMMO_AFFECTATION" Multiplicity="1" />
+    <End Role="IMMO_BL" Type="Self.IMMO_BL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_AFFECTATION">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_BL">
+        <PropertyRef Name="CENTREACHAT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_BL_FOURNISSEUR">
+    <End Role="IMMO_FOURNISSEUR" Type="Self.IMMO_FOURNISSEUR" Multiplicity="1" />
+    <End Role="IMMO_BL" Type="Self.IMMO_BL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FOURNISSEUR">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_BL">
+        <PropertyRef Name="FOURNISSEUR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CESSION_ARTICLE_ARTICLE">
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="1" />
+    <End Role="IMMO_ARTICLE_SESSION" Type="Self.IMMO_ARTICLE_SESSION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_ARTICLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE_SESSION">
+        <PropertyRef Name="ARTICLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CESSION_ARTICLE_CESSION">
+    <End Role="IMMO_CESSION" Type="Self.IMMO_CESSION" Multiplicity="1" />
+    <End Role="IMMO_ARTICLE_SESSION" Type="Self.IMMO_ARTICLE_SESSION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_CESSION">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE_SESSION">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HIST_AFF_ART_AFF_A">
+    <End Role="IMMO_AFFECTATION" Type="Self.IMMO_AFFECTATION" Multiplicity="1" />
+    <End Role="IMMO_HIST_AFFECTATION_ARTICLE" Type="Self.IMMO_HIST_AFFECTATION_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_AFFECTATION">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_HIST_AFFECTATION_ARTICLE">
+        <PropertyRef Name="ANCIENNEAFFECTATION" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HIST_AFF_ART_AFF_N">
+    <End Role="IMMO_AFFECTATION" Type="Self.IMMO_AFFECTATION" Multiplicity="1" />
+    <End Role="IMMO_HIST_AFFECTATION_ARTICLE" Type="Self.IMMO_HIST_AFFECTATION_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_AFFECTATION">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_HIST_AFFECTATION_ARTICLE">
+        <PropertyRef Name="NOUVELLEAFFECTATION" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HIST_AFF_ART_ART">
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="1" />
+    <End Role="IMMO_HIST_AFFECTATION_ARTICLE" Type="Self.IMMO_HIST_AFFECTATION_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_ARTICLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_HIST_AFFECTATION_ARTICLE">
+        <PropertyRef Name="ARTICLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_HIST_AFF_ART_HIST_AFF">
+    <End Role="IMMO_HIST_AFFECTATION" Type="Self.IMMO_HIST_AFFECTATION" Multiplicity="1" />
+    <End Role="IMMO_HIST_AFFECTATION_ARTICLE" Type="Self.IMMO_HIST_AFFECTATION_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_HIST_AFFECTATION">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_HIST_AFFECTATION_ARTICLE">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_DETAILBL_BL">
+    <End Role="IMMO_BL" Type="Self.IMMO_BL" Multiplicity="1" />
+    <End Role="IMMO_DETAILBL" Type="Self.IMMO_DETAILBL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_BL">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_DETAILBL">
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_DETAILFACTURE_DETAILBL">
+    <End Role="IMMO_DETAILBL" Type="Self.IMMO_DETAILBL" Multiplicity="1" />
+    <End Role="IMMO_DETAILFACTURE" Type="Self.IMMO_DETAILFACTURE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_DETAILBL">
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_DETAILFACTURE">
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUMLIGNEBL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_DETAILFACTURE_FACTURE">
+    <End Role="IMMO_FACTURE" Type="Self.IMMO_FACTURE" Multiplicity="1" />
+    <End Role="IMMO_DETAILFACTURE" Type="Self.IMMO_DETAILFACTURE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FACTURE">
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_DETAILFACTURE">
+        <PropertyRef Name="NUMFACTURE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_EMPLACEMENT_To_IMMO_LOCAL">
+    <End Role="IMMO_LOCAL" Type="Self.IMMO_LOCAL" Multiplicity="1" />
+    <End Role="IMMO_EMPLACEMENT" Type="Self.IMMO_EMPLACEMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_LOCAL">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_EMPLACEMENT">
+        <PropertyRef Name="LOCAL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_FAMILLE_COMPTE">
+    <End Role="IMMO_COMPTE" Type="Self.IMMO_COMPTE" Multiplicity="1" />
+    <End Role="IMMO_FAMILLE" Type="Self.IMMO_FAMILLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_COMPTE">
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_FAMILLE">
+        <PropertyRef Name="COMPTE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_FOURNISSEUR">
+    <End Role="IMMO_FOURNISSEUR" Type="Self.IMMO_FOURNISSEUR" Multiplicity="1" />
+    <End Role="IMMO_FACTURE" Type="Self.IMMO_FACTURE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FOURNISSEUR">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_FACTURE">
+        <PropertyRef Name="FOURNISSEUR" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_INV_ART_IM_ART">
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="1" />
+    <End Role="IMMO_INVETAIRE_ARTICLE" Type="Self.IMMO_INVETAIRE_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_ARTICLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_INVETAIRE_ARTICLE">
+        <PropertyRef Name="ARTICLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_INV_ART_IMMO_INV">
+    <End Role="IMMO_INVENTAIRE" Type="Self.IMMO_INVENTAIRE" Multiplicity="1" />
+    <End Role="IMMO_INVETAIRE_ARTICLE" Type="Self.IMMO_INVETAIRE_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_INVENTAIRE">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_INVETAIRE_ARTICLE">
+        <PropertyRef Name="ANNEE" />
+        <PropertyRef Name="NUM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IMMO_INVET_ART_IMMO_AFF">
+    <End Role="IMMO_AFFECTATION" Type="Self.IMMO_AFFECTATION" Multiplicity="0..1" />
+    <End Role="IMMO_INVETAIRE_ARTICLE" Type="Self.IMMO_INVETAIRE_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_AFFECTATION">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_INVETAIRE_ARTICLE">
+        <PropertyRef Name="AFFECTATION" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK1">
+    <End Role="IMMO_FAMILLE" Type="Self.IMMO_FAMILLE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FAMILLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="FAMILLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK2">
+    <End Role="IMMO_SERVICE" Type="Self.IMMO_SERVICE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_SERVICE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="SERVICE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK3">
+    <End Role="IMMO_LOCAL" Type="Self.IMMO_LOCAL" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_LOCAL">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="LOCALE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK4">
+    <End Role="IMMO_EMPLACEMENT" Type="Self.IMMO_EMPLACEMENT" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_EMPLACEMENT">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="Emplacement" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK5">
+    <End Role="IMMO_AFFECTATION" Type="Self.IMMO_AFFECTATION" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_AFFECTATION">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="AFFECTATION" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK6">
+    <End Role="IMMO_EXERCICE" Type="Self.IMMO_EXERCICE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_EXERCICE">
+        <PropertyRef Name="ANNEE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="ANNEE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK7">
+    <End Role="IMMO_DETAILFACTURE" Type="Self.IMMO_DETAILFACTURE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_DETAILFACTURE">
+        <PropertyRef Name="NUMFACTURE" />
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUMLIGNEBL" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="NUMFACTURE" />
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUMLIGBL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK8">
+    <End Role="IMMO_DETAILBL" Type="Self.IMMO_DETAILBL" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_DETAILBL">
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="ANNEEBL" />
+        <PropertyRef Name="NUMBL" />
+        <PropertyRef Name="NUMLIGBL" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLE_FK9">
+    <End Role="IMMO_COMPTE" Type="Self.IMMO_COMPTE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLE" Type="Self.IMMO_ARTICLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_COMPTE">
+        <PropertyRef Name="NUM" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLE">
+        <PropertyRef Name="COMPTE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_ARTICLESUPPRIME_FK1">
+    <End Role="IMMO_FAMILLE" Type="Self.IMMO_FAMILLE" Multiplicity="0..1" />
+    <End Role="IMMO_ARTICLESUPPRIME" Type="Self.IMMO_ARTICLESUPPRIME" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FAMILLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_ARTICLESUPPRIME">
+        <PropertyRef Name="FAMILLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_COMPTE_FK1">
+    <End Role="IMMO_FAMILLECOMPTABLE" Type="Self.IMMO_FAMILLECOMPTABLE" Multiplicity="0..1" />
+    <End Role="IMMO_COMPTE" Type="Self.IMMO_COMPTE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FAMILLECOMPTABLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_COMPTE">
+        <PropertyRef Name="FAMILLECPT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_DETAILBL_FK1">
+    <End Role="IMMO_FAMILLE" Type="Self.IMMO_FAMILLE" Multiplicity="1" />
+    <End Role="IMMO_DETAILBL" Type="Self.IMMO_DETAILBL" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FAMILLE">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_DETAILBL">
+        <PropertyRef Name="FAMILLE" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="IMMO_FAMILLE_FK1">
+    <End Role="IMMO_FAMILLEM" Type="Self.IMMO_FAMILLEM" Multiplicity="1" />
+    <End Role="IMMO_FAMILLE" Type="Self.IMMO_FAMILLE" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="IMMO_FAMILLEM">
+        <PropertyRef Name="CODE" />
+      </Principal>
+      <Dependent Role="IMMO_FAMILLE">
+        <PropertyRef Name="FAMILLEM" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="IMMODEMOModelStoreContainer">
+    <EntitySet Name="CODEBAR" EntityType="Self.CODEBAR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_AFFECTATION" EntityType="Self.IMMO_AFFECTATION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_AMORTISSEMENTANNUELLE" EntityType="Self.IMMO_AMORTISSEMENTANNUELLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_AMORTISSEMENTPARTIELLE" EntityType="Self.IMMO_AMORTISSEMENTPARTIELLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_ARTICLE" EntityType="Self.IMMO_ARTICLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_ARTICLE_SESSION" EntityType="Self.IMMO_ARTICLE_SESSION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_ARTICLESUPPRIME" EntityType="Self.IMMO_ARTICLESUPPRIME" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_BL" EntityType="Self.IMMO_BL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_CESSION" EntityType="Self.IMMO_CESSION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_COMPTE" EntityType="Self.IMMO_COMPTE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_DETAILBL" EntityType="Self.IMMO_DETAILBL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_DETAILFACTURE" EntityType="Self.IMMO_DETAILFACTURE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_EMPLACEMENT" EntityType="Self.IMMO_EMPLACEMENT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_EXERCICE" EntityType="Self.IMMO_EXERCICE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_FACTURE" EntityType="Self.IMMO_FACTURE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_FAMILLE" EntityType="Self.IMMO_FAMILLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_FAMILLECOMPTABLE" EntityType="Self.IMMO_FAMILLECOMPTABLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_FAMILLEM" EntityType="Self.IMMO_FAMILLEM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_FOURNISSEUR" EntityType="Self.IMMO_FOURNISSEUR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_HIST_AFFECTATION" EntityType="Self.IMMO_HIST_AFFECTATION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_HIST_AFFECTATION_ARTICLE" EntityType="Self.IMMO_HIST_AFFECTATION_ARTICLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_INV_COMPTABILITE" EntityType="Self.IMMO_INV_COMPTABILITE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_INV_LIVRE" EntityType="Self.IMMO_INV_LIVRE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_INVENTAIRE" EntityType="Self.IMMO_INVENTAIRE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_INVETAIRE_ARTICLE" EntityType="Self.IMMO_INVETAIRE_ARTICLE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_LOCAL" EntityType="Self.IMMO_LOCAL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_SERVICE" EntityType="Self.IMMO_SERVICE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_TVA" EntityType="Self.IMMO_TVA" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IMMO_TVARECUPERATION" EntityType="Self.IMMO_TVARECUPERATION" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="INV_PH" EntityType="Self.INV_PH" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_ARTMMB" EntityType="Self.M_ARTMMB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_BUREAU" EntityType="Self.M_BUREAU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_DSERV" EntityType="Self.M_DSERV" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_FAMMMB" EntityType="Self.M_FAMMMB" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_LOCAL" EntityType="Self.M_LOCAL" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_SFAM" EntityType="Self.M_SFAM" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="M_SFAM1" EntityType="Self.M_SFAM1" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [M_SFAM1].[CODE] AS [CODE], 
+    [M_SFAM1].[LIBELLE] AS [LIBELLE], 
+    [M_SFAM1].[NBART] AS [NBART], 
+    [M_SFAM1].[T_AMORT] AS [T_AMORT], 
+    [M_SFAM1].[ETAT] AS [ETAT], 
+    [M_SFAM1].[TVA] AS [TVA]
+    FROM [dbo].[M_SFAM1] AS [M_SFAM1]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_AMORTISSEMENTPARS_ARTICLE" Association="Self.FK_AMORTISSEMENTPARS_ARTICLE">
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+      <End Role="IMMO_AMORTISSEMENTPARTIELLE" EntitySet="IMMO_AMORTISSEMENTPARTIELLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AMORTISSMENTANNU_ARTICLE" Association="Self.FK_AMORTISSMENTANNU_ARTICLE">
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+      <End Role="IMMO_AMORTISSEMENTANNUELLE" EntitySet="IMMO_AMORTISSEMENTANNUELLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BL_AFFECTATION" Association="Self.FK_BL_AFFECTATION">
+      <End Role="IMMO_AFFECTATION" EntitySet="IMMO_AFFECTATION" />
+      <End Role="IMMO_BL" EntitySet="IMMO_BL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_BL_FOURNISSEUR" Association="Self.FK_BL_FOURNISSEUR">
+      <End Role="IMMO_FOURNISSEUR" EntitySet="IMMO_FOURNISSEUR" />
+      <End Role="IMMO_BL" EntitySet="IMMO_BL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CESSION_ARTICLE_ARTICLE" Association="Self.FK_CESSION_ARTICLE_ARTICLE">
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+      <End Role="IMMO_ARTICLE_SESSION" EntitySet="IMMO_ARTICLE_SESSION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CESSION_ARTICLE_CESSION" Association="Self.FK_CESSION_ARTICLE_CESSION">
+      <End Role="IMMO_CESSION" EntitySet="IMMO_CESSION" />
+      <End Role="IMMO_ARTICLE_SESSION" EntitySet="IMMO_ARTICLE_SESSION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HIST_AFF_ART_AFF_A" Association="Self.FK_HIST_AFF_ART_AFF_A">
+      <End Role="IMMO_AFFECTATION" EntitySet="IMMO_AFFECTATION" />
+      <End Role="IMMO_HIST_AFFECTATION_ARTICLE" EntitySet="IMMO_HIST_AFFECTATION_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HIST_AFF_ART_AFF_N" Association="Self.FK_HIST_AFF_ART_AFF_N">
+      <End Role="IMMO_AFFECTATION" EntitySet="IMMO_AFFECTATION" />
+      <End Role="IMMO_HIST_AFFECTATION_ARTICLE" EntitySet="IMMO_HIST_AFFECTATION_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HIST_AFF_ART_ART" Association="Self.FK_HIST_AFF_ART_ART">
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+      <End Role="IMMO_HIST_AFFECTATION_ARTICLE" EntitySet="IMMO_HIST_AFFECTATION_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_HIST_AFF_ART_HIST_AFF" Association="Self.FK_HIST_AFF_ART_HIST_AFF">
+      <End Role="IMMO_HIST_AFFECTATION" EntitySet="IMMO_HIST_AFFECTATION" />
+      <End Role="IMMO_HIST_AFFECTATION_ARTICLE" EntitySet="IMMO_HIST_AFFECTATION_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_DETAILBL_BL" Association="Self.FK_IMMO_DETAILBL_BL">
+      <End Role="IMMO_BL" EntitySet="IMMO_BL" />
+      <End Role="IMMO_DETAILBL" EntitySet="IMMO_DETAILBL" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_DETAILFACTURE_DETAILBL" Association="Self.FK_IMMO_DETAILFACTURE_DETAILBL">
+      <End Role="IMMO_DETAILBL" EntitySet="IMMO_DETAILBL" />
+      <End Role="IMMO_DETAILFACTURE" EntitySet="IMMO_DETAILFACTURE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_DETAILFACTURE_FACTURE" Association="Self.FK_IMMO_DETAILFACTURE_FACTURE">
+      <End Role="IMMO_FACTURE" EntitySet="IMMO_FACTURE" />
+      <End Role="IMMO_DETAILFACTURE" EntitySet="IMMO_DETAILFACTURE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_EMPLACEMENT_To_IMMO_LOCAL" Association="Self.FK_IMMO_EMPLACEMENT_To_IMMO_LOCAL">
+      <End Role="IMMO_LOCAL" EntitySet="IMMO_LOCAL" />
+      <End Role="IMMO_EMPLACEMENT" EntitySet="IMMO_EMPLACEMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_FAMILLE_COMPTE" Association="Self.FK_IMMO_FAMILLE_COMPTE">
+      <End Role="IMMO_COMPTE" EntitySet="IMMO_COMPTE" />
+      <End Role="IMMO_FAMILLE" EntitySet="IMMO_FAMILLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_FOURNISSEUR" Association="Self.FK_IMMO_FOURNISSEUR">
+      <End Role="IMMO_FOURNISSEUR" EntitySet="IMMO_FOURNISSEUR" />
+      <End Role="IMMO_FACTURE" EntitySet="IMMO_FACTURE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_INV_ART_IM_ART" Association="Self.FK_IMMO_INV_ART_IM_ART">
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+      <End Role="IMMO_INVETAIRE_ARTICLE" EntitySet="IMMO_INVETAIRE_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_INV_ART_IMMO_INV" Association="Self.FK_IMMO_INV_ART_IMMO_INV">
+      <End Role="IMMO_INVENTAIRE" EntitySet="IMMO_INVENTAIRE" />
+      <End Role="IMMO_INVETAIRE_ARTICLE" EntitySet="IMMO_INVETAIRE_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IMMO_INVET_ART_IMMO_AFF" Association="Self.FK_IMMO_INVET_ART_IMMO_AFF">
+      <End Role="IMMO_AFFECTATION" EntitySet="IMMO_AFFECTATION" />
+      <End Role="IMMO_INVETAIRE_ARTICLE" EntitySet="IMMO_INVETAIRE_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK1" Association="Self.IMMO_ARTICLE_FK1">
+      <End Role="IMMO_FAMILLE" EntitySet="IMMO_FAMILLE" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK2" Association="Self.IMMO_ARTICLE_FK2">
+      <End Role="IMMO_SERVICE" EntitySet="IMMO_SERVICE" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK3" Association="Self.IMMO_ARTICLE_FK3">
+      <End Role="IMMO_LOCAL" EntitySet="IMMO_LOCAL" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK4" Association="Self.IMMO_ARTICLE_FK4">
+      <End Role="IMMO_EMPLACEMENT" EntitySet="IMMO_EMPLACEMENT" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK5" Association="Self.IMMO_ARTICLE_FK5">
+      <End Role="IMMO_AFFECTATION" EntitySet="IMMO_AFFECTATION" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK6" Association="Self.IMMO_ARTICLE_FK6">
+      <End Role="IMMO_EXERCICE" EntitySet="IMMO_EXERCICE" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK7" Association="Self.IMMO_ARTICLE_FK7">
+      <End Role="IMMO_DETAILFACTURE" EntitySet="IMMO_DETAILFACTURE" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK8" Association="Self.IMMO_ARTICLE_FK8">
+      <End Role="IMMO_DETAILBL" EntitySet="IMMO_DETAILBL" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLE_FK9" Association="Self.IMMO_ARTICLE_FK9">
+      <End Role="IMMO_COMPTE" EntitySet="IMMO_COMPTE" />
+      <End Role="IMMO_ARTICLE" EntitySet="IMMO_ARTICLE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_ARTICLESUPPRIME_FK1" Association="Self.IMMO_ARTICLESUPPRIME_FK1">
+      <End Role="IMMO_FAMILLE" EntitySet="IMMO_FAMILLE" />
+      <End Role="IMMO_ARTICLESUPPRIME" EntitySet="IMMO_ARTICLESUPPRIME" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_COMPTE_FK1" Association="Self.IMMO_COMPTE_FK1">
+      <End Role="IMMO_FAMILLECOMPTABLE" EntitySet="IMMO_FAMILLECOMPTABLE" />
+      <End Role="IMMO_COMPTE" EntitySet="IMMO_COMPTE" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_DETAILBL_FK1" Association="Self.IMMO_DETAILBL_FK1">
+      <End Role="IMMO_FAMILLE" EntitySet="IMMO_FAMILLE" />
+      <End Role="IMMO_DETAILBL" EntitySet="IMMO_DETAILBL" />
+    </AssociationSet>
+    <AssociationSet Name="IMMO_FAMILLE_FK1" Association="Self.IMMO_FAMILLE_FK1">
+      <End Role="IMMO_FAMILLEM" EntitySet="IMMO_FAMILLEM" />
+      <End Role="IMMO_FAMILLE" EntitySet="IMMO_FAMILLE" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

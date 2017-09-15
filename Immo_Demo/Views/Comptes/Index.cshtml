@@ -1,0 +1,625 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@model IEnumerable<Immo_Demo.Models.CompteLite>
+
+
+
+
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metroblack.css" rel="stylesheet">
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+<img src='../Content/icone/cpt.png' alt='ar' title='Texte à afficher1' width='110' height='80' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Mes Comptes</h1>
+
+<!--*******************************************************************************************-->
+@(Html.Kendo().Window()
+        .Name("window")
+        
+
+
+
+       .HtmlAttributes(new { Style = "height :430px; width:1250px" })
+               .Title("Gestionnaire des familles comptables")
+                .Visible(false)
+                .Modal(true)
+
+                .Draggable(true)
+
+        .Resizable()
+        .Width(630)
+        .Height(315)
+
+
+
+        .Draggable()
+                .Content(@<text>
+
+
+@(Html.Kendo().Grid<CompteFamLite>()
+                  .Name("Kgrid2")
+                  .AutoBind(false)
+                                         .HtmlAttributes(new { Style = "width :1150px;height:400px" })
+
+                   .Columns(columns =>
+                   {
+                       columns.Bound(o => o.CODE).Width(75);
+                       columns.Bound(o => o.LIBELLE).Width(100);
+                       columns.Bound(o => o.CONTREPARTIE).Width(120);
+                       columns.Bound(o => o.TAUX).Width(100);
+
+                       columns.Bound(o => o.CONTREPARTIESECONDAIRE).Width(120);
+
+                       columns.Bound(o => o.LIBELLEESECONDAIRE).Width(200);
+                       columns.Command(command =>
+                   {
+                       command.Edit().Text("Modifier");
+                       command.Destroy().Text("Supprimer");
+                   }).Width(200);
+                   })
+
+                  .Scrollable(sc => sc.Height(100))
+                  .Reorderable(reorderable => reorderable.Columns(true))
+                  .Resizable(resizable => resizable.Columns(true))
+                  .Pageable()
+                  .Filterable()
+
+
+                  .DataSource(ds => ds
+                  .Ajax()
+                          .Model(model => model.Id(record => record.CODE))
+                  .PageSize(6)
+                                      .Read(read => read.Action("GetAllfcpt", "Comptes"))
+                                                       .Create(create => create.Action("Addfcpt", "Comptes"))
+                                                       .Update(update => update.Action("Updatefcpt", "Comptes"))
+                                                       .Destroy(delete => delete.Action("Deletefcpt", "Comptes"))
+
+    )
+            .ToolBar(toolbar => toolbar.Create().Text("Ajouter Famille Comptable"))
+
+
+
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+            .Sortable()
+
+            .Selectable()
+
+
+
+
+)
+
+
+
+
+
+
+</text>)
+)
+
+<!--********************************************************************************************-->
+<br />
+<div style="float:left ; position:relative ; width:400px;padding-left:140px">
+
+    @(Html.Kendo().ComboBox()
+                           .Name("KComptes")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("ID")
+                       .DataValueField("ID")
+                   .Placeholder("Choisir Compte")
+                                  .Template("<font color=blue><strong>#: ID# </strong></font>|<font color=red><strong>#: Name# </strong></font>  ")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetCpt", "Comptes");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChange"))
+    )
+</div>
+<!--************************************************************-->
+<div style="float:right ; position:relative ;  padding-top:30px;padding-bottom:0px">
+
+    <span id="imageButton2" class="k-button" onclick="onClick5()"> Voir Tous</span>
+
+</div>
+<script>
+
+$("#imageButton2").kendoButton({
+    imageUrl: "../Content/icone/grid.png"
+});
+function onClick5() {
+    $("#window").data("kendoWindow").center().open();
+    $("#Kgrid2").data("kendoGrid").dataSource.read();
+}
+   </script>
+    <!--******************************************************-->
+
+    <br /><br />
+    <!--/////////////////////////////////////////////////////////////////////////////////////-->
+    <div class="demo-section">
+        <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Ajouter Compte</a>
+    </div>
+
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="product-view k-widget">
+            <div class="edit-buttons">
+                <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+                <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+            </div>
+
+            <table style="width:100% ">
+                <tr>
+                    <td><strong> NUM: </strong><font color="purple"><strong>#:NUM# </strong> </font></td>
+
+                    <td><strong> INTITULE:</strong><font color="purple"><strong>  #:INTITULE# </strong></font></td>
+
+                </tr>
+                <tr>
+                    <td><strong> TAUX: </strong><font color="purple"><strong> #:kendo.toString(TAUX+" %")# </strong> </font></td>
+                    <td><strong> DUREE: </strong><font color="purple"> <strong> #:kendo.toString(DUREE+" ans")# </strong></font></td>
+
+                </tr>
+                <tr>
+                    <td><strong> LINEAIRE:</strong><font color="purple"><strong>  #:LINEAIRE# </strong></font></td>
+                    <td><strong> FAMILLECPT:</strong> <font color="purple"><strong>  #:FAMILLECPT#</strong> </font>
+</td>
+
+
+                </tr>
+            </table>
+
+
+        </div>
+
+</script>
+<!--///////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<!--//////////////////////////////////////////Debut Table///////////////////////////////////////////////////////-->
+<div class="table">
+    <h1 style="color:olive;font-family: 'MV Boli', arial, serif;">Mes Familles Comptables</h1>
+    @(Html.Kendo().Grid<CompteFamLite>()
+                  .Name("Kgrid")
+                  .AutoBind(false)
+                                         .HtmlAttributes(new { Style = "width :800px;height:120px" })
+
+                   .Columns(columns =>
+                   {
+                             columns.Bound(o => o.CODE);
+                     columns.Bound(o => o.LIBELLE);
+                     columns.Bound(o => o.CONTREPARTIE);
+                     columns.Bound(o => o.TAUX);
+
+                     columns.Bound(o => o.CONTREPARTIESECONDAIRE);
+
+                     columns.Bound(o => o.LIBELLEESECONDAIRE);
+                           columns.Command(command =>
+
+                       {
+                           command.Edit().Text("Modifier");
+                           command.Destroy().Text("Supprimer");
+                       }).Width(250);
+    })
+                      
+                  .Scrollable(sc => sc.Height(100))
+                  .Reorderable(reorderable => reorderable.Columns(true))
+                  .Resizable(resizable => resizable.Columns(true))
+                  .Pageable()
+                  .Filterable()
+
+
+                  .DataSource(ds => ds
+                  .Ajax()
+                          .Model(model => model.Id(record => record.CODE))
+                  .PageSize(5)
+                                  .Read(read => read.Action("ChercherFamilleCpt", "Comptes").Data("AdditionalData"))
+                                                           .Create(create => create.Action("Addfcpt", "Comptes"))
+                                                           .Update(update => update.Action("Updatefcpt", "Comptes"))
+                                                           .Destroy(delete => delete.Action("Deletefcpt", "Comptes"))
+
+    )
+         
+
+
+            .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+            .Sortable()
+            
+
+            .Selectable()
+
+
+
+
+    )
+   
+    <!--************************************************************************-->
+    <hr />
+    @(Html.Kendo().Chart<CompteLite>()
+               .Name("KChart1")
+               .AutoBind(false)
+                                   .PlotArea(p => p.Background("#FFCC66"))
+
+               .HtmlAttributes(new { Style = "height :350px;width:520px" })
+        .Title("Comparateur des comptes par Famille Comptable")
+        .Legend(legend => legend
+            .Position(ChartLegendPosition.Top)
+        )
+                       .DataSource(ds => ds.Read(read => read.Action("ChercherCpt", "Comptes").Data("AdditionalData")))
+        .Series(series =>
+        {
+            series.Column(model => model.TAUX).Name("Taux ").Color("#6666FF");
+            series.Column(model => model.DUREE).Name("Duree d utilsation").Color("#669900");
+        })
+        .CategoryAxis(axis => axis
+            .Categories(model => model.INTITULE)
+            .Labels(labels => labels.Rotation(-90))
+            .MajorGridLines(lines => lines.Visible(false))
+        )
+        .ValueAxis(axis => axis.Numeric()
+            .Labels(labels => labels.Format("{0:N0}"))
+            .MajorUnit(10)
+            .Line(line => line.Visible(false))
+        )
+        .Tooltip(tooltip => tooltip
+            .Visible(true)
+            .Format("{0:N0}")
+        )
+    )
+
+
+    <!--**************************************************************************-->
+
+
+
+
+
+ 
+       
+
+</div>
+
+<!--//////////////////////////////////////////////////Fin Tabe/////////////////////////////////////////////////-->
+
+
+    
+<!--///////////////////////////////////////////////////////////////////////////////////////////////-->
+<div class="demo-section">
+    @(Html.Kendo().ListView<CompteLite>(Model)
+    .Name("listView")
+    .AutoBind(true)
+      //.BindTo("Immo_Demo.Models.CompteLite")
+    .TagName("div")
+    .ClientTemplateId("template")
+    .DataSource(dataSource => dataSource
+        .Model(model => model.Id("NUM"))
+        .PageSize(6)
+        .Create(create => create.Action("Addcpt", "Comptes"))
+                       .Read(read => read.Action("chercherCpt2", "Comptes").Data("AdditionalData2"))
+                .Update(update => update.Action("Updatecpt", "Comptes"))
+                .Destroy(destroy => destroy.Action("Deletecpt", "Comptes"))
+    )
+    .Pageable()
+    
+     .Selectable(selectable => selectable
+         .Mode(ListViewSelectionMode.Single)
+         .Enabled(true))
+                   .Events(events => events.Change("onListChange"))
+
+   .Editable(edit => edit.TemplateName("EditTmpl")) 
+    )
+</div>
+
+
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<!--////////////////////////////////////////////////////////////////////////////////////////////////////-->
+
+<script>
+    $(document).ready(function () { $("#window").data("kendoWindow").close(); })
+
+    $(function () {
+        var listView = $("#listView").data("kendoListView");
+
+        $(".k-add-button").click(function (e) {
+            listView.add();
+            e.preventDefault();
+        });
+    });
+    //*************************************************
+    
+    //*************************************************
+    function AdditionalData()
+    {
+        var listView = $("#listView").data("kendoListView");
+        var index = listView.select().index();
+        dataItem = listView.dataSource.view()[index].FAMILLECPT;
+        // return dataItem;
+        return{ CODE :dataItem}
+    
+    }
+    //**************************************************
+
+    function onListChange()
+    {
+        $("#Kgrid").data("kendoGrid").dataSource.read();
+        $("#KChart1").data("kendoChart").dataSource.read();
+
+
+
+        
+
+    }
+    function OnChange()
+    {
+        $("#listView").data("kendoListView").dataSource.read();
+        
+    }
+    function AdditionalData2() {
+        return {
+            NUM: $("#KComptes").data("kendoComboBox").value()
+        }
+    }
+    //*********************************************************************
+</script>
+
+<style>
+     .table{
+        width:480px;
+        height:400px;
+        float:right;
+        padding-top:inherit;
+        position:relative;
+        padding-right:40px;
+
+    }
+    .Chart{
+        width:480px;
+        height:600px;
+        float:right;
+        position:relative;
+        padding-right:10px;
+        padding-top:1px;
+        
+    }
+
+    .demo-section {
+        width: 805px;
+       
+    }
+
+   
+
+    .product-view {
+        float: left;
+        position: relative;
+        width: 401px;
+        height:150px;
+        margin: -1px -1px 0 0;
+        background-color:#D1FFC2;
+    }
+
+        .product-view tr {
+            margin: 10px 0;
+            padding: 0;
+            min-width: 0;
+            columns:2;
+            
+        }
+
+        .product-view td{
+            float: left;
+            margin: 0;
+            padding: 3px;
+            height: 26px;
+            width: 160px;
+            line-height: 26px;
+            overflow: hidden;
+            break-before:avoid;
+        }
+
+        .product-view table {
+            clear: left;
+            padding: 3px 5px 3px 0;
+            text-align:center;
+            opacity: 1;
+            width: 100px;
+            height:150px;
+            border-bottom-color:#FFFFCC;
+
+        }
+
+    .k-listview {
+        border: 0;
+        padding: 0;
+        min-width: 605px;
+        min-height: 298px;
+    }
+
+        .k-listview:after, .product-view dl:after {
+            content: ".";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+    .edit-buttons {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 26px;
+        height: 146px;
+        padding: 2px 2px 0 3px;
+        background-color: rgba(0,0,0,0.1);
+    }
+
+        .edit-buttons .k-button {
+            width: 26px;
+            margin-bottom: 1px;
+        }
+
+    .k-pager-wrap {
+        border-top: 0;
+    }
+
+    span.k-invalid-msg {
+        position: absolute;
+        margin-left: 6px;
+    }
+</style>

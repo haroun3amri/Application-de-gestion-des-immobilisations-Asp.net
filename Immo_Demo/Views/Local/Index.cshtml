@@ -1,0 +1,411 @@
+﻿@using IMMO.BLL;
+@using IMMO.DAL;
+@using Immo_Demo.Models
+@model IEnumerable<Immo_Demo.Models.LocalLite>
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metroblack.css" rel="stylesheet" />
+<!--////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+      <img src='../Content/icone/local.png' alt='ar' title='Texte à afficher1' width='40' height='50' align='left' style="padding-top:0px">
+
+    <h2 style="display:inline;color:purple;font-family: 'MV Boli', arial, serif;">Localisation des Articles</h2>
+
+<!--******************************************************-->
+<!--///////////////////////////////////////////////////Debut template 2/////////////////////////-->
+<div class="demo-section3">
+    <a class="k-button k-button-icontext k-add-button2" href="#"><span class="k-icon k-add"></span>Ajouter Emplacement</a>
+
+</div>
+<script type="text/x-kendo-tmpl" id="template2">
+    <div class="product-view k-widget">
+        <div class="edit-buttons">
+            <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+            <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+            <img src="../Content/icone/local.png" width="35px" height="35px" alt="local" style="float:right" />
+
+        </div>
+
+        <table style="width:100% ">
+            <tr style="height:20px">
+                <td> CODE:<font color="blue"><strong> #:CODE# </strong></font></td>
+
+                <td>Lieu:<font color="blue"> <strong> #:LIEU# </strong></font></td>
+
+            </tr>
+            <tr style ="height:20px">
+                <td>ETAGE: <font color="blue"><strong> #:ETAGE# </strong></font></td>
+                <td>COULOIR: <font color="blue"> <strong> #:COULOIR# </strong></font></td>
+
+            </tr>
+            <tr style ="height:20px">
+                <td>BUREAU:<font color="blue"><strong>  #:BUREAU#</strong> </font></td>
+                <td>
+                    LOCAL: <font color="blue"><strong>  #:LOCAL# </strong></font>
+                </td>
+
+
+            </tr>
+        </table>
+
+
+    </div>
+
+</script>
+
+<!--/////////////////////////////////////////Debut templete pour Kendo ViewList///////////////////-->
+<div class="demo-section">
+    <a class="k-button k-button-icontext k-add-button" href="#"><span class="k-icon k-add"></span>Ajouter Local</a>
+</div>
+
+<script type="text/x-kendo-tmpl" id="template">
+    <div class="product-view k-widget">
+        <div class="edit-buttons">
+            <a class="k-button k-button-icontext k-edit-button" href="\\#"><span class="k-icon k-edit"></span></a>
+            <a class="k-button k-button-icontext k-delete-button" href="\\#"><span class="k-icon k-delete"></span></a>
+           <img src="../Content/icone/local2.png" width="35px" height="35px" alt="local" style="float:right" />
+
+        </div>
+
+        <table style="width:100% ">
+            <tr>
+                <td style="height:64px"> Code du Local:<font color=green><strong>#:CODE# </strong> </font></td>
+
+                <td style="height:64px">Libelle du local:<font color=green> <strong> #:LIBELLE# </strong></font></td>
+
+            </tr>
+            
+        </table>
+
+
+    </div>
+
+</script>
+<!--*/////////////////////////////////ComboBox/////////////////////////////////////////////////////-->
+ <div class="demo-section2">
+    <h3>Saisir Article</h3>
+
+    @(Html.Kendo().ComboBox()
+          .Name("Articles")
+          .AutoBind(false)
+          .Placeholder("----- Enrter CODE -----")
+          .DataTextField("ID")
+          .DataValueField("LOCAL")
+          .Template("<strong> #: ID# </strong>|<font color=blue><strong> #: NAME# </strong></font>")
+          .HtmlAttributes(new { style = "width:443px" })
+          .Filter("contains")
+          
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {   
+              source.Read(read =>
+              {  
+                  read.Action("GetArticlesN", "Articles");
+              });
+          })
+                 .Events(e => e.Change("onChange"))
+    )
+     <!--*************************************Kendo Map-->
+     @(Html.Kendo().Map()
+    .Name("map")
+    .Center(34.5247, 9.4867)
+    .Zoom(7)
+    .Layers(layers =>
+    {
+        layers.Add()
+            .Type(MapLayerType.Tile)
+            .UrlTemplate("http://#= subdomain #.tile.openstreetmap.org/#= zoom #/#= x #/#= y #.png")
+            .Subdomains("a", "b", "c")
+            .Attribution("&copy; <a href='http://osm.org/copyright'>OpenStreetMap contributors</a>");
+    })
+    .Markers(markers =>
+    {
+        markers.Add()
+            .Location(35.5789, 9.7551)
+            .Shape(MapMarkersShape.PinTarget)
+            .Tooltip(tooltip => tooltip.Content("Kairouan, Tunisie"));
+    })
+     )
+</div>
+ <!--///////////////////////////////////////////////////////////////////////////////////////-->
+<div class="body">
+    <!--*****************************************************************************-->
+    <div class="demo-section3">
+        @(Html.Kendo().ListView<EmplacementLite>()
+    .Name("listView2")
+    .TagName("div")
+    .ClientTemplateId("template2")
+    .DataSource(dataSource => dataSource
+        .Model(model => model.Id("CODE"))
+        .PageSize(6)
+        .Create(create => create.Action("AddEmp", "Local"))
+                       .Read(read => read.Action("GetAllEmp", "Local").Data("AdditionnalData"))
+                .Update(update => update.Action("UpdateEmp", "Local"))
+                .Destroy(destroy => destroy.Action("DeleteEmp", "Local"))
+                .PageSize(5)
+    )
+    .Pageable()
+     .Selectable(selectable => selectable
+         .Mode(ListViewSelectionMode.Single)
+         .Enabled(true))
+
+   .Editable(edit => edit.TemplateName("EditTmplEmp"))
+
+        )
+
+    </div>
+    <!--******************************************************************-->
+    <div class="demo-section">
+        @(Html.Kendo().ListView<LocalLite>(Model)
+    .Name("listView")
+    .TagName("div")
+    .ClientTemplateId("template")
+    .DataSource(dataSource => dataSource
+        .Model(model => model.Id("CODE"))
+        .PageSize(6)
+        .Create(create => create.Action("AddLoc", "Local"))
+               .Read(read => read.Action("GetAllLoc", "Local").Data("AdditionnalData"))
+                .Update(update => update.Action("UpdateLoc", "Local"))
+                .Destroy(destroy => destroy.Action("DeleteLoc", "Local"))
+                .PageSize(5)
+    )
+    .Pageable()
+     .Selectable(selectable => selectable
+         .Mode(ListViewSelectionMode.Single)
+         .Enabled(true))
+
+   .Editable(edit => edit.TemplateName("EditTmplLoc"))
+
+        )
+
+    </div>
+   
+</div>
+
+
+
+
+
+
+
+
+
+<!--////////////////////////////////////////////////////////////////////////////-->
+
+<style>
+    .demo-section3 {
+ display:inline-block;
+width:450px;
+float:left;
+padding-left:0px;
+position:relative;
+padding-top:15px;
+           
+            
+    }
+    
+    .demo-section2{
+        display:inline-block;
+        float:right;
+        position:relative;
+        padding-top:15px;
+        padding-right:0px;
+    }
+
+    .demo-section{
+        display:inline-block;
+width:450px;
+float:left;
+position:relative;
+padding-top:15px;
+    }
+
+
+        .demo-section h2 {
+            text-transform: uppercase;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+</style>
+<script>
+    //*******************************************
+    $(function () {
+      var listView = $("#listView").data("kendoListView");
+
+      $(".k-add-button").click(function (e) {
+          listView.add();
+          e.preventDefault();
+      });
+    });
+    //************************************************
+    $(function () {
+        var listView2= $("#listView2").data("kendoListView");
+
+        $(".k-add-button2").click(function (e) {
+            listView2.add();
+            e.preventDefault();
+        });
+    });
+    //*************************************************
+    function onChange()
+    {
+        $("#listView").data("kendoListView").dataSource.read();
+        $("#listView2").data("kendoListView").dataSource.read();
+
+
+    }
+    //*************************************************
+    function AdditionnalData()
+    {
+        return {
+            CODE: $("#Articles").data("kendoComboBox").value()
+        }
+
+    }
+    //*************************************************
+
+</script>

@@ -1,0 +1,12 @@
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\IMMO.BLL.dll
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\IMMO.BLL.pdb
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\IMMO.DAL.dll
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\EntityFramework.dll
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\IMMO.DAL.pdb
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\EntityFramework.xml
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\obj\Debug\IMMO.BLL.csprojResolveAssemblyReference.cache
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\obj\Debug\IMMO.BLL.dll
+C:\Users\haroun\Documents\Visual Studio 2013\Projects\Immo_Demo\IMMO.BLL\obj\Debug\IMMO.BLL.pdb
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\Excel.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\haroun\documents\visual studio 2013\Projects\Immo_Demo\IMMO.BLL\bin\Debug\Excel.pdb

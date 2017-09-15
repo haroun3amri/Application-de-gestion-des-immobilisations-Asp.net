@@ -1,0 +1,538 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IMMODEMOModelStoreContainer" CdmEntityContainer="IMMODEMOEntities">
+    <EntitySetMapping Name="CODEBARs">
+      <EntityTypeMapping TypeName="IMMODEMOModel.CODEBAR">
+        <MappingFragment StoreEntitySet="CODEBAR">
+          <ScalarProperty Name="CODECLAIR" ColumnName="CODECLAIR" />
+          <ScalarProperty Name="CODEBAR1" ColumnName="CODEBAR" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="AFFECTLOCAL" ColumnName="AFFECTLOCAL" />
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_AFFECTATION">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_AFFECTATION">
+        <MappingFragment StoreEntitySet="IMMO_AFFECTATION">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="RESPONSABLEACHAT" ColumnName="RESPONSABLEACHAT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_AMORTISSEMENTANNUELLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_AMORTISSEMENTANNUELLE">
+        <MappingFragment StoreEntitySet="IMMO_AMORTISSEMENTANNUELLE">
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="DATEAMORTISSEMENT" ColumnName="DATEAMORTISSEMENT" />
+          <ScalarProperty Name="VALEUR" ColumnName="VALEUR" />
+          <ScalarProperty Name="MONTANTCALCUL" ColumnName="MONTANTCALCUL" />
+          <ScalarProperty Name="AMORTISSEMENTP" ColumnName="AMORTISSEMENTP" />
+          <ScalarProperty Name="AMORTISSEMENTNONCPT" ColumnName="AMORTISSEMENTNONCPT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_AMORTISSEMENTPARTIELLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_AMORTISSEMENTPARTIELLE">
+        <MappingFragment StoreEntitySet="IMMO_AMORTISSEMENTPARTIELLE">
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="DATEAMORTISSEMENT" ColumnName="DATEAMORTISSEMENT" />
+          <ScalarProperty Name="VALEUR" ColumnName="VALEUR" />
+          <ScalarProperty Name="MONTANTCALCUL" ColumnName="MONTANTCALCUL" />
+          <ScalarProperty Name="AMORTISSEMENTP" ColumnName="AMORTISSEMENTP" />
+          <ScalarProperty Name="AMORTISSEMENTNONCPT" ColumnName="AMORTISSEMENTNONCPT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_ARTICLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_ARTICLE">
+        <MappingFragment StoreEntitySet="IMMO_ARTICLE">
+          <ScalarProperty Name="Emplacement" ColumnName="Emplacement" />
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="FAMILLE" ColumnName="FAMILLE" />
+          <ScalarProperty Name="CENTREACHAT" ColumnName="CENTREACHAT" />
+          <ScalarProperty Name="AFFECTATION" ColumnName="AFFECTATION" />
+          <ScalarProperty Name="DATEAFFECTATION" ColumnName="DATEAFFECTATION" />
+          <ScalarProperty Name="DATEAQUISITION" ColumnName="DATEAQUISITION" />
+          <ScalarProperty Name="ANNEEBL" ColumnName="ANNEEBL" />
+          <ScalarProperty Name="NUMBL" ColumnName="NUMBL" />
+          <ScalarProperty Name="NUMLIGBL" ColumnName="NUMLIGBL" />
+          <ScalarProperty Name="NUMFACTURE" ColumnName="NUMFACTURE" />
+          <ScalarProperty Name="DATEEXPLOITATION" ColumnName="DATEEXPLOITATION" />
+          <ScalarProperty Name="DUREE" ColumnName="DUREE" />
+          <ScalarProperty Name="TAUXAMORTISSEMENT" ColumnName="TAUXAMORTISSEMENT" />
+          <ScalarProperty Name="DOTATIONANTERIEURE" ColumnName="DOTATIONANTERIEURE" />
+          <ScalarProperty Name="VALEURCOMPTABLE" ColumnName="VALEURCOMPTABLE" />
+          <ScalarProperty Name="DATESESSION" ColumnName="DATESESSION" />
+          <ScalarProperty Name="VALEURSESSION" ColumnName="VALEURSESSION" />
+          <ScalarProperty Name="RAISONSESSION" ColumnName="RAISONSESSION" />
+          <ScalarProperty Name="AMORTI" ColumnName="AMORTI" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
+          <ScalarProperty Name="ETATSESSION" ColumnName="ETATSESSION" />
+          <ScalarProperty Name="COMPTE" ColumnName="COMPTE" />
+          <ScalarProperty Name="REFERENCE" ColumnName="REFERENCE" />
+          <ScalarProperty Name="CARACTERISTIQUE" ColumnName="CARACTERISTIQUE" />
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="SERVICE" ColumnName="SERVICE" />
+          <ScalarProperty Name="LOCALE" ColumnName="LOCALE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_ARTICLE_SESSION">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_ARTICLE_SESSION">
+        <MappingFragment StoreEntitySet="IMMO_ARTICLE_SESSION">
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="RAISON" ColumnName="RAISON" />
+          <ScalarProperty Name="VALEUR" ColumnName="VALEUR" />
+          <ScalarProperty Name="DATESESSION" ColumnName="DATESESSION" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="DOTATION" ColumnName="DOTATION" />
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="AMORTISSEMENTPRATIQUE" ColumnName="AMORTISSEMENTPRATIQUE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_ARTICLESUPPRIME">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_ARTICLESUPPRIME">
+        <MappingFragment StoreEntitySet="IMMO_ARTICLESUPPRIME">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="FAMILLE" ColumnName="FAMILLE" />
+          <ScalarProperty Name="CENTREACHAT" ColumnName="CENTREACHAT" />
+          <ScalarProperty Name="AFFECTATION" ColumnName="AFFECTATION" />
+          <ScalarProperty Name="DATEAFFECTATION" ColumnName="DATEAFFECTATION" />
+          <ScalarProperty Name="DATEAQUISITION" ColumnName="DATEAQUISITION" />
+          <ScalarProperty Name="ANNEEBL" ColumnName="ANNEEBL" />
+          <ScalarProperty Name="NUMBL" ColumnName="NUMBL" />
+          <ScalarProperty Name="NUMLIGBL" ColumnName="NUMLIGBL" />
+          <ScalarProperty Name="NUMFACTURE" ColumnName="NUMFACTURE" />
+          <ScalarProperty Name="DATEEXPLOITATION" ColumnName="DATEEXPLOITATION" />
+          <ScalarProperty Name="DUREE" ColumnName="DUREE" />
+          <ScalarProperty Name="TAUXAMORTISSEMENT" ColumnName="TAUXAMORTISSEMENT" />
+          <ScalarProperty Name="DOTATIONANTERIEURE" ColumnName="DOTATIONANTERIEURE" />
+          <ScalarProperty Name="VALEURCOMPTABLE" ColumnName="VALEURCOMPTABLE" />
+          <ScalarProperty Name="DATESESSION" ColumnName="DATESESSION" />
+          <ScalarProperty Name="VALEURSESSION" ColumnName="VALEURSESSION" />
+          <ScalarProperty Name="RAISONSESSION" ColumnName="RAISONSESSION" />
+          <ScalarProperty Name="AMORTI" ColumnName="AMORTI" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="DESIGNATION" ColumnName="DESIGNATION" />
+          <ScalarProperty Name="ETATSESSION" ColumnName="ETATSESSION" />
+          <ScalarProperty Name="COMPTE" ColumnName="COMPTE" />
+          <ScalarProperty Name="REFERENCE" ColumnName="REFERENCE" />
+          <ScalarProperty Name="CARACTERISTIQUE" ColumnName="CARACTERISTIQUE" />
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="SERVICE" ColumnName="SERVICE" />
+          <ScalarProperty Name="LOCALE" ColumnName="LOCALE" />
+          <ScalarProperty Name="EMPLACEMENT" ColumnName="EMPLACEMENT" />
+          <ScalarProperty Name="DATESUPP" ColumnName="DATESUPP" />
+          <ScalarProperty Name="OPERATEUR" ColumnName="OPERATEUR" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_BL">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_BL">
+        <MappingFragment StoreEntitySet="IMMO_BL">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="REFCOMMANDE" ColumnName="REFCOMMANDE" />
+          <ScalarProperty Name="DATECOMMANDE" ColumnName="DATECOMMANDE" />
+          <ScalarProperty Name="CENTREACHAT" ColumnName="CENTREACHAT" />
+          <ScalarProperty Name="FOURNISSEUR" ColumnName="FOURNISSEUR" />
+          <ScalarProperty Name="DATELIVRAISON" ColumnName="DATELIVRAISON" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="REFERENCE" ColumnName="REFERENCE" />
+          <ScalarProperty Name="EXERCICE" ColumnName="EXERCICE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_CESSION">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_CESSION">
+        <MappingFragment StoreEntitySet="IMMO_CESSION">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="DATECESSION" ColumnName="DATECESSION" />
+          <ScalarProperty Name="RAISON" ColumnName="RAISON" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="VALTOTAL" ColumnName="VALTOTAL" />
+          <ScalarProperty Name="EXERCICE" ColumnName="EXERCICE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_COMPTE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_COMPTE">
+        <MappingFragment StoreEntitySet="IMMO_COMPTE">
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="INTITULE" ColumnName="INTITULE" />
+          <ScalarProperty Name="TAUX" ColumnName="TAUX" />
+          <ScalarProperty Name="DUREE" ColumnName="DUREE" />
+          <ScalarProperty Name="FAMILLECPT" ColumnName="FAMILLECPT" />
+          <ScalarProperty Name="LINEAIRE" ColumnName="LINEAIRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_DETAILBL">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_DETAILBL">
+        <MappingFragment StoreEntitySet="IMMO_DETAILBL">
+          <ScalarProperty Name="ANNEEBL" ColumnName="ANNEEBL" />
+          <ScalarProperty Name="NUMBL" ColumnName="NUMBL" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="FAMILLE" ColumnName="FAMILLE" />
+          <ScalarProperty Name="QTE" ColumnName="QTE" />
+          <ScalarProperty Name="QTEFACTURE" ColumnName="QTEFACTURE" />
+          <ScalarProperty Name="PRIXUNITAIRE" ColumnName="PRIXUNITAIRE" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+          <ScalarProperty Name="AFFECTATION" ColumnName="AFFECTATION" />
+          <ScalarProperty Name="SERVICE" ColumnName="SERVICE" />
+          <ScalarProperty Name="LOCALE" ColumnName="LOCALE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_DETAILFACTURE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_DETAILFACTURE">
+        <MappingFragment StoreEntitySet="IMMO_DETAILFACTURE">
+          <ScalarProperty Name="NUMFACTURE" ColumnName="NUMFACTURE" />
+          <ScalarProperty Name="ANNEEBL" ColumnName="ANNEEBL" />
+          <ScalarProperty Name="NUMBL" ColumnName="NUMBL" />
+          <ScalarProperty Name="NUMLIGNEBL" ColumnName="NUMLIGNEBL" />
+          <ScalarProperty Name="MONTANTHT" ColumnName="MONTANTHT" />
+          <ScalarProperty Name="TVA" ColumnName="TVA" />
+          <ScalarProperty Name="MONTANTTTC" ColumnName="MONTANTTTC" />
+          <ScalarProperty Name="QTE" ColumnName="QTE" />
+          <ScalarProperty Name="VALEURCOMPTABLE" ColumnName="VALEURCOMPTABLE" />
+          <ScalarProperty Name="PRIXUNITAIREHT" ColumnName="PRIXUNITAIREHT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_EMPLACEMENT">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_EMPLACEMENT">
+        <MappingFragment StoreEntitySet="IMMO_EMPLACEMENT">
+          <ScalarProperty Name="LOCAL" ColumnName="LOCAL" />
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIEU" ColumnName="LIEU" />
+          <ScalarProperty Name="ETAGE" ColumnName="ETAGE" />
+          <ScalarProperty Name="COULOIR" ColumnName="COULOIR" />
+          <ScalarProperty Name="BUREAU" ColumnName="BUREAU" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_EXERCICE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_EXERCICE">
+        <MappingFragment StoreEntitySet="IMMO_EXERCICE">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="DATEOUVERTURE" ColumnName="DATEOUVERTURE" />
+          <ScalarProperty Name="DATEFERMETURE" ColumnName="DATEFERMETURE" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_FACTURE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_FACTURE">
+        <MappingFragment StoreEntitySet="IMMO_FACTURE">
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="REFERENCE" ColumnName="REFERENCE" />
+          <ScalarProperty Name="FOURNISSEUR" ColumnName="FOURNISSEUR" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+          <ScalarProperty Name="MONTANTTTC" ColumnName="MONTANTTTC" />
+          <ScalarProperty Name="MONTANTHT" ColumnName="MONTANTHT" />
+          <ScalarProperty Name="CHARGERATTACHEIMMO" ColumnName="CHARGERATTACHEIMMO" />
+          <ScalarProperty Name="CHARGENONRATTACHEIMMO" ColumnName="CHARGENONRATTACHEIMMO" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="TVARECPERATION" ColumnName="TVARECPERATION" />
+          <ScalarProperty Name="DATEFACTURE" ColumnName="DATEFACTURE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_FAMILLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_FAMILLE">
+        <MappingFragment StoreEntitySet="IMMO_FAMILLE">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="COMPTE" ColumnName="COMPTE" />
+          <ScalarProperty Name="FAMILLEM" ColumnName="FAMILLEM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_FAMILLECOMPTABLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_FAMILLECOMPTABLE">
+        <MappingFragment StoreEntitySet="IMMO_FAMILLECOMPTABLE">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="CONTREPARTIE" ColumnName="CONTREPARTIE" />
+          <ScalarProperty Name="TAUX" ColumnName="TAUX" />
+          <ScalarProperty Name="CONTREPARTIESECONDAIRE" ColumnName="CONTREPARTIESECONDAIRE" />
+          <ScalarProperty Name="LIBELLEESECONDAIRE" ColumnName="LIBELLEESECONDAIRE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_FAMILLEM">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_FAMILLEM">
+        <MappingFragment StoreEntitySet="IMMO_FAMILLEM">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_FOURNISSEUR">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_FOURNISSEUR">
+        <MappingFragment StoreEntitySet="IMMO_FOURNISSEUR">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="NOM" ColumnName="NOM" />
+          <ScalarProperty Name="RESPONSABLE" ColumnName="RESPONSABLE" />
+          <ScalarProperty Name="MATFISCAL" ColumnName="MATFISCAL" />
+          <ScalarProperty Name="ADRESSE" ColumnName="ADRESSE" />
+          <ScalarProperty Name="TEL" ColumnName="TEL" />
+          <ScalarProperty Name="FAX" ColumnName="FAX" />
+          <ScalarProperty Name="CONTACT" ColumnName="CONTACT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_HIST_AFFECTATION">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_HIST_AFFECTATION">
+        <MappingFragment StoreEntitySet="IMMO_HIST_AFFECTATION">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="DATEAFFECTATION" ColumnName="DATEAFFECTATION" />
+          <ScalarProperty Name="ANCIENNEAFFECTATION" ColumnName="ANCIENNEAFFECTATION" />
+          <ScalarProperty Name="NOUVELLEAFFECTATION" ColumnName="NOUVELLEAFFECTATION" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_HIST_AFFECTATION_ARTICLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_HIST_AFFECTATION_ARTICLE">
+        <MappingFragment StoreEntitySet="IMMO_HIST_AFFECTATION_ARTICLE">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="ANCIENNEAFFECTATION" ColumnName="ANCIENNEAFFECTATION" />
+          <ScalarProperty Name="NOUVELLEAFFECTATION" ColumnName="NOUVELLEAFFECTATION" />
+          <ScalarProperty Name="DATEAFFECTATION" ColumnName="DATEAFFECTATION" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_INV_COMPTABILITE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_INV_COMPTABILITE">
+        <MappingFragment StoreEntitySet="IMMO_INV_COMPTABILITE">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="DATEAMORTISSEMENT" ColumnName="DATEAMORTISSEMENT" />
+          <ScalarProperty Name="FAMILLECPT" ColumnName="FAMILLECPT" />
+          <ScalarProperty Name="CONTREPARTIE" ColumnName="CONTREPARTIE" />
+          <ScalarProperty Name="DEBIT" ColumnName="DEBIT" />
+          <ScalarProperty Name="CREDIT" ColumnName="CREDIT" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_INVENTAIRE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_INVENTAIRE">
+        <MappingFragment StoreEntitySet="IMMO_INVENTAIRE">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="DESCRIPTION" ColumnName="DESCRIPTION" />
+          <ScalarProperty Name="DATECREATION" ColumnName="DATECREATION" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="DATEVALIDATION" ColumnName="DATEVALIDATION" />
+          <ScalarProperty Name="DATECLOTURE" ColumnName="DATECLOTURE" />
+          <ScalarProperty Name="AUTOMATIQUE" ColumnName="AUTOMATIQUE" />
+          <ScalarProperty Name="MUTATION" ColumnName="MUTATION" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_INVETAIRE_ARTICLE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_INVETAIRE_ARTICLE">
+        <MappingFragment StoreEntitySet="IMMO_INVETAIRE_ARTICLE">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="NUM" ColumnName="NUM" />
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="AFFECTATION" ColumnName="AFFECTATION" />
+          <ScalarProperty Name="EXISTE" ColumnName="EXISTE" />
+          <ScalarProperty Name="OPERATEUR" ColumnName="OPERATEUR" />
+          <ScalarProperty Name="EMPLACEMENT" ColumnName="EMPLACEMENT" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+          <ScalarProperty Name="AFFECTATIONTH" ColumnName="AFFECTATIONTH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_LOCAL">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_LOCAL">
+        <MappingFragment StoreEntitySet="IMMO_LOCAL">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_SERVICE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_SERVICE">
+        <MappingFragment StoreEntitySet="IMMO_SERVICE">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_TVA">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_TVA">
+        <MappingFragment StoreEntitySet="IMMO_TVA">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="VALEUR" ColumnName="VALEUR" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_TVARECUPERATION">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_TVARECUPERATION">
+        <MappingFragment StoreEntitySet="IMMO_TVARECUPERATION">
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+          <ScalarProperty Name="TAUX" ColumnName="TAUX" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_ARTMMB">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_ARTMMB">
+        <MappingFragment StoreEntitySet="M_ARTMMB">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="COD_INV" ColumnName="COD_INV" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="AFFECT" ColumnName="AFFECT" />
+          <ScalarProperty Name="SERVICE" ColumnName="SERVICE" />
+          <ScalarProperty Name="LOCALE" ColumnName="LOCALE" />
+          <ScalarProperty Name="D_ACHAT" ColumnName="D_ACHAT" />
+          <ScalarProperty Name="P_ACHAT" ColumnName="P_ACHAT" />
+          <ScalarProperty Name="D_AMORT" ColumnName="D_AMORT" />
+          <ScalarProperty Name="M_AMORT" ColumnName="M_AMORT" />
+          <ScalarProperty Name="T_AMORT" ColumnName="T_AMORT" />
+          <ScalarProperty Name="CODABAR" ColumnName="CODABAR" />
+          <ScalarProperty Name="DAT_MUT" ColumnName="DAT_MUT" />
+          <ScalarProperty Name="DAT_INV" ColumnName="DAT_INV" />
+          <ScalarProperty Name="DAT_FIN" ColumnName="DAT_FIN" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_BUREAU">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_BUREAU">
+        <MappingFragment StoreEntitySet="M_BUREAU">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_DSERV">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_DSERV">
+        <MappingFragment StoreEntitySet="M_DSERV">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="MATR" ColumnName="MATR" />
+          <ScalarProperty Name="RESP" ColumnName="RESP" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_FAMMMB">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_FAMMMB">
+        <MappingFragment StoreEntitySet="M_FAMMMB">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+          <ScalarProperty Name="T_AMORT" ColumnName="T_AMORT" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_LOCAL">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_LOCAL">
+        <MappingFragment StoreEntitySet="M_LOCAL">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_SFAM">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_SFAM">
+        <MappingFragment StoreEntitySet="M_SFAM">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+          <ScalarProperty Name="T_AMORT" ColumnName="T_AMORT" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="TVA" ColumnName="TVA" />
+          <ScalarProperty Name="COMPTE" ColumnName="COMPTE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="IMMODEMOModel.sysdiagram">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="definition" ColumnName="definition" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="INV_PH">
+      <EntityTypeMapping TypeName="IMMODEMOModel.INV_PH">
+        <MappingFragment StoreEntitySet="INV_PH">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="BUREAU" ColumnName="BUREAU" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="M_SFAM1">
+      <EntityTypeMapping TypeName="IMMODEMOModel.M_SFAM1">
+        <MappingFragment StoreEntitySet="M_SFAM1">
+          <ScalarProperty Name="CODE" ColumnName="CODE" />
+          <ScalarProperty Name="LIBELLE" ColumnName="LIBELLE" />
+          <ScalarProperty Name="NBART" ColumnName="NBART" />
+          <ScalarProperty Name="T_AMORT" ColumnName="T_AMORT" />
+          <ScalarProperty Name="ETAT" ColumnName="ETAT" />
+          <ScalarProperty Name="TVA" ColumnName="TVA" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="IMMO_INV_LIVRE">
+      <EntityTypeMapping TypeName="IMMODEMOModel.IMMO_INV_LIVRE">
+        <MappingFragment StoreEntitySet="IMMO_INV_LIVRE">
+          <ScalarProperty Name="DATEAMORTISSEMENT" ColumnName="DATEAMORTISSEMENT" />
+          <ScalarProperty Name="RESPONSABLEACHAT" ColumnName="RESPONSABLEACHAT" />
+          <ScalarProperty Name="AMORTI" ColumnName="AMORTI" />
+          <ScalarProperty Name="DUREE" ColumnName="DUREE" />
+          <ScalarProperty Name="DOTATIONEXERCICE" ColumnName="DOTATIONEXERCICE" />
+          <ScalarProperty Name="DOTATIONANTERIEURE" ColumnName="DOTATIONANTERIEURE" />
+          <ScalarProperty Name="LIBELLEAFFECTATION" ColumnName="LIBELLEAFFECTATION" />
+          <ScalarProperty Name="DESIGNATIONARTICLE" ColumnName="DESIGNATIONARTICLE" />
+          <ScalarProperty Name="FAMILLECPT" ColumnName="FAMILLECPT" />
+          <ScalarProperty Name="LOCALE" ColumnName="LOCALE" />
+          <ScalarProperty Name="SERVICE" ColumnName="SERVICE" />
+          <ScalarProperty Name="JOURNALINVENTAIRE" ColumnName="JOURNALINVENTAIRE" />
+          <ScalarProperty Name="TAUXAMORTISSEMENT" ColumnName="TAUXAMORTISSEMENT" />
+          <ScalarProperty Name="DATEEXPLOITATION" ColumnName="DATEEXPLOITATION" />
+          <ScalarProperty Name="VALEURCOMPTABLE" ColumnName="VALEURCOMPTABLE" />
+          <ScalarProperty Name="DATEACQUISITION" ColumnName="DATEACQUISITION" />
+          <ScalarProperty Name="OBSERVATION" ColumnName="OBSERVATION" />
+          <ScalarProperty Name="EMPLACEMENT" ColumnName="EMPLACEMENT" />
+          <ScalarProperty Name="EXISTE" ColumnName="EXISTE" />
+          <ScalarProperty Name="AFFECTATIONPHY" ColumnName="AFFECTATIONPHY" />
+          <ScalarProperty Name="AFFECTATIONTH" ColumnName="AFFECTATIONTH" />
+          <ScalarProperty Name="ARTICLE" ColumnName="ARTICLE" />
+          <ScalarProperty Name="ANNEE" ColumnName="ANNEE" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logins">
+      <EntityTypeMapping TypeName="IMMODEMOModel.Login">
+        <MappingFragment StoreEntitySet="Login">
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

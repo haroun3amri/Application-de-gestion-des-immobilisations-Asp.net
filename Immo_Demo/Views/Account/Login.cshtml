@@ -1,0 +1,209 @@
+﻿@using Immo_Demo.Models
+@model Login
+@{
+    ViewBag.Title = "Login";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet" />
+<header>
+    <div class="float-right">
+        <span class="k-icon k-i-home" style="display:inline"></span>
+
+        <ul id="menu">
+            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+
+
+            @{
+                if (User.Identity.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("Logout", "Logout", "Account")</li>
+                    <li>
+                        <strong style="color:purple">@User.Identity.Name</strong> |
+                        @{
+                    if (Roles.GetRolesForUser().Length > 0)
+                    { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                    }
+                        }
+
+                    </li>
+                }
+
+                else
+                {
+                    <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                    <li>@Html.ActionLink("Register", "Register", "Account")</li>
+
+                }
+            }
+
+        </ul>
+        <script>
+            $("#menu").kendoMenu({
+                animation: { open: { effects: "fadeIn" } }
+            });
+            $(document).ready(function () {
+
+
+                $("#imageButton").kendoButton({
+                    imageUrl: "../Content/icone/home.png"
+                });
+            });
+            $(document).ready(function () {
+
+
+                $("#imageButton2").kendoButton({
+                    imageUrl: "../Content/icone/user.png"
+                });
+            });
+        </script>
+        <style>
+            .k-button .k-image {
+                height: 20px;
+                display: inline;
+            }
+        </style>
+
+    </div>
+
+
+</header>
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif"><font size="65">Identifiez-Vous S'il vous plait</font></h1>
+
+
+<head>
+    
+    <meta charset="UTF-8">
+    <title>Login </title>
+    
+</head>
+
+<body>
+    
+    <img src="../Images/images/logo.png" width=400 height=200 class="logo" />
+    <div class="wrap">
+        <div class="avatar">
+            <img src="../Content/icone/user.png">
+        </div>
+            @using (@Html.BeginForm())
+            {     @Html.AntiForgeryToken()
+                @Html.ValidationSummary()
+    <label><h5 style="color:cadetblue;font-family: 'Arial Black', arial, serif">Utilisateur :</h5></label>
+                @Html.TextBoxFor(m => m.Username, new { @class = "k-textbox1" })
+    <div class="bar">
+        <i></i>
+    </div>
+                    <label><h5 style="color:cadetblue;font-family: 'Arial Black', arial, serif">Mot de Passe :</h5></label>
+
+
+                @Html.PasswordFor(m => m.Password, new { @class = "k-textbox2" })
+
+                <br />
+                <button class="k-button"> Login</button>
+
+            }
+            </div>
+        
+   </body>
+   
+<style>
+font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+ src: local('Lato Regular'), local('Lato-Regular'), url(http://themes.googleusercontent.com/static/fonts/lato/v7/qIIYRU-oROkIk8vfvxw6QvesZW2xOQ-xsNqO47m55DA.woff) format('woff');
+}
+
+.logo{
+    float:right;
+    padding-right:50px;
+    padding-top:100px;
+
+}
+body {
+	
+	
+     font-family: Arial;
+     background: #CCFF99 url(../Images/images/bg.png) no-repeat top left;
+}
+.wrap {
+	width:250px;
+	height: auto;
+	margin: auto;
+	margin-top: 10%;
+}
+.avatar {
+	width: 100%;
+	margin: auto;
+	width: 65px;
+	border-radius: 100px;
+	height: 45px;
+	background: #FFFFFF ;
+	position: relative;
+	bottom: -15px;
+}
+.avatar img {
+	width: 68px;
+	height: 65px;
+	border-radius: 100px;
+	margin: auto;
+	border:6px solid #fff;
+	display: block;
+}
+.wrap input {
+	border: none;
+	background: #fff;
+  font-family:Lato ;
+  font-weight:700 ;
+	display: block;
+	height: 40px;
+	outline: none;
+	width: calc(100% - 24px) ;
+	margin: auto;
+	padding: 6px 12px 6px 12px;
+}
+.bar {
+	width: 100%;
+	height: 1px;
+	background: #fff ;
+}
+.bar i {
+	width: 95%;
+	margin: auto;
+	height: 1px ;
+	display: block;
+	background: #d1d1d1;
+}
+ k-textbox1 {
+	border-radius: 7px 7px 0px 0px ;
+}
+ k-textbox2 {
+	border-radius: 0px 0px 7px 7px ;
+}
+.forgot_link {
+	color: #83afdf ;
+	color: #83afdf;
+	text-decoration: none;
+	font-size: 11px;
+	position: relative;
+	left: 193px;
+	top: -36px;
+}
+.wrap button {
+	width: 100%;
+	border-radius: 7px;
+	background: #99FFCC;
+	text-decoration: center;
+	border: none;
+	color: #51771a;
+  margin-top:-5px;
+	padding-top: 14px;
+	padding-bottom: 14px;
+	outline: none;
+	font-size: 13px;
+	border-bottom: 3px solid #307d63;
+	cursor: pointer;
+}</style>

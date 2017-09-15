@@ -1,0 +1,467 @@
+﻿@using IMMO.DAL
+@using IMMO.BLL
+@using Immo_Demo.Models;
+@using Kendo.Mvc.UI;
+@model IEnumerable<Immo_Demo.Models.CessionLite>
+@{
+    ViewBag.Title = "Index";
+}<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet">
+<!-----debut Header*************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+<img src='../Content/icone/ces.jpg' alt='ar' title='Texte à afficher1' width='100' height='85' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Cession des Immobilisations</h1>
+<!--******************************************************-->
+<div id="doc">
+
+    <!--***************************************************************-->
+    
+    <br /><br /><br />
+    <div style="float:left ; position:relative ; width:20px">
+        <label>Annee</label>
+       @(Html.Kendo().ComboBox()
+                           .Name("ChercherParAnnee")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("ANNEE")
+                       .DataValueField("ANNEE")
+                   .Placeholder("Chercher Cession par Annee")
+                          .Template("<font color=blue><strong>#: ANNEE# </strong></font> |<strong> #: NUM# </strong>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetCession3", "Cession");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChange"))
+    )
+
+        <label>Numero</label>
+         @(Html.Kendo().ComboBox()
+                  .Name("ChercherParNum")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("NUM")
+                       .DataValueField("NUM")
+                   .Placeholder("Chercher Cession par Num")
+                          .Template("<font color=blue><strong>#: NUM# </strong></font> |<strong> #: ANNEE# </strong>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetCession3", "Cession");
+
+                       });
+
+
+                   }).Events(e => e.Change("OnChange"))
+        )
+        
+<br/>
+        <label>Code_Article</label>
+        @(Html.Kendo().ComboBox()
+        .Name("ChercherParArticle")
+                        .HtmlAttributes(new { Style = "width:250px" })
+
+                          .AutoBind(false)
+                                            .Suggest(true)
+
+          .Placeholder("Enrter Code")
+                   .DataTextField("ARTICLE")
+                  .DataValueField("ARTICLE")
+                  .Template("#= ARTICLE#")
+
+        .Filter(FilterType.Contains)
+          .MinLength(3)
+
+
+          .DataSource(source =>
+          {
+              source.Read(read =>
+              {
+                  read.Action("GetArticlesA", "Cession");
+              });
+          })
+                .Events(e => e.Change("OnChange"))
+        )
+        <!--***************************************************-->
+        <br />
+       @(Html.Kendo().Chart<IMMO_ARTICLE_SESSION>()
+                  .Name("KChart1")
+
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :370px; width:300px" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("ChercherCessionArticleChart", "Cession").Data("AdditionalData2");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.VALEUR).Name("Valeur Cession");
+
+                                          })
+                                                   .Series(series =>
+                                                  {
+                                                      series.Bar(s => s.DOTATION).Name("Dotation").Color("green");
+
+                                                  })
+                                                                                                      .Series(series =>
+                                                          {
+                                                              series.Bar(s => s.AMORTISSEMENTPRATIQUE).Name("Amrt Pratique").Color("blue");
+
+                                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.ARTICLE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+    )
+
+        <!--**************************************-->
+
+    </div>
+    <!--*******************************Debut des Grid-->
+    <div class="grid">
+        <h3 style="color:blueviolet;font-family: 'MV Boli', arial, serif;">Cession Global</h3>
+        @(Html.Kendo().Grid<IMMO_CESSION>()
+
+    .Name("Hist")
+    .AutoBind(true)
+                            .HtmlAttributes(new { Style = "width:250px" })
+
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.ANNEE).Title("Annee").Width(100).Locked(true).Lockable(false);
+                     columns.Bound(o => o.NUM).Width(100).Title("Num").Locked(true);
+                     columns.Bound(o => o.DATECESSION).Title("Date Cession").Width(250).Locked(true).Format("{0:dd-MM-yyyy}").HtmlAttributes(new { style = "text-align:center;" }).HeaderHtmlAttributes(new { style = "text-align:center; " }); 
+                     columns.Bound(o => o.RAISON).Title("Raison").Width(75).Locked(true);
+
+                     columns.Bound(o => o.ETAT).Title("Etat").Width(50).Locked(true);
+
+                     columns.Bound(o => o.VALTOTAL).Width(75).Title("Valeur Totale").Locked(true);
+
+                     columns.Bound(o => o.EXERCICE).Title("Exercice").Width(75).Locked(true);
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text(" ");
+                                             command.Destroy().Text(" ");
+                                         }).Width(200);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.NUM))
+                                                        .Read(read => read.Action("ChercherCess", "Cession").Data("AdditionalData1"))
+                                                                .Create(create => create.Action("Add", "Cession"))
+                                                                        .Update(update => update.Action("Update", "Cession"))
+                                                                        .Destroy(delete => delete.Action("Delete", "Cession"))
+
+
+
+
+
+
+                                .PageSize(1)
+    )
+
+
+
+            .ToolBar(toolbar => toolbar.Create().Text("Ajouter Cession Global")).HtmlAttributes(new { Style = "width:1050px" })
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+
+    .Selectable()
+    .Filterable()
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+        )
+        <!--*****************************Debut grid n2*********************************************-->
+        <h3 style="color:blueviolet;font-family: 'MV Boli', arial, serif;">Cession Par Article</h3>
+        @(Html.Kendo().Grid<IMMO_ARTICLE_SESSION>()
+
+    .Name("Hist_Art")
+    .AutoBind(true)
+                            .HtmlAttributes(new { Style = "width:250px" })
+
+
+
+    .Columns(columns =>
+    {
+        columns.Bound(o => o.ARTICLE).Title("Article").Width(100);
+
+        columns.Bound(o => o.ANNEE).Title("Annee").Width(100);
+        columns.Bound(o => o.NUM).Title("Num").Width(100);
+        columns.Bound(o => o.VALEUR).Title("Valeur").Width(75);
+        columns.Bound(o => o.DATESESSION).Title("Date Cession").Width(250).Format("{0:dd-MM-yyyy}").HtmlAttributes(new { style = "text-align:center;" }).HeaderHtmlAttributes(new { style = "text-align:center; " }); ;
+         columns.Bound(o => o.RAISON).Title("Raison").Width(75);
+
+
+        columns.Bound(o => o.DOTATION).Title("Dotation").Width(75);
+
+        columns.Bound(o => o.ETAT).Title("Etat").Width(50);
+
+        columns.Bound(o => o.AMORTISSEMENTPRATIQUE).Title("Amort Pratique").Width(75);
+
+        columns.Command(command =>
+                            {
+                                command.Edit().Text(" ");
+                                command.Destroy().Text(" ");
+                            }).Width(200);
+    })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.NUM))
+                                                                .Read(read => read.Action("ChercherCessArt", "Cession").Data(" AdditionalData2"))
+                                                                        .Create(create => create.Action("Add2", "Cession"))
+                                                                                .Update(update => update.Action("Update2", "Cession"))
+                                                                                .Destroy(delete => delete.Action("Delete2", "Cession"))
+
+
+
+
+
+
+                                .PageSize(2)
+    )
+
+
+
+                    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Cession d Article")).HtmlAttributes(new { Style = "width:1050px" })
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+
+    .Selectable()
+    .Filterable()
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+        )
+
+
+
+
+
+
+    </div>
+    <!--*********************************Fin des Grid-->
+    <!--***************************************************************-->
+
+
+
+</div>
+<style>
+    #doc {
+        width: 1365px;
+        height: 590px;
+    }
+
+    .grid {
+        width: 1050px;
+        height: 250px;
+        padding-right: 5px;
+        padding-top: -5px;
+        float: right;
+    }
+</style>
+<!--/////////////////////////Debut des Script/////////////////////////////////-->
+<script>
+    function AdditionalData1() {
+        return {
+
+            ANNEE: $("#ChercherParAnnee").data("kendoComboBox").value(),
+            NUM: $("#ChercherParNum").data("kendoComboBox").value()
+
+        }
+    }
+
+   
+
+    function AdditionalData2() {
+        return {
+            ANNEE: $("#ChercherParAnnee").data("kendoComboBox").value(),
+            NUM: $("#ChercherParNum").data("kendoComboBox").value(),
+            ARTICLE: $("#ChercherParArticle").data("kendoComboBox").value()
+
+        }
+    }
+
+    function OnChange() {
+        $("#Hist").data("kendoGrid").dataSource.read();
+        $("#Hist_Art").data("kendoGrid").dataSource.read();
+        $("#KChart1").data("kendoChart").dataSource.read();
+
+    }
+</script>
+
+<!--////////////////////////////////////////////////////////////////////////////-->

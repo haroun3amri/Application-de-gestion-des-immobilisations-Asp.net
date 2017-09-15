@@ -1,0 +1,446 @@
+﻿@using IMMO.BLL;
+@using IMMO.DAL;
+@using Immo_Demo.Models
+@{
+    ViewBag.Title = "Index";
+}
+<script src="/Scripts/kendo/2014.3.1411/jquery.min.js"></script>
+<script src="/Scripts/kendo/2014.3.1411/kendo.all.min.js"></script>
+<link href="/Content/kendo/2014.3.1411/kendo.common.min.css" rel="stylesheet" />
+
+<link href="~/Content/kendo/2014.3.1411/kendo.metro.min.css" rel="stylesheet" />
+
+<!--***********************************************************************************************-->
+<!-----debut Header*************************************-->
+<header>
+    <div class="float-right">
+        <ul id="menu">
+            <li>
+                <span class="k-icon k-i-group"></span>
+                Immoblisations
+                <ul>
+                    <!--          debut test -->
+                    <li>
+                        @Html.ActionLink(" Mes Articles", "Index", "Articles")
+                    <ul>
+                        <li>@Html.ActionLink("Gestion des Familles", "Famille", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Affectations", "Affectation", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Exercices", "Exercices", "Articles")</li>
+                        <li>@Html.ActionLink("Gestion des Services", "Services", "Articles")</li>
+
+                    </ul>
+                </li>
+                <!--               Fin test   -->
+                <li>@Html.ActionLink("Fiches d Article", "Index", "Gestion")</li>
+                <li>@Html.ActionLink("Localisation", "Index", "Local")</li>
+                <li>@Html.ActionLink("Ammortissement", "Index", "Ammortissement")</li>
+            </ul>
+
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Comptabilité
+            <ul>
+                <li>@Html.ActionLink(" Mes Documents", "Index", "Documents")</li>
+                <li>@Html.ActionLink("Mes comptes", "Index", "Comptes")</li>
+                <li>@Html.ActionLink("écritures XML", "GetAllInvCompt", "XML")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Gestion
+            <ul>
+                <li>@Html.ActionLink(" Cession", "Index", "Cession")</li>
+                <li>@Html.ActionLink("Mise en Rebut", "Index", "ArticleSupp")</li>
+                <li>@Html.ActionLink("Code à barre", "Index", "CodeBar")</li>
+                <li>@Html.ActionLink("Historique", "Index", "Historique")</li>
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Inventaire
+            <ul>
+                <li>@Html.ActionLink("Inventaire", "Index", "Inventaire")</li>
+                <li>@Html.ActionLink("Statistique", "Index", "Statestique")</li>
+                <li>@Html.ActionLink("Gestion TVA", "Index", "TVA")</li>
+
+            </ul>
+        </li>
+        <li>
+            <span class="k-icon k-i-group"></span>
+            Utilisateurs
+            <ul>
+                <li>@Html.ActionLink("Utilisateurs", "Index", "Utilsateurs")</li>
+                <li>@Html.ActionLink("Groupes", "Index", "Role")</li>
+            </ul>
+        </li>
+    </ul>
+
+
+    <script>
+        $("#menu").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+    </script>
+
+</div>
+<div style="float:right">
+    <ul id="menu2">
+
+        <li id="imageButton">@Html.ActionLink(" ", "Index", "Home")</li>
+
+
+        @{
+            if (User.Identity.IsAuthenticated)
+            {
+                <li>
+                    <strong style="color:purple">@User.Identity.Name</strong> |
+                    @{
+                if (Roles.GetRolesForUser().Length > 0)
+                { <strong style="color:purple">@Roles.GetRolesForUser()[0]</strong>
+                }
+                    }
+
+                </li>
+            }
+
+            else
+            {
+                <li>@Html.ActionLink("Login", "Login", "Account")</li>
+
+
+                <li>@Html.ActionLink("S inscrir", "Register", "Account")</li>
+
+            }
+            <li>
+                @Html.ActionLink("Logout", "Logout", "Account")
+            </li>
+
+        }
+
+    </ul>
+    <script>
+        $("#menu2").kendoMenu({
+            animation: { open: { effects: "fadeIn" } }
+        });
+        $(document).ready(function () {
+
+
+            $("#imageButton").kendoButton({
+                imageUrl: "../Content/icone/home.png"
+            });
+        });
+
+
+
+    </script>
+    <style>
+        .k-button .k-image {
+            height: 25px;
+        }
+    </style>
+
+</div>
+
+
+
+</header>
+
+
+
+<!--******** Fin Header**********************************************-->
+<!--@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@-->
+<img src='../Content/icone/stat.png' alt='ar' title='Texte à afficher1' width='100' height='75' align='left' style="padding-top:0px">
+
+<h1 style="color:purple;font-family: 'MV Boli', arial, serif;">Gestionnaire des Amortissements</h1>
+<div style="float:left ; position:relative ; width:400px">
+    
+    @(Html.Kendo().ComboBox()
+                   .Name("KArticles")
+              .HtmlAttributes(new { Style = "width :300px;" })
+
+                       .DataTextField("ID")
+                       .DataValueField("ID")
+                   .Placeholder("Choisir Article")
+                          .Template("<font color=blue><strong>#: ID# </strong></font> |<strong> #: NAME# </strong>|<font color=red><strong> #: Amorti# </strong> </font>")
+                   .AutoBind(false)
+
+                   .DataSource(source =>
+                   {
+                       source.Read(read =>
+                       {
+                           read.Action("GetArticlesN", "Articles");
+                          
+                       });
+
+
+                   }).Events(e => e.Change("OnChange"))
+    )
+</div>
+
+<hr />
+
+<div style="display:inline-block">
+<div style="float:right ;position:relative; width:650px ;height:25% ;padding-top:7px;display:inline-block">
+   
+
+    <hr />
+    <label for="KChart1">Courbe a bar de l Amortissement</label>
+    @(Html.Kendo().Chart<AmmortissementLite>()
+                  .Name("KChart1")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :250px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Ammortissement").Data("AdditionalData");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Bar(s => s.MONTANTCALCUL).Name("Valeur cpt ");
+                                              series.Bar(s => s.VALEUR).Name("Annuite").Color("green");
+                                          })
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT} DNT").Template("#: value*1 # DNT").Rotation(-90))
+                                          )
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+    )
+
+    </div>
+
+
+
+    <!--/////////////////////////////////////////////////////////////////////////-->
+<div class="demo-section">
+
+    <label for="KChart1">Courbe Linaire de l Amortissement  </label>
+    @(Html.Kendo().Chart<AmmortissementLite>()
+                  .Name("KChart2")
+                  .AutoBind(true)
+                  .ChartArea(ca => ca.Background("#E8F2F8").Border(b => b.Color("#94C0D2").Width(5)))
+                          .HtmlAttributes(new { Style = "height :250px;" })
+
+                          .PlotArea(p => p.Background("#2B84AA"))
+                                          .DataSource(source =>
+                                          {
+                                              source.Read(read =>
+                                              {
+                                                  read.Action("GetArticles2", "Ammortissement").Data("AdditionalData");
+                                              });
+                                          })
+                                          .Series(series =>
+                                          {
+                                              series.Line(s => s.MONTANTCALCUL).Name("Valeur cpt");
+                                              series.Line(s => s.VALEUR).Name("Annuite").Color("green");
+                                             
+                                          })
+                                                 
+                                          .CategoryAxis(ca => ca.Categories(m => m.ANNEE))
+                                          .ValueAxis(axis => axis.Numeric().MajorUnit(10000).Line(l => l.Visible(false))
+                                                  .Labels(label => label.Format("{0:DNT}").Template("#: value*1 # DNT").Rotation(-90))
+                                                  
+                                          )
+                                                   
+                                          .Tooltip(tooltip => tooltip
+                                          .Visible(true)
+                                          .Format("{0:DNT} DNT")
+                                          )
+
+    )
+</div>
+
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+<!--++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-->
+<div class="test">
+    @(Html.Kendo().Grid<AmmortissementLite>()
+
+    .Name("Kgrid")
+
+
+    .Columns(columns =>
+                 {
+                     columns.Bound(o => o.ARTICLE).Width(100).Locked(true).Lockable(false)
+                    .ClientGroupHeaderTemplate("Amortissement: #= Article # (Article: #= Article#)");
+
+                     columns.Bound(o => o.ANNEE).Width(100).Locked(true);
+                     columns.Bound(o => o.DATEAMORTISSEMENT).Width(100).Locked(true).Format("{0:dd-MM-yyyy}").HtmlAttributes(new { style = "text-align:center;" }).HeaderHtmlAttributes(new { style = "text-align:center; " }); ;
+                     columns.Bound(o => o.VALEUR).Width(100).Locked(true);
+
+                     columns.Bound(o => o.MONTANTCALCUL).Width(100).Locked(true);
+
+                     columns.Bound(o => o.AMORTISSEMENTP).Width(100).Locked(true);
+
+                     columns.Bound(o => o.AMORTISSEMENTNONCPT).Width(100).Locked(true);
+
+
+
+                     columns.Command(command =>
+                                         {
+                                             command.Edit().Text("Modifier");
+                                             command.Destroy().Text("Supprimer");
+                                         }).Width(200);
+                 })
+    .DataSource(datasoure => datasoure.Ajax()
+                                .Model(model => model.Id(record => record.ARTICLE))
+                                                        .Read(read => read.Action("GetArticlesgrid", "Ammortissement").Data("AdditionalData"))
+                                                  .Create(create => create.Action("Add", "Ammortissement"))
+                                                          .Update(update => update.Action("Update", "Ammortissement"))
+                                                          .Destroy(delete => delete.Action("Delete", "Ammortissement"))
+
+
+
+
+
+
+                                .PageSize(3)
+    )
+
+
+
+    .ToolBar(toolbar => toolbar.Create().Text("Ajouter Ammortissement"))
+
+
+    .Editable(editable => editable.Mode(GridEditMode.InLine))
+
+    .Sortable()
+    .Filterable()
+
+    .Selectable()
+
+    .Pageable(pageable =>
+                  {
+                      pageable.Refresh(true);
+                      pageable.PageSizes(true);
+                  })
+
+    )
+
+</div>
+    </div>
+        <!--********************************************************************-->
+        <!--*********************************************************************-->
+        <script>
+            function OnChange() {
+                $("#KChart1").data("kendoChart").dataSource.read();
+                $("#KChart2").data("kendoChart").dataSource.read();
+                $("#Kgrid").data("kendoGrid").dataSource.read();
+            }
+
+            function AdditionalData() {
+                return {
+                    CODE: $("#KArticles").data("kendoComboBox").value()
+                }
+            }
+
+
+            function OnClick() {
+                $("#KChart1").data("kendoChart").dataSource.read();
+                $("#KChart2").data("kendoChart").dataSource.read();
+                $("#Kgrid").data("kendoGrid").dataSource.read();
+
+            }
+
+        </script>
+        <style>
+            .demo-section {
+                width: 650px;
+                float: left;
+                padding-top: 10px;
+                height: 250px;
+                display: inline-block;
+            }
+
+            .test {
+                width: 1350px;
+                float: left;
+                padding-top: 10px;
+                height: 300px;
+            }
+
+
+
+            .product-view {
+                float: left;
+                position: relative;
+                width: 401px;
+                height: 150px;
+                margin: -1px -1px 0 0;
+            }
+
+                .product-view tr {
+                    margin: 10px 0;
+                    padding: 0;
+                    min-width: 0;
+                    columns: 2;
+                }
+
+                .product-view td {
+                    float: left;
+                    margin: 0;
+                    padding: 3px;
+                    height: 26px;
+                    width: 160px;
+                    line-height: 26px;
+                    overflow: hidden;
+                    break-before: avoid;
+                }
+
+                .product-view table {
+                    clear: left;
+                    padding: 3px 5px 3px 0;
+                    text-align: center;
+                    opacity: 1;
+                    width: 100px;
+                    height: 150px;
+                    border-bottom-color: #FFFFCC;
+                }
+
+            .k-listview {
+                border: 0;
+                padding: 0;
+                min-width: 605px;
+                min-height: 298px;
+            }
+
+                .k-listview:after, .product-view dl:after {
+                    content: ".";
+                    display: block;
+                    height: 0;
+                    clear: both;
+                    visibility: hidden;
+                }
+
+            .edit-buttons {
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 26px;
+                height: 146px;
+                padding: 2px 2px 0 3px;
+                background-color: rgba(0,0,0,0.1);
+            }
+
+                .edit-buttons .k-button {
+                    width: 26px;
+                    margin-bottom: 1px;
+                }
+
+            .k-pager-wrap {
+                border-top: 0;
+            }
+
+            span.k-invalid-msg {
+                position: absolute;
+                margin-left: 6px;
+            }
+        </style>
